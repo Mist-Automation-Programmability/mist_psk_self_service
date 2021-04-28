@@ -1,0 +1,7 @@
+<div mat-dialog-content fxLayout="column" fxLayoutAlign="center center">
+    <div><b>Tips: </b>You can scan this QRCode with your smartphone to automatically connect is to the network.</div>
+    <qrcode [qrdata]="qrcode" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+</div>
+<div mat-dialog-actions style="justify-content: space-around;" fxLayout="row">
+    <button mat-raised-button color="accent" (click)="onNoClick()">Close</button>
+</div>

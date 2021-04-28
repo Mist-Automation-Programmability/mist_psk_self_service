@@ -1,0 +1,141 @@
+doctype html
+html
+    head
+        title= title
+        // [if IE]
+        meta(http-equiv="X-UA-Compatible" content="IE=10; IE=EDGE")
+        // [endif]
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+
+        link(rel='stylesheet' href='/css/ah-tm.tags.css')
+        link(rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css")
+        link(rel='stylesheet' href='/css/ah-tm.login.css')
+        link(rel='stylesheet' href='/css/ah-tm.help.css')
+        link(rel="stylesheet" href="/bower_components/material-design-icons/iconfont/material-icons.css")
+        style.
+            body {
+                font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+                margin: 0;
+                display: flex;
+                flex-direction: column
+            }
+            .header {
+                background-color: rgb(236, 236, 236);
+                color: gray;
+                flex-direction: row;
+                box-sizing: border-box;
+                display: flex;
+                place-content: center flex-start;
+                align-items: center;
+                padding: 0 16px;
+                width: 100%;
+                height: 40px;
+            }
+            .header img {
+                height: 100%;
+            }
+
+            .footer {
+                  position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                background-color: rgb(236, 236, 236);
+                    color: black;
+                    text-align: center;
+            }
+
+            .title {
+                color: black;
+                font-weight: lighter;
+                margin-left: 1em;
+            }
+
+            .toolbar {
+                background-color: rgb(236 236 236);
+                color: gray;
+                height: 1.5em;
+                margin: 0.5em 0;
+            }
+            .help {
+                width: 600px;
+                margin: auto;
+            }
+
+            .help h3 {
+                margin-left: -20px
+            }
+            .capture {
+                display: flex;
+            }
+
+    body                      
+        div.header    
+            img(src="/images/juniper.png" alt="Mist")
+            div Mist PSK Self Service - Okta
+            
+
+                             
+        div.footer
+            span © 2020 Juniper Networks. All Rights Reserved.
+
+
+        div.help
+
+            div.panel
+                div.inside(md-whiteframe="5" style="width: 100%" )
+                    md-toolbar
+                        div.md-toolbar-tools
+                            h2 Okta Configuration Help
+                    md-content(layout="column" layout-padding)
+                        h3 Retrieve the App settings
+                        div
+                            span In the Application Admin page, select 
+                            b=" Okta " 
+                            span as the authentication method. This will display you customized 
+                            b=" Login Redirect URI "
+                            span which will be used to configure the App in the Okta dashboard.
+                        img.capture(src="/help/okta/0.png" style="width: 40em;margin: auto;")
+
+                        h3 Add a new OPkta Application
+                        div 
+                            span In your Okta Admin Portal, go to the 
+                            b=" Applications "
+                            span menu, and click 
+                            b=" Add Application"                    
+                        img.capture(src="/help/okta/1.png" style="width: 50em;margin: auto;")
+                        div 
+                            span In the new screen, click 
+                            b=" Create New App"
+                        img.capture(src="/help/okta/2.png" style="width: 50em;margin: auto;")
+                        div 
+                            span In the "Create a New Application Integration" form, select
+                            b=" Web "
+                            span in the dropdown list, and 
+                            b=" OpenID Connect "
+                            span as the Sign in method
+                        img.capture(src="/help/okta/3.png" style="width: 30em;margin: auto;")
+                        div
+                            span Next, set the Application name, and fill the 
+                            b=" Login redirect URIs "
+                            span from the application configuration page, then click 
+                            b=" Next"
+                            span .
+                        img.capture(src="/help/okta/4.png" style="width: 30em;margin: auto;")
+                        div
+                            span To finish, in the
+                            b="Assignments "
+                            span tab, assign the list of users or groups that ara allowed to use this app.
+                        img.capture(src="/help/okta/5.png" style="width: 40em;margin: auto;")
+                        h3 Finalize the auhentication configuration in the App Admin page
+                        div
+                            span Use the 
+                            b=" ClientID, clientSecret "
+                            span and
+                            b=" Okta Domain "
+                            span from the 
+                            b=" General " 
+                            span tab in the Okta Application to finish the configuration in the App Admin Page, and 
+                            b=" Save "
+                            span it.
+                        img.capture(src="/help/okta/6.png" style="width: 40em;margin: auto;")

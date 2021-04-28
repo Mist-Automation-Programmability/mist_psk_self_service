@@ -1,0 +1,31 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+    <mat-card style="margin-top: 10%;">
+        <mat-card-title>
+            {{i18n.title}}
+            <!-- <div *ngIf="!is_working" style="background-color: #{{color}}; height: 5px; width: 100%"></div> -->
+            <div *ngIf="!is_working" color="accent" style="height: 5px; width: 100%"></div>
+            <mat-progress-bar *ngIf="is_working" color="accent" mode="indeterminate"></mat-progress-bar>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{i18n.hi}}<span *ngIf="user.name"> {{user.name}}</span>! {{i18n.subtitle}}
+        </mat-card-subtitle>
+        <mat-card-content>
+            <div fxLayout="column">
+                <div *ngFor="let row of i18n.rows" fxLAyout="column">
+                    <div fxLayout="row" fxLayoutAlign="start center" style="margin: 5px 0;">
+                        <mat-icon class="row-icon">{{row.icon}}</mat-icon>
+                        <div>{{row.text}}</div>
+                    </div>
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="5px">
+            <div></div>
+            <button mat-raised-button color="accent" [disabled]="is_working" (click)="createMyKey()" aria-label="get">{{i18n.getMyKey}}</button>
+            <button mat-raised-button color="primary" *ngIf="user.email" [disabled]="is_working || !key_exists" (click)="deliverByEmail()" aria-label="deliverByEmail">{{i18n.deliverByEmail}}</button>
+            <button mat-raised-button color="primary" [disabled]="is_working || !key_exists" (click)="openQrcode()" aria-label="displayQrCode">{{i18n.displayQrCode}}</button>
+            <button mat-button color="primary" [disabled]="is_working || !key_exists" (click)="revokeMyKey()" aria-label="revoke">{{i18n.revoke}}</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>
+    {{data.title}}</h1>
+<mat-dialog-content>
+    <div>{{data.message}}</div>
+</mat-dialog-content>
+<div mat-dialog-actions fxLayoutAlign="center space-around">
+    <button mat-button (click)="cancelConfirm()" cdkFocusInitial>Cancel</button>
+    <button mat-button color="primary" [mat-dialog-close]="confirm" type="submit">Confirm</button>
+</div>

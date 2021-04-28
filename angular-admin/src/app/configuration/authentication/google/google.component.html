@@ -1,0 +1,17 @@
+<form>
+
+    <mat-form-field style="width: 100%">
+        <mat-label>Allowed Domains (Optional)</mat-label>
+        <mat-chip-list #chipList aria-label="Allowed selection">
+            <mat-chip *ngFor="let domain of google.domains" [selectable]="true" [removable]="true" (removed)="remove(domain)">
+                {{domain}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="New domain..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+        <mat-hint style="color:red">
+            {{error_message}}
+        </mat-hint>
+
+    </mat-form-field>
+</form>

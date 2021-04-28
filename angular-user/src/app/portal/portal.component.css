@@ -1,0 +1,12 @@
+.row-icon {
+    min-width: 25px;
+    color: white;
+    background-color: gray;
+    padding: 5px;
+    margin: 5px;
+    border-radius: 20px;
+}
+
+.mat-button {
+    border: 1px solid;
+}

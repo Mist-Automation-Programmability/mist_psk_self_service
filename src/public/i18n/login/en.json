@@ -1,0 +1,10 @@
+{
+    "language": "Language",
+    "settings": "Settings",
+    "title": "Welcome to the Mist PSK Self-Service!",
+    "login": {
+        "title": "Welcome to the Mist PSK Self-Service!",
+        "instruction": "To get your personnal key to be able to connect to the network, please click on the button below to authenticate with your domain credentials",
+        "connect": "Log In"
+    }
+}

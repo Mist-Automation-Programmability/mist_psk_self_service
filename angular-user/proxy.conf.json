@@ -1,0 +1,35 @@
+{
+    "/api/*": {
+        "target": "http://127.0.0.1",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/images/*": {
+        "target": "http://127.0.0.1",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/saml/*": {
+        "target": "http://127.0.0.1",
+        "secure": false,
+        "changeOrigin": true
+    },
+    "/google/*": {
+        "target": "http://localhost",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/openid/*": {
+        "target": "http://localhost",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/okta/*": {
+        "target": "http://localhost",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

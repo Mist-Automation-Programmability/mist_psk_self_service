@@ -1,0 +1,26 @@
+<div>
+    <table>
+        <tr>
+            <th>Login redirect URI</th>
+            <td>{{login_redirect_url}}</td>
+        </tr>
+        <tr>
+            <th>Initiate login URI</th>
+            <td>{{initiate_login_url}}</td>
+        </tr>
+    </table>
+</div>
+<div style="margin-top: 1em;">
+    <mat-form-field style="width: 100%">
+        <mat-label>Okta Domain<span style="color: red">*</span></mat-label>
+        <input matInput type="text" [(ngModel)]="okta.audience" />
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+        <mat-label>Client ID<span style="color: red">*</span></mat-label>
+        <input matInput type="text" [(ngModel)]="okta.client_id" />
+    </mat-form-field>
+    <mat-form-field style="width: 100%">
+        <mat-label>Client Secret<span style="color: red">*</span></mat-label>
+        <input matInput type="password" [(ngModel)]="okta.client_secret" />
+    </mat-form-field>
+</div>

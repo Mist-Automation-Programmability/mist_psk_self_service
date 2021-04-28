@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>
+    Manual API Token</h1>
+<mat-dialog-content>
+    <mat-form-field appearance="outline" style="width: 40em;">
+        <mat-label>API TOKEN</mat-label>
+        <input matInput type="string" [(ngModel)]="apitoken" (keydown.enter)="closeToken()" name="apitoken" cdkFocusInitial/>
+    </mat-form-field>
+</mat-dialog-content>
+<div mat-dialog-actions fxLayoutAlign="center space-around">
+    <button mat-button (click)="cancelManualToken()">Cancel</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="apitoken" type="submit">Save</button>
+</div>

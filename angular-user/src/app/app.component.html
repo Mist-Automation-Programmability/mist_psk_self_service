@@ -1,0 +1,19 @@
+<mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" class="toolbar">
+    <img height="100%" alt="Mist Logo" src="/images/juniper.png" />
+    <span style="flex: auto"></span>
+    <a mat-button href="{{logout_url}}" aria-label="logout" *ngIf="logout_url != ''">
+        <mat-icon class="row-icon">logout</mat-icon>
+    </a>
+    <mat-form-field>
+        <mat-select [(value)]="current_language" style="font-size: smaller;">
+            <mat-option *ngFor="let language of languages" [value]="language.short" (onSelectionChange)="changeLanguage($event)">
+                {{language.long}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</mat-toolbar>
+
+
+
+<router-outlet></router-outlet>

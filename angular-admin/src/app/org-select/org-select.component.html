@@ -1,0 +1,16 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="height: 20em; max-height: 100%;">
+    <mat-card class="card-outer" fxLayout="column" style="max-width: 90%;">
+        <mat-form-field apparence="outline" style="width: 30em; max-width: 100%">
+            <mat-label>Organization</mat-label>
+            <mat-select [(value)]="org_id">
+                <mat-option *ngFor="let org of orgs" [value]=org.org_id>
+                    {{org.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)="submitOrg()">
+                Select
+            </button>
+    </mat-card>
+</div>

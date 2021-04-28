@@ -1,0 +1,40 @@
+.title {
+    color: black;
+    font-weight: lighter;
+    margin-left: 1em;
+}
+
+.toolbar {
+    background-color: rgb(236 236 236);
+    color: gray;
+    height: 1.5em;
+    margin: 0.5em 0;
+}
+
+
+/* Responsive Styles */
+
+@media screen and (max-width: 767px) {
+    .card-container>*:not(.circle-link),
+    .terminal {
+        width: 100%;
+    }
+    .card:not(.highlight-card) {
+        height: 16px;
+        margin: 8px 0;
+    }
+    .card.highlight-card span {
+        margin-left: 72px;
+    }
+    svg#rocket-smoke {
+        right: 120px;
+        transform: rotate(-5deg);
+    }
+}
+
+@media screen and (max-width: 575px) {
+    svg#rocket-smoke {
+        display: none;
+        visibility: hidden;
+    }
+}

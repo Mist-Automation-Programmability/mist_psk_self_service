@@ -1,0 +1,52 @@
+<table>
+    <tr>
+        <th>Signin URL</th>
+        <td>{{signin}}</td>
+    </tr>
+    <tr>
+        <th>Callback URL</th>
+        <td>{{callback}}</td>
+    </tr>
+    <tr>
+        <th>Logout URL</th>
+        <td>{{signin}}</td>
+    </tr>
+</table>
+<div>
+    <!-- <mat-form-field>
+        <mat-checkbox [(ngModel)]="azure.allow_external_users">Allow External Users</mat-checkbox>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-checkbox [(ngModel)]="azure.allow_unlicensed_filter">Allow Users without license</mat-checkbox>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Allowed Groups (Empty to not filter on User Groups)</mat-label>
+        <mat-chip-list #chipList aria-label="Allowed selection">
+            <mat-chip *ngFor="let user_group of azure.user_groups" [selectable]="true" [removable]="true" (removed)="remove(user_group)">
+                {{user_group}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="New User Group..." [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true" (matChipInputTokenEnd)="add($event)">
+        </mat-chip-list>
+    </mat-form-field> -->
+</div>
+<div fxLayout="column">
+    <mat-form-field>
+        <mat-label>Client ID<span style="color: red">*</span></mat-label>
+        <input matInput type="text" [(ngModel)]="azure.client_id" />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Client Secret<span style="color: red">*</span></mat-label>
+        <input matInput type="text" [(ngModel)]="azure.client_secret" />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Tenant<span style="color: red">*</span></mat-label>
+        <input matInput type="text" [(ngModel)]="azure.tenant" />
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Resource<span style="color: red">*</span></mat-label>
+        <input matInput type="text" [(ngModel)]="azure.resource" />
+    </mat-form-field>
+
+
+</div>

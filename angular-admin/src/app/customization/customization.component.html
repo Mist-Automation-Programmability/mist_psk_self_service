@@ -1,0 +1,158 @@
+<div layout-margin>
+    <mat-content mat-whiteframe="7" layout="column">
+        <mat-toolbar class="mat-hue-2" style="height: 40px;min-height: 40px;">
+            <div class="mat-toolbar-tools">
+                <span>{{"custom.logo" | translate}}</span>
+                <span flex></span>
+                <mat-slide-toggle value="logo.enable" aria-label="Color Enable">
+                    {{ status.logo | translate }}
+                </mat-slide-toggle>
+            </div>
+        </mat-toolbar>
+        <div layout-padding layout-gt-sm="row">
+            <fieldset>
+                <mat-form-field appearance="outline">
+                    <mat-label translate="custom.logo.header"></mat-label>
+                    <input type="file" name="header" ng-file-select-logo="onFileSelect($logoHeaderFile)" aria-label="logo header" ng-disabled="!logo.enable">
+                    <b>Preview:</b><br />
+                    <img ng-src="{{logo.header}}">
+                    <i ng-hide="logo.header">No image choosed</i>
+                </mat-form-field>
+            </fieldset>
+            <fieldset>
+                <mat-form-field appearance="outline">
+                    <mat-label translate="custom.logo.login"></mat-label>
+                    <input type="file" name="login" ng-file-select-logo="onFileSelect($logoLoginFile)" aria-label="logo login" ng-disabled="!logo.enable">
+                    <b>Preview:</b><br />
+                    <img ng-src="{{logo.login}}">
+                    <i ng-hide="logo.login">No image choosed</i>
+                </mat-form-field>
+            </fieldset>
+        </div>
+    </mat-content>
+
+
+    <mat-content mat-whiteframe="7" layout="column">
+        <mat-toolbar class="mat-hue-2" style="height: 40px;min-height: 40px;">
+            <div class="mat-toolbar-tools">
+                <span>{{"custom.color" | translate}}</span>
+                <span flex></span>
+                <mat-slide-toggle ng-model="colors.enable" aria-label="Color Enable">
+                    {{ status.colors | translate }}
+                </mat-slide-toggle>
+            </div>
+        </mat-toolbar>
+        <div layout-padding layout-gt-sm="row">
+            <mat-input-container flex-gt-sm="20">
+                <label for="theme" translate="custom.color.theme"></label>
+                <mat-select ng-model="colors.contrastDefaultColor" ng-disabled="!colors.enable">
+                    <mat-option value="light">{{ "custom.color.light" | translate }}</mat-option>
+                    <mat-option value="dark">{{ "custom.color.dark" | translate}}</mat-option>
+                </mat-select>
+                </mat-form-field>
+                <div flex-gt-sm="20">
+                    <div mat-color-picker ng-model="colors.color" label="{{'custom.color.mainColor' | translate}}" ng-disabled="!colors.enable" open-on-input="true" mat-color-alpha-channel="false" mat-color-hex="true" mat-color-rgb="false" mat-color-hsl="false">
+                    </div>
+                </div>
+        </div>
+    </mat-content>
+
+
+    <mat-content mat-whiteframe="7" layout="column">
+        <mat-toolbar class="mat-hue-2" style="height: 40px;min-height: 40px;">
+            <div class="mat-toolbar-tools">
+                <span>{{"custom.login" | translate}}</span>
+                <span flex></span>
+                <mat-slide-toggle ng-model="login.enable" aria-label="Login Enable">
+                    {{ status.login | translate }}
+                </mat-slide-toggle>
+            </div>
+        </mat-toolbar>
+        <div layout-padding>
+            <form name="loginForm">
+                <mat-form-field appearance="outline">
+                    <label for="loginTitle" translate="custom.login.title"></label>
+                    <input id="loginTitle" type="text" ng-model="login.title" mat-maxlength="50" ng-disabled="!login.enable">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <label for="loginText" translate="custom.login.text"></label>
+                    <textarea id="loginText" ng-model="login.text" mat-maxlength="300" rows="2" mat-select-on-focus ng-disabled="!login.enable"></textarea>
+                </mat-form-field>
+            </form>
+        </div>
+    </mat-content>
+
+
+    <mat-content mat-whiteframe="5">
+        <mat-toolbar class="mat-hue-2" style="height: 40px;min-height: 40px;">
+            <div class="mat-toolbar-tools">
+                <span>{{"custom.app" | translate}}</span>
+                <span flex></span>
+                <mat-slide-toggle ng-model="app.enable" aria-label="App Enable">
+                    {{ status.app | translate }}
+                </mat-slide-toggle>
+
+            </div>
+        </mat-toolbar>
+        <div layout-padding>
+
+
+            <div>
+                <span translate="custom.app.iconSrc"></span> <a target="_blank" href="https://material.io/icons/">https://material.io/icons/</a>
+            </div>
+            <form name="appForm">
+                <mat-content style="margin: 20px" mat-whiteframe="7" layout="column">
+                    <mat-toolbar class="mat-hue-2" style="background-color: {{colors.color}}; color: {{textColor}}">
+                        <div class="mat-toolbar-tools">
+                            <mat-form-field appearance="outline">
+                                <label for="appTitle" translate="custom.app.title" style="color: {{textColor}}"></label>
+                                <input id="appTitle" type="text" ng-model="app.title" ng-disabled="!app.enable" style="color: {{textColor}}" mat-maxlength="100">
+                            </mat-form-field>
+                        </div>
+                    </mat-toolbar>
+                    <div style="background-color: #{{color}}; height: 5px; width: 100%"></div>
+                    <mat-content style="padding: 0 40px 10px 40px">
+                        <mat-list flex>
+                            <mat-subheader class="mat-no-sticky">
+                                <h2>
+                                    <mat-input-container class="mat-block" style="margin: 0">
+                                        <label for="appTitle" translate="custom.app.text"></label>
+                                        <input id="appTitle" type="text" ng-model="app.text" ng-disabled="!app.enable" mat-maxlength="200">
+                                        </mat-form-field>
+                                </h2>
+                            </mat-subheader>
+                            <mat-divider></mat-divider>
+                            <mat-list-item ng-repeat="row in app.rows" layout="row">
+                                <mat-button class="mat-primary" ng-click="removeRow(row.index)" ng-disabled="!app.enable">
+                                    <i class="material-icons">remove_circle_outline</i>
+                                </mat-button>
+                                <mat-input-container class="mat-block" flex="10">
+                                    <label for="icon-{{$index}}" translate="custom.app.icon"></label>
+                                    <input id="icon-{{$index}}" type="text" ng-model="row.icon" ng-disabled="!app.enable">
+                                    </mat-form-field>
+                                    <span flex="10"></span>
+                                    <i class="material-icons mat-avatar-icon" style="min-width: 25px;">{{row.icon}}</i>
+                                    <mat-input-container class="mat-block" flex="80">
+                                        <label for="text-{{$index}}" translate="custom.app.text"></label>
+                                        <textarea id="text-{{$index}}" ng-model="row.text" mat-maxlength="500" ng-disabled="!app.enable"></textarea>
+                                        </mat-form-field>
+
+                                        <mat-divider></mat-divider>
+                            </mat-list-item>
+                        </mat-list>
+                        <mat-button class="mat-primary" ng-click="addRow()" ng-disabled="!app.enable">
+                            <i class="material-icons">add_circle_outline</i>
+                        </mat-button>
+                    </mat-content>
+                </mat-content>
+            </form>
+    </mat-content>
+    </div>
+
+    </mat-content>
+    <mat-content layout="column" layout-gt-sm="row">
+        <mat-button class="mat-primary mat-raised" ng-disabled="isWorking || !isValid()" ng-click="save()" translate="save" aria-label="save"></mat-button>
+        <mat-button target=_blank href="/admin/preview" class="mat-primary" ng-disabled="isWorking || !isValid()" translate="custom.preview" aria-label="preview"></mat-button>
+    </mat-content>
+    </mat-content>
+</div>
