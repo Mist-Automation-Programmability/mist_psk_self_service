@@ -130,7 +130,6 @@ router.get('/config', (req, res) => {
             auth: {
                 configured: false,
                 method: null,
-                config: {},
                 host: "",
                 org_id: ""
             },
@@ -139,9 +138,6 @@ router.get('/config', (req, res) => {
         Account.findOne({ org_id: req.session.mist.org_id, host: req.session.mist.host })
             .populate("_token")
             .populate("_psk")
-            .populate("_azure")
-            .populate("_adfs")
-            .populate("_okta")
             .lean()
             .exec((err, account) => {
                 if (err) {
@@ -177,15 +173,11 @@ router.get('/config', (req, res) => {
                     // auth
                     if (account.auth_method) {
                         data.auth.method = account.auth_method
+                        data.auth.host = serverHostname
+                        data.auth.org_id = req.session.mist.org_id
                         if (account["_" + account.auth_method]) {
                             data.auth.configured = true
-                            data.auth.config = account["_" + account.auth_method]
-                            delete data.auth.config._id
-                            delete data.auth.config.__v
-                            data.auth.host = serverHostname
-                            data.auth.org_id = req.session.mist.org_id
                         }
-
                     }
                     res.json(data)
                 } else res.send(data)

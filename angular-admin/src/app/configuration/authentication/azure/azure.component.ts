@@ -3,6 +3,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 import { MatChipInputEvent } from '@angular/material/chips';
 
+import { AuthConfigService } from "../../../services/auth.service";
 @Component({
   selector: 'app-configuration-azure',
   templateUrl: './azure.component.html',
@@ -11,44 +12,27 @@ import { MatChipInputEvent } from '@angular/material/chips';
 export class AzureComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  @Input() auth: {
-    client_id: string,
-    client_secret: string,
-    tenant: string,
-    resource: string,
-    allow_external_users: boolean,
-    allow_unlicensed_filter: boolean,
-    user_groups: string[]
-  }
+
   @Input() host: string
   @Input() org_id: string
 
-  constructor() { }
+  constructor(private _auth_config_service: AuthConfigService) { }
 
 
-    azure= {
-      client_id: "",
-      client_secret: "",
-      tenant: "",
-      resource: "",
-      allow_external_users: false,
-      allow_unlicensed_filter: false,
-      user_groups: []
-    }
-    callback:string;
-    signin:string;
+  azure = {
+    client_id: "",
+    client_secret: "",
+    tenant: "",
+    resource: "",
+    allow_external_users: false,
+    allow_unlicensed_filter: false,
+    user_groups: []
+  }
+  callback: string;
+  signin: string;
 
   ngOnInit(): void {
-    if (this.auth && this.auth.client_id) {
-      this.azure.client_id = this.auth.client_id;
-      this.azure.client_secret = this.auth.client_secret;
-      this.azure.tenant = this.auth.tenant;
-      this.azure.resource = this.auth.resource;
-      this.azure.allow_external_users = this.auth.allow_external_users;
-      this.azure.allow_unlicensed_filter = this.auth.allow_unlicensed_filter;
-      this.azure.user_groups = this.auth.user_groups;
-    }
-    else this.azure= {
+    this.azure = {
       client_id: "",
       client_secret: "",
       tenant: "",
@@ -57,40 +41,53 @@ export class AzureComponent implements OnInit {
       allow_unlicensed_filter: false,
       user_groups: []
     }
-    this.callback="https://"+this.host+"/azure/callback"
-    this.signin="https://"+this.host+"/azure/"+this.org_id+"/login"  }
+    this.callback = "https://" + this.host + "/azure/callback"
+    this.signin = "https://" + this.host + "/azure/" + this.org_id + "/login"
 
-
-
-    add(event: MatChipInputEvent): void {
-      const input = event.input;
-      const value = event.value;
-  
-      if ((value || '').trim()) {
-        if (this.azure.user_groups.indexOf(value.trim()) < 0) {
-            this.azure.user_groups.push(value.trim());
-        }
+    this._auth_config_service.auth$.subscribe(config => {
+      if (config) {
+        if (config.hasOwnProperty("client_id")) this.azure.client_id = config["client_id"]
+        if (config.hasOwnProperty("client_secret")) this.azure.client_secret = config["client_secret"]
+        if (config.hasOwnProperty("tenant")) this.azure.tenant = config["tenant"];
+        if (config.hasOwnProperty("resource")) this.azure.resource = config["resource"];
+        if (config.hasOwnProperty("allow_external_users")) this.azure.allow_external_users = config["allow_external_users"];
+        if (config.hasOwnProperty("allow_unlicensed_filter")) this.azure.allow_unlicensed_filter = config["allow_unlicensed_filter"];
+        if (config.hasOwnProperty("user_groups")) this.azure.user_groups = config["user_groups"];
       }
-      // Reset the input value
-      if (input) {
-        input.value = '';
+    })
+  }
+
+
+
+  add(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      if (this.azure.user_groups.indexOf(value.trim()) < 0) {
+        this.azure.user_groups.push(value.trim());
       }
     }
-  
-    remove(user_group: String): void {
-      const index = this.azure.user_groups.indexOf(user_group);
-  
-      if (index >= 0) {
-        this.azure.user_groups.splice(index, 1);
-      }
+    // Reset the input value
+    if (input) {
+      input.value = '';
     }
+  }
+
+  remove(user_group: String): void {
+    const index = this.azure.user_groups.indexOf(user_group);
+
+    if (index >= 0) {
+      this.azure.user_groups.splice(index, 1);
+    }
+  }
 
   isValid() {
-      if (!this.azure.client_id || this.azure.client_id == "") return false;
-      else if (!this.azure.client_secret || this.azure.client_secret == "") return false;
-      else if (!this.azure.tenant || this.azure.tenant == "") return false;
-      else if (!this.azure.resource || this.azure.resource == "") return false;
-      else return true;
+    if (!this.azure.client_id || this.azure.client_id == "") return false;
+    else if (!this.azure.client_secret || this.azure.client_secret == "") return false;
+    else if (!this.azure.tenant || this.azure.tenant == "") return false;
+    else if (!this.azure.resource || this.azure.resource == "") return false;
+    else return true;
   };
 
 }

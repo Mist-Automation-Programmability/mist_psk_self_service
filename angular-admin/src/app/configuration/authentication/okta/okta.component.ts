@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
+import { AuthConfigService } from "../../../services/auth.service";
 
 
 
@@ -20,29 +21,31 @@ export class OktaComponent implements OnInit {
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  constructor() { }
+  constructor(private _auth_config_service: AuthConfigService) { }
 
   okta = {
     audience: "",
     client_id: "",
     client_secret: ""
   }
-  login_redirect_url:string;
-  initiate_login_url:string;
+  login_redirect_url: string;
+  initiate_login_url: string;
   error_message = ""
   ngOnInit(): void {
-    if (this.auth && this.auth.audience) {
-      this.okta.audience = this.auth.audience;
-      this.okta.client_id = this.auth.client_id;
-      this.okta.client_secret = this.auth.client_secret
-    }
-    else this.okta = {
+    this.okta = {
       audience: "",
       client_id: "",
       client_secret: ""
     }
-    this.login_redirect_url="https://"+this.host+"/okta/callback"
-    this.initiate_login_url="https://"+this.host+"/okta/"+this.org_id+"/login"
-  }
+    this.login_redirect_url = "https://" + this.host + "/okta/callback"
+    this.initiate_login_url = "https://" + this.host + "/okta/" + this.org_id + "/login"
 
+    this._auth_config_service.auth$.subscribe(config => {
+      if (config) {
+        if (config.hasOwnProperty("audience")) this.okta.audience = config["audience"];
+        if (config.hasOwnProperty("client_id")) this.okta.client_id = config["client_id"];
+        if (config.hasOwnProperty("client_secret")) this.okta.client_secret = config["client_secret"];
+      }
+    });
+  }
 }

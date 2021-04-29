@@ -207,11 +207,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "GoogleComponent", function() { return GoogleComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/keycodes */ "FtGj");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
-/* harmony import */ var _angular_material_chips__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/chips */ "A5z7");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material/icon */ "NFeN");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/auth.service */ "lGQG");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
+/* harmony import */ var _angular_material_chips__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material/chips */ "A5z7");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material/icon */ "NFeN");
+
 
 
 
@@ -236,7 +238,8 @@ function GoogleComponent_mat_chip_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", domain_r2, " ");
 } }
 class GoogleComponent {
-    constructor() {
+    constructor(_auth_config_service) {
+        this._auth_config_service = _auth_config_service;
         this.separatorKeysCodes = [_angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__["ENTER"], _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__["COMMA"]];
         this.google = {
             domains: []
@@ -244,10 +247,13 @@ class GoogleComponent {
         this.error_message = "";
     }
     ngOnInit() {
-        if (this.auth.domains)
-            this.google.domains = this.auth.domains;
-        else
-            this.google.domains = [];
+        this.google.domains = [];
+        this._auth_config_service.auth$.subscribe(config => {
+            if (config) {
+                if (config.hasOwnProperty("domains"))
+                    this.google.domains = config["domains"];
+            }
+        });
     }
     add(event) {
         const input = event.input;
@@ -274,7 +280,7 @@ class GoogleComponent {
         }
     }
 }
-GoogleComponent.ɵfac = function GoogleComponent_Factory(t) { return new (t || GoogleComponent)(); };
+GoogleComponent.ɵfac = function GoogleComponent_Factory(t) { return new (t || GoogleComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthConfigService"])); };
 GoogleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: GoogleComponent, selectors: [["app-configuration-google"]], inputs: { auth: "auth", host: "host" }, decls: 10, vars: 5, consts: [[2, "width", "100%"], ["aria-label", "Allowed selection"], ["chipList", ""], [3, "selectable", "removable", "removed", 4, "ngFor", "ngForOf"], ["placeholder", "New domain...", 3, "matChipInputFor", "matChipInputSeparatorKeyCodes", "matChipInputAddOnBlur", "matChipInputTokenEnd"], [2, "color", "red"], [3, "selectable", "removable", "removed"], ["matChipRemove", ""]], template: function GoogleComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "form");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "mat-form-field", 0);
@@ -300,7 +306,7 @@ GoogleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("matChipInputFor", _r0)("matChipInputSeparatorKeyCodes", ctx.separatorKeysCodes)("matChipInputAddOnBlur", true);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.error_message, " ");
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_2__["NgForm"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatLabel"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_4__["MatChipList"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_4__["MatChipInput"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatHint"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_4__["MatChip"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_6__["MatIcon"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_4__["MatChipRemove"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_3__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_3__["NgForm"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatLabel"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_5__["MatChipList"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgForOf"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_5__["MatChipInput"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatHint"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_5__["MatChip"], _angular_material_icon__WEBPACK_IMPORTED_MODULE_7__["MatIcon"], _angular_material_chips__WEBPACK_IMPORTED_MODULE_5__["MatChipRemove"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](GoogleComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -308,7 +314,7 @@ GoogleComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 templateUrl: './google.component.html',
                 styleUrls: ['./../../configuration.component.css']
             }]
-    }], function () { return []; }, { auth: [{
+    }], function () { return [{ type: _services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthConfigService"] }]; }, { auth: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }], host: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
@@ -517,19 +523,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "tk/3");
 /* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/material/dialog */ "0IaG");
 /* harmony import */ var _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/material/snack-bar */ "dNgK");
-/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
-/* harmony import */ var _angular_material_card__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/material/card */ "Wp6s");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/material/button */ "bTqV");
-/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/toolbar */ "/t3+");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
-/* harmony import */ var _angular_material_select__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/select */ "d3UM");
-/* harmony import */ var _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/slide-toggle */ "1jcm");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/material/checkbox */ "bSwM");
-/* harmony import */ var _angular_material_slider__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/slider */ "5RNC");
-/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/core */ "FKr1");
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../services/auth.service */ "lGQG");
+/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
+/* harmony import */ var _angular_material_card__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/material/card */ "Wp6s");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/material/button */ "bTqV");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/material/toolbar */ "/t3+");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
+/* harmony import */ var _angular_material_select__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/material/select */ "d3UM");
+/* harmony import */ var _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/slide-toggle */ "1jcm");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/checkbox */ "bSwM");
+/* harmony import */ var _angular_material_slider__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/material/slider */ "5RNC");
+/* harmony import */ var _angular_material_core__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/material/core */ "FKr1");
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
+
 
 
 
@@ -775,26 +783,27 @@ function ConfigurationComponent_app_configuration_azure_118_Template(rf, ctx) { 
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-configuration-azure", 41);
 } if (rf & 2) {
     const ctx_r19 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("auth", ctx_r19.auth.config)("host", ctx_r19.auth.host)("org_id", ctx_r19.auth.org_id);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("host", ctx_r19.auth.host)("org_id", ctx_r19.auth.org_id);
 } }
 function ConfigurationComponent_app_configuration_google_119_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-configuration-google", 41);
 } if (rf & 2) {
     const ctx_r20 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("auth", ctx_r20.auth.config)("host", ctx_r20.auth.host)("org_id", ctx_r20.auth.org_id);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("host", ctx_r20.auth.host)("org_id", ctx_r20.auth.org_id);
 } }
 function ConfigurationComponent_app_configuration_okta_120_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-configuration-okta", 41);
 } if (rf & 2) {
     const ctx_r21 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("auth", ctx_r21.auth.config)("host", ctx_r21.auth.host)("org_id", ctx_r21.auth.org_id);
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("host", ctx_r21.auth.host)("org_id", ctx_r21.auth.org_id);
 } }
 class ConfigurationComponent {
-    constructor(_router, _http, _dialog, _snackBar) {
+    constructor(_router, _http, _dialog, _snackBar, _auth_config_service) {
         this._router = _router;
         this._http = _http;
         this._dialog = _dialog;
         this._snackBar = _snackBar;
+        this._auth_config_service = _auth_config_service;
         //COMMON
         this.privilege = "";
         this.account_created = false;
@@ -827,8 +836,7 @@ class ConfigurationComponent {
             configured: false,
             host: "",
             org_id: "",
-            method: null,
-            config: {}
+            method: null
         };
         this.auth_methods = [
             { id: "adfs", name: "ADFS" },
@@ -845,6 +853,7 @@ class ConfigurationComponent {
             next: data => {
                 this.is_working = false;
                 this.parse_response(data);
+                this.getAuth();
             },
             error: error => {
                 this.parse_error(error);
@@ -865,7 +874,14 @@ class ConfigurationComponent {
             }
         }
         if (data.auth) {
-            this.auth = data.auth;
+            if (data.auth.configured)
+                this.auth.configured = data.auth.configured;
+            if (data.auth.host)
+                this.auth.host = data.auth.host;
+            if (data.auth.org_id)
+                this.auth.org_id = data.auth.org_id;
+            if (data.auth.method)
+                this.auth.method = data.auth.method;
         }
         if (data.wlans) {
             this.wlans = data.wlans;
@@ -947,6 +963,7 @@ class ConfigurationComponent {
                         this.is_working = false;
                         this.token.configured = false;
                         this.token.auto_mode = true;
+                        this.openSnackBar("API Token deleted.", "Ok");
                     },
                     error: error => this.parse_error(error)
                 });
@@ -1003,6 +1020,7 @@ class ConfigurationComponent {
             next: data => {
                 this.is_working = false;
                 this.psk.configured = true;
+                this.openSnackBar("PSK configuration saved.", "Ok");
             },
             error: error => this.parse_error(error)
         });
@@ -1010,6 +1028,15 @@ class ConfigurationComponent {
     //////////////////////////////////////////////////////////////////////////////
     /////           AUTH
     //////////////////////////////////////////////////////////////////////////////
+    getAuth() {
+        this._http.get("/api/admin/auth/" + this.auth.method).subscribe({
+            next: data => {
+                this.auth.configured = data["configured"];
+                this._auth_config_service.setAuthConfig(data["config"]);
+            },
+            error: error => this.parse_error(error)
+        });
+    }
     saveAuth() {
         var data = {};
         if (this.auth.method == "adfs") {
@@ -1028,6 +1055,7 @@ class ConfigurationComponent {
             next: data => {
                 this.is_working = false;
                 this.auth.configured = true;
+                this.openSnackBar("Authentication configuration saved.", "Ok");
             },
             error: error => this.parse_error(error)
         });
@@ -1059,7 +1087,7 @@ class ConfigurationComponent {
         });
     }
 }
-ConfigurationComponent.ɵfac = function ConfigurationComponent_Factory(t) { return new (t || ConfigurationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_10__["MatDialog"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_11__["MatSnackBar"])); };
+ConfigurationComponent.ɵfac = function ConfigurationComponent_Factory(t) { return new (t || ConfigurationComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClient"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_material_dialog__WEBPACK_IMPORTED_MODULE_10__["MatDialog"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_11__["MatSnackBar"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_12__["AuthConfigService"])); };
 ConfigurationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ConfigurationComponent, selectors: [["app-configuration"]], viewQuery: function ConfigurationComponent_Query(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵviewQuery"](_authentication_adfs_adfs_component__WEBPACK_IMPORTED_MODULE_4__["AdfsComponent"], true);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵviewQuery"](_authentication_azure_azure_component__WEBPACK_IMPORTED_MODULE_5__["AzureComponent"], true);
@@ -1071,7 +1099,7 @@ ConfigurationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.azureComp = _t.first);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.googleComp = _t.first);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.oktaComp = _t.first);
-    } }, decls: 124, vars: 40, consts: [["fxLayout", "row wrap", "fxLayoutAlign", "flex-start"], ["fxLayout", "row", 4, "ngIf"], ["fxLayoutAlign", "end"], ["mat-button", "", "color", "accent", 3, "disabled"], ["fxLayout", "row", "fxLayoutAlign", "start center"], ["class", "material-icons green", 4, "ngIf"], ["class", "material-icons red", 4, "ngIf"], ["mat-button", "", "color", "accent", 3, "disabled", "click"], ["mat-raised-button", "", "color", "primary", 3, "click"], ["mat-raised-button", "", "color", "primary", 3, "click", 4, "ngIf"], ["fxLayout", "column"], [1, "mat-hue-2", 2, "height", "40px", "min-height", "40px"], [1, "mat-toolbar-tools"], ["appearance", "outline", 4, "ngIf"], ["appearance", "outline"], [3, "value", "disabled", "valueChange"], [3, "value", 4, "ngFor", "ngForOf"], ["fxLayout", "row", "fxLayoutAlign", "start center", 2, "margin-bottom", "0.5em"], [2, "margin-right", "1em"], [3, "ngModel", "ngModelChange"], ["fxLayout", "row", 2, "margin-top", "1em"], [2, "margin", "0 2em"], [2, "margin-bottom", "0.5em"], ["min", "8", "mac", "63", "step", "1", "thumbLabel", "", "tickInterval", "1", 2, "width", "30em", 3, "ngModel", "ngModelChange"], ["mat-raised-button", "", "color", "primary", 3, "disabled", "click"], [3, "value", "valueChange"], ["mat-button", "", "color", "primary", "target", "_blank", "mat-raised-primary", "", 3, "disabled", "href"], [3, "auth", 4, "ngIf"], [3, "auth", "host", "org_id", 4, "ngIf"], ["fxLayoutAlign", "end "], ["fxLayout", "row"], [1, "material-icons", "green"], ["class", "text", 4, "ngIf"], [1, "text"], [1, "material-icons", "red"], [3, "value", "disabled", "valueChange", "selectionChange"], ["value", "site"], ["value", "org"], [3, "value"], ["matInput", "", "type", "number", 3, "ngModel", "disabled", "ngModelChange"], [3, "auth"], [3, "auth", "host", "org_id"]], template: function ConfigurationComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, decls: 124, vars: 40, consts: [["fxLayout", "row wrap", "fxLayoutAlign", "flex-start"], ["fxLayout", "row", 4, "ngIf"], ["fxLayoutAlign", "end"], ["mat-button", "", "color", "accent", 3, "disabled"], ["fxLayout", "row", "fxLayoutAlign", "start center"], ["class", "material-icons green", 4, "ngIf"], ["class", "material-icons red", 4, "ngIf"], ["mat-button", "", "color", "accent", 3, "disabled", "click"], ["mat-raised-button", "", "color", "primary", 3, "click"], ["mat-raised-button", "", "color", "primary", 3, "click", 4, "ngIf"], ["fxLayout", "column"], [1, "mat-hue-2", 2, "height", "40px", "min-height", "40px"], [1, "mat-toolbar-tools"], ["appearance", "outline", 4, "ngIf"], ["appearance", "outline"], [3, "value", "disabled", "valueChange"], [3, "value", 4, "ngFor", "ngForOf"], ["fxLayout", "row", "fxLayoutAlign", "start center", 2, "margin-bottom", "0.5em"], [2, "margin-right", "1em"], [3, "ngModel", "ngModelChange"], ["fxLayout", "row", 2, "margin-top", "1em"], [2, "margin", "0 2em"], [2, "margin-bottom", "0.5em"], ["min", "8", "mac", "63", "step", "1", "thumbLabel", "", "tickInterval", "1", 2, "width", "30em", 3, "ngModel", "ngModelChange"], ["mat-raised-button", "", "color", "primary", 3, "disabled", "click"], [3, "value", "valueChange", "selectionChange"], ["mat-button", "", "color", "primary", "target", "_blank", "mat-raised-primary", "", 3, "disabled", "href"], [3, "auth", 4, "ngIf"], [3, "host", "org_id", 4, "ngIf"], ["fxLayoutAlign", "end "], ["fxLayout", "row"], [1, "material-icons", "green"], ["class", "text", 4, "ngIf"], [1, "text"], [1, "material-icons", "red"], [3, "value", "disabled", "valueChange", "selectionChange"], ["value", "site"], ["value", "org"], [3, "value"], ["matInput", "", "type", "number", 3, "ngModel", "disabled", "ngModelChange"], [3, "auth"], [3, "host", "org_id"]], template: function ConfigurationComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "mat-card");
@@ -1258,7 +1286,7 @@ ConfigurationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](112, "Authentication Method");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](113, "mat-select", 25);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("valueChange", function ConfigurationComponent_Template_mat_select_valueChange_113_listener($event) { return ctx.auth.method = $event; });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("valueChange", function ConfigurationComponent_Template_mat_select_valueChange_113_listener($event) { return ctx.auth.method = $event; })("selectionChange", function ConfigurationComponent_Template_mat_select_selectionChange_113_listener() { return ctx.getAuth(); });
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](114, ConfigurationComponent_mat_option_114_Template, 2, 2, "mat-option", 16);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
@@ -1266,9 +1294,9 @@ ConfigurationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](116, "Configuration Help");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](117, ConfigurationComponent_app_configuration_adfs_117_Template, 1, 1, "app-configuration-adfs", 27);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](118, ConfigurationComponent_app_configuration_azure_118_Template, 1, 3, "app-configuration-azure", 28);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](119, ConfigurationComponent_app_configuration_google_119_Template, 1, 3, "app-configuration-google", 28);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](120, ConfigurationComponent_app_configuration_okta_120_Template, 1, 3, "app-configuration-okta", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](118, ConfigurationComponent_app_configuration_azure_118_Template, 1, 2, "app-configuration-azure", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](119, ConfigurationComponent_app_configuration_google_119_Template, 1, 2, "app-configuration-google", 28);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](120, ConfigurationComponent_app_configuration_okta_120_Template, 1, 2, "app-configuration-okta", 28);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](121, "mat-card-action", 29);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](122, "button", 24);
@@ -1357,7 +1385,7 @@ ConfigurationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.auth.method == "okta");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("disabled", ctx.is_working);
-    } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_12__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_12__["DefaultLayoutAlignDirective"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCard"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardTitle"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardContent"], _angular_common__WEBPACK_IMPORTED_MODULE_14__["NgIf"], _angular_material_button__WEBPACK_IMPORTED_MODULE_15__["MatButton"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardSubtitle"], _angular_material_card__WEBPACK_IMPORTED_MODULE_13__["MatCardActions"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_16__["MatToolbar"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_17__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_17__["MatLabel"], _angular_material_select__WEBPACK_IMPORTED_MODULE_18__["MatSelect"], _angular_common__WEBPACK_IMPORTED_MODULE_14__["NgForOf"], _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_19__["MatSlideToggle"], _angular_forms__WEBPACK_IMPORTED_MODULE_20__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_20__["NgModel"], _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_21__["MatCheckbox"], _angular_material_slider__WEBPACK_IMPORTED_MODULE_22__["MatSlider"], _angular_material_button__WEBPACK_IMPORTED_MODULE_15__["MatAnchor"], _angular_material_core__WEBPACK_IMPORTED_MODULE_23__["MatOption"], _angular_material_input__WEBPACK_IMPORTED_MODULE_24__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_20__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_20__["DefaultValueAccessor"], _authentication_adfs_adfs_component__WEBPACK_IMPORTED_MODULE_4__["AdfsComponent"], _authentication_azure_azure_component__WEBPACK_IMPORTED_MODULE_5__["AzureComponent"], _authentication_google_google_component__WEBPACK_IMPORTED_MODULE_6__["GoogleComponent"], _authentication_okta_okta_component__WEBPACK_IMPORTED_MODULE_7__["OktaComponent"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_14__["UpperCasePipe"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
+    } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_13__["DefaultLayoutDirective"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_13__["DefaultLayoutAlignDirective"], _angular_material_card__WEBPACK_IMPORTED_MODULE_14__["MatCard"], _angular_material_card__WEBPACK_IMPORTED_MODULE_14__["MatCardTitle"], _angular_material_card__WEBPACK_IMPORTED_MODULE_14__["MatCardContent"], _angular_common__WEBPACK_IMPORTED_MODULE_15__["NgIf"], _angular_material_button__WEBPACK_IMPORTED_MODULE_16__["MatButton"], _angular_material_card__WEBPACK_IMPORTED_MODULE_14__["MatCardSubtitle"], _angular_material_card__WEBPACK_IMPORTED_MODULE_14__["MatCardActions"], _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_17__["MatToolbar"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_18__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_18__["MatLabel"], _angular_material_select__WEBPACK_IMPORTED_MODULE_19__["MatSelect"], _angular_common__WEBPACK_IMPORTED_MODULE_15__["NgForOf"], _angular_material_slide_toggle__WEBPACK_IMPORTED_MODULE_20__["MatSlideToggle"], _angular_forms__WEBPACK_IMPORTED_MODULE_21__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_21__["NgModel"], _angular_material_checkbox__WEBPACK_IMPORTED_MODULE_22__["MatCheckbox"], _angular_material_slider__WEBPACK_IMPORTED_MODULE_23__["MatSlider"], _angular_material_button__WEBPACK_IMPORTED_MODULE_16__["MatAnchor"], _angular_material_core__WEBPACK_IMPORTED_MODULE_24__["MatOption"], _angular_material_input__WEBPACK_IMPORTED_MODULE_25__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_21__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_21__["DefaultValueAccessor"], _authentication_adfs_adfs_component__WEBPACK_IMPORTED_MODULE_4__["AdfsComponent"], _authentication_azure_azure_component__WEBPACK_IMPORTED_MODULE_5__["AzureComponent"], _authentication_google_google_component__WEBPACK_IMPORTED_MODULE_6__["GoogleComponent"], _authentication_okta_okta_component__WEBPACK_IMPORTED_MODULE_7__["OktaComponent"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_15__["UpperCasePipe"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ConfigurationComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1365,7 +1393,7 @@ ConfigurationComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
                 templateUrl: './configuration.component.html',
                 styleUrls: ['./configuration.component.css']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"] }, { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClient"] }, { type: _angular_material_dialog__WEBPACK_IMPORTED_MODULE_10__["MatDialog"] }, { type: _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_11__["MatSnackBar"] }]; }, { adfsComp: [{
+    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_8__["Router"] }, { type: _angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClient"] }, { type: _angular_material_dialog__WEBPACK_IMPORTED_MODULE_10__["MatDialog"] }, { type: _angular_material_snack_bar__WEBPACK_IMPORTED_MODULE_11__["MatSnackBar"] }, { type: _services_auth_service__WEBPACK_IMPORTED_MODULE_12__["AuthConfigService"] }]; }, { adfsComp: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"],
             args: [_authentication_adfs_adfs_component__WEBPACK_IMPORTED_MODULE_4__["AdfsComponent"]]
         }], azureComp: [{
@@ -1440,9 +1468,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OktaComponent", function() { return OktaComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/keycodes */ "FtGj");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/auth.service */ "lGQG");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+
 
 
 
@@ -1450,7 +1480,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class OktaComponent {
-    constructor() {
+    constructor(_auth_config_service) {
+        this._auth_config_service = _auth_config_service;
         this.separatorKeysCodes = [_angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__["ENTER"], _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__["COMMA"]];
         this.okta = {
             audience: "",
@@ -1460,22 +1491,26 @@ class OktaComponent {
         this.error_message = "";
     }
     ngOnInit() {
-        if (this.auth && this.auth.audience) {
-            this.okta.audience = this.auth.audience;
-            this.okta.client_id = this.auth.client_id;
-            this.okta.client_secret = this.auth.client_secret;
-        }
-        else
-            this.okta = {
-                audience: "",
-                client_id: "",
-                client_secret: ""
-            };
+        this.okta = {
+            audience: "",
+            client_id: "",
+            client_secret: ""
+        };
         this.login_redirect_url = "https://" + this.host + "/okta/callback";
         this.initiate_login_url = "https://" + this.host + "/okta/" + this.org_id + "/login";
+        this._auth_config_service.auth$.subscribe(config => {
+            if (config) {
+                if (config.hasOwnProperty("audience"))
+                    this.okta.audience = config["audience"];
+                if (config.hasOwnProperty("client_id"))
+                    this.okta.client_id = config["client_id"];
+                if (config.hasOwnProperty("client_secret"))
+                    this.okta.client_secret = config["client_secret"];
+            }
+        });
     }
 }
-OktaComponent.ɵfac = function OktaComponent_Factory(t) { return new (t || OktaComponent)(); };
+OktaComponent.ɵfac = function OktaComponent_Factory(t) { return new (t || OktaComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthConfigService"])); };
 OktaComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: OktaComponent, selectors: [["app-configuration-okta"]], inputs: { auth: "auth", host: "host", org_id: "org_id" }, decls: 31, vars: 5, consts: [[2, "margin-top", "1em"], [2, "width", "100%"], [2, "color", "red"], ["matInput", "", "type", "text", 3, "ngModel", "ngModelChange"], ["matInput", "", "type", "password", 3, "ngModel", "ngModelChange"]], template: function OktaComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "table");
@@ -1543,7 +1578,7 @@ OktaComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.okta.client_id);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.okta.client_secret);
-    } }, directives: [_angular_material_form_field__WEBPACK_IMPORTED_MODULE_2__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_2__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_3__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_4__["NgModel"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
+    } }, directives: [_angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_4__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgModel"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](OktaComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1551,7 +1586,7 @@ OktaComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
                 templateUrl: './okta.component.html',
                 styleUrls: ['./../../configuration.component.css']
             }]
-    }], function () { return []; }, { auth: [{
+    }], function () { return [{ type: _services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthConfigService"] }]; }, { auth: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }], host: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
@@ -1778,10 +1813,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AzureComponent", function() { return AzureComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/cdk/keycodes */ "FtGj");
-/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/auth.service */ "lGQG");
+/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+
 
 
 
@@ -1790,7 +1827,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class AzureComponent {
-    constructor() {
+    constructor(_auth_config_service) {
+        this._auth_config_service = _auth_config_service;
         this.separatorKeysCodes = [_angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__["ENTER"], _angular_cdk_keycodes__WEBPACK_IMPORTED_MODULE_1__["COMMA"]];
         this.azure = {
             client_id: "",
@@ -1803,27 +1841,35 @@ class AzureComponent {
         };
     }
     ngOnInit() {
-        if (this.auth && this.auth.client_id) {
-            this.azure.client_id = this.auth.client_id;
-            this.azure.client_secret = this.auth.client_secret;
-            this.azure.tenant = this.auth.tenant;
-            this.azure.resource = this.auth.resource;
-            this.azure.allow_external_users = this.auth.allow_external_users;
-            this.azure.allow_unlicensed_filter = this.auth.allow_unlicensed_filter;
-            this.azure.user_groups = this.auth.user_groups;
-        }
-        else
-            this.azure = {
-                client_id: "",
-                client_secret: "",
-                tenant: "",
-                resource: "",
-                allow_external_users: false,
-                allow_unlicensed_filter: false,
-                user_groups: []
-            };
+        this.azure = {
+            client_id: "",
+            client_secret: "",
+            tenant: "",
+            resource: "",
+            allow_external_users: false,
+            allow_unlicensed_filter: false,
+            user_groups: []
+        };
         this.callback = "https://" + this.host + "/azure/callback";
         this.signin = "https://" + this.host + "/azure/" + this.org_id + "/login";
+        this._auth_config_service.auth$.subscribe(config => {
+            if (config) {
+                if (config.hasOwnProperty("client_id"))
+                    this.azure.client_id = config["client_id"];
+                if (config.hasOwnProperty("client_secret"))
+                    this.azure.client_secret = config["client_secret"];
+                if (config.hasOwnProperty("tenant"))
+                    this.azure.tenant = config["tenant"];
+                if (config.hasOwnProperty("resource"))
+                    this.azure.resource = config["resource"];
+                if (config.hasOwnProperty("allow_external_users"))
+                    this.azure.allow_external_users = config["allow_external_users"];
+                if (config.hasOwnProperty("allow_unlicensed_filter"))
+                    this.azure.allow_unlicensed_filter = config["allow_unlicensed_filter"];
+                if (config.hasOwnProperty("user_groups"))
+                    this.azure.user_groups = config["user_groups"];
+            }
+        });
     }
     add(event) {
         const input = event.input;
@@ -1858,8 +1904,8 @@ class AzureComponent {
     }
     ;
 }
-AzureComponent.ɵfac = function AzureComponent_Factory(t) { return new (t || AzureComponent)(); };
-AzureComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AzureComponent, selectors: [["app-configuration-azure"]], inputs: { auth: "auth", host: "host", org_id: "org_id" }, decls: 42, vars: 7, consts: [["fxLayout", "column"], [2, "color", "red"], ["matInput", "", "type", "text", 3, "ngModel", "ngModelChange"]], template: function AzureComponent_Template(rf, ctx) { if (rf & 1) {
+AzureComponent.ɵfac = function AzureComponent_Factory(t) { return new (t || AzureComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthConfigService"])); };
+AzureComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AzureComponent, selectors: [["app-configuration-azure"]], inputs: { host: "host", org_id: "org_id" }, decls: 42, vars: 7, consts: [["fxLayout", "column"], [2, "color", "red"], ["matInput", "", "type", "text", 3, "ngModel", "ngModelChange"]], template: function AzureComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "table");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "tr");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "th");
@@ -1948,7 +1994,7 @@ AzureComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCom
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.azure.tenant);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.azure.resource);
-    } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_2__["DefaultLayoutDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_4__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgModel"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
+    } }, directives: [_angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__["DefaultLayoutDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_5__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgModel"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AzureComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1956,9 +2002,7 @@ AzureComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCom
                 templateUrl: './azure.component.html',
                 styleUrls: ['./../../configuration.component.css']
             }]
-    }], function () { return []; }, { auth: [{
-            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
-        }], host: [{
+    }], function () { return [{ type: _services_auth_service__WEBPACK_IMPORTED_MODULE_2__["AuthConfigService"] }]; }, { host: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }], org_id: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
@@ -2052,14 +2096,16 @@ ConfirmDialog.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AdfsComponent", function() { return AdfsComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/material/toolbar */ "/t3+");
-/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material/button */ "bTqV");
-/* harmony import */ var _angular_cdk_text_field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/cdk/text-field */ "ihCf");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _services_auth_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../services/auth.service */ "lGQG");
+/* harmony import */ var _angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/material/toolbar */ "/t3+");
+/* harmony import */ var _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/flex-layout/flex */ "XiUz");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/material/form-field */ "kmnG");
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/material/input */ "qFsG");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_material_button__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material/button */ "bTqV");
+/* harmony import */ var _angular_cdk_text_field__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/cdk/text-field */ "ihCf");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
 
 
 
@@ -2148,30 +2194,37 @@ function AdfsComponent_div_53_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 class AdfsComponent {
-    constructor() { }
+    constructor(_auth_config_service) {
+        this._auth_config_service = _auth_config_service;
+    }
     ngOnInit() {
-        if (this.auth && this.auth.metadata) {
-            this.adfs = {
-                server: this.auth.server,
-                entity_id: this.auth.entity_id,
-                login_url: this.auth.login_url,
-                logout_url: this.auth.logout_url,
-                entry_point: this.auth.entry_point,
-                certs: this.auth.certs,
-                metadata: this.auth.metadata
-            };
-        }
-        else {
-            this.adfs = {
-                server: "",
-                entity_id: "",
-                login_url: "",
-                logout_url: "",
-                entry_point: "",
-                certs: [],
-                metadata: ""
-            };
-        }
+        this.adfs = {
+            server: "",
+            entity_id: "",
+            login_url: "",
+            logout_url: "",
+            entry_point: "",
+            certs: [],
+            metadata: ""
+        };
+        this._auth_config_service.auth$.subscribe(config => {
+            if (config) {
+                if (config.hasOwnProperty("metadata"))
+                    this.adfs.metadata = config["metadata"];
+                if (config.hasOwnProperty("server"))
+                    this.adfs.server = config["server"];
+                if (config.hasOwnProperty("entity_id"))
+                    this.adfs.entity_id = config["entity_id"];
+                if (config.hasOwnProperty("login_url"))
+                    this.adfs.login_url = config["login_url"];
+                if (config.hasOwnProperty("logout_url"))
+                    this.adfs.logout_url = config["logout_url"];
+                if (config.hasOwnProperty("entry_point"))
+                    this.adfs.entry_point = config["entry_point"];
+                if (config.hasOwnProperty("certs"))
+                    this.adfs.certs = config["certs"];
+            }
+        });
     }
     changeAdfsMetadata(e) {
         this.adfs.server = "";
@@ -2235,8 +2288,8 @@ class AdfsComponent {
     }
     ;
 }
-AdfsComponent.ɵfac = function AdfsComponent_Factory(t) { return new (t || AdfsComponent)(); };
-AdfsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AdfsComponent, selectors: [["app-configuration-adfs"]], inputs: { auth: "auth" }, decls: 63, vars: 12, consts: [["mat-whiteframe", "5", 2, "margin", "15px 0 20px 0"], [1, "mat-hue-2", 2, "height", "40px", "min-height", "40px"], [1, "mat-toolbar-tools"], ["layout-margin", ""], ["fxLayout", "row"], ["appearance", "outline", 2, "width", "25em"], ["matInput", "", "id", "adfsServer", "type", "text", 3, "ngModel", "ngModelChange"], [2, "margin", "1em"], ["mat-button", "", "color", "primary", "target", "_blank", 3, "disabled", "href"], ["layout", "column", "layout-margin", ""], ["appearance", "outline", 2, "width", "100%"], [2, "color", "red"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "1", "cdkAutosizeMaxRows", "20", 3, "ngModel", "ngModelChange"], ["autosize", "cdkTextareaAutosize"], ["layout", "column"], ["fxLayout", "row", 4, "ngIf"], ["mat-raised-button", "", "href", "/api/admin/auth/cert", "translate", "authentication.adfs.getAppCertificate", "aria-label", "Get App Certificate"], [1, "material-icons", "green"], [1, "material-icons", "red"]], template: function AdfsComponent_Template(rf, ctx) { if (rf & 1) {
+AdfsComponent.ɵfac = function AdfsComponent_Factory(t) { return new (t || AdfsComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_services_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthConfigService"])); };
+AdfsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: AdfsComponent, selectors: [["app-configuration-adfs"]], decls: 63, vars: 12, consts: [["mat-whiteframe", "5", 2, "margin", "15px 0 20px 0"], [1, "mat-hue-2", 2, "height", "40px", "min-height", "40px"], [1, "mat-toolbar-tools"], ["layout-margin", ""], ["fxLayout", "row"], ["appearance", "outline", 2, "width", "25em"], ["matInput", "", "id", "adfsServer", "type", "text", 3, "ngModel", "ngModelChange"], [2, "margin", "1em"], ["mat-button", "", "color", "primary", "target", "_blank", 3, "disabled", "href"], ["layout", "column", "layout-margin", ""], ["appearance", "outline", 2, "width", "100%"], [2, "color", "red"], ["matInput", "", "cdkTextareaAutosize", "", "cdkAutosizeMinRows", "1", "cdkAutosizeMaxRows", "20", 3, "ngModel", "ngModelChange"], ["autosize", "cdkTextareaAutosize"], ["layout", "column"], ["fxLayout", "row", 4, "ngIf"], ["mat-raised-button", "", "href", "/api/admin/auth/cert", "translate", "authentication.adfs.getAppCertificate", "aria-label", "Get App Certificate"], [1, "material-icons", "green"], [1, "material-icons", "red"]], template: function AdfsComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "mat-toolbar", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](2, "div", 2);
@@ -2363,7 +2416,7 @@ AdfsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.adfs.certs.length > 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.adfs.certs.length == 0);
-    } }, directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_1__["MatToolbar"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_2__["DefaultLayoutDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_3__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_4__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgModel"], _angular_material_button__WEBPACK_IMPORTED_MODULE_6__["MatAnchor"], _angular_cdk_text_field__WEBPACK_IMPORTED_MODULE_7__["CdkTextareaAutosize"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
+    } }, directives: [_angular_material_toolbar__WEBPACK_IMPORTED_MODULE_2__["MatToolbar"], _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_3__["DefaultLayoutDirective"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatFormField"], _angular_material_form_field__WEBPACK_IMPORTED_MODULE_4__["MatLabel"], _angular_material_input__WEBPACK_IMPORTED_MODULE_5__["MatInput"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgModel"], _angular_material_button__WEBPACK_IMPORTED_MODULE_7__["MatAnchor"], _angular_cdk_text_field__WEBPACK_IMPORTED_MODULE_8__["CdkTextareaAutosize"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["NgIf"]], styles: ["mat-card[_ngcontent-%COMP%] {\n    margin: 2em;\n    width: 50em;\n}\n\nth[_ngcontent-%COMP%] {\n    text-align: start;\n}\n\ntd[_ngcontent-%COMP%] {\n    padding: 0 1em;\n}\n\n.red[_ngcontent-%COMP%] {\n    color: #f44336;\n}\n\n.green[_ngcontent-%COMP%] {\n    color: green;\n}\n\n.text[_ngcontent-%COMP%] {\n    margin: auto 1em;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxXQUFXO0lBQ1gsV0FBVztBQUNmOztBQUVBO0lBQ0ksaUJBQWlCO0FBQ3JCOztBQUVBO0lBQ0ksY0FBYztBQUNsQjs7QUFFQTtJQUNJLGNBQWM7QUFDbEI7O0FBRUE7SUFDSSxZQUFZO0FBQ2hCOztBQUVBO0lBQ0ksZ0JBQWdCO0FBQ3BCIiwiZmlsZSI6InNyYy9hcHAvY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJtYXQtY2FyZCB7XG4gICAgbWFyZ2luOiAyZW07XG4gICAgd2lkdGg6IDUwZW07XG59XG5cbnRoIHtcbiAgICB0ZXh0LWFsaWduOiBzdGFydDtcbn1cblxudGQge1xuICAgIHBhZGRpbmc6IDAgMWVtO1xufVxuXG4ucmVkIHtcbiAgICBjb2xvcjogI2Y0NDMzNjtcbn1cblxuLmdyZWVuIHtcbiAgICBjb2xvcjogZ3JlZW47XG59XG5cbi50ZXh0IHtcbiAgICBtYXJnaW46IGF1dG8gMWVtO1xufSJdfQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AdfsComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -2371,9 +2424,46 @@ AdfsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComp
                 templateUrl: './adfs.component.html',
                 styleUrls: ['./../../configuration.component.css']
             }]
-    }], function () { return []; }, { auth: [{
-            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
-        }] }); })();
+    }], function () { return [{ type: _services_auth_service__WEBPACK_IMPORTED_MODULE_1__["AuthConfigService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "lGQG":
+/*!******************************************!*\
+  !*** ./src/app/services/auth.service.ts ***!
+  \******************************************/
+/*! exports provided: AuthConfigService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthConfigService", function() { return AuthConfigService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
+
+
+
+class AuthConfigService {
+    constructor() {
+        // Observable string sources
+        this.AuthConfigSource = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        // Observable string streams
+        this.auth$ = this.AuthConfigSource.asObservable();
+    }
+    // Service message commands
+    setAuthConfig(auth_config) {
+        this.AuthConfigSource.next(auth_config);
+    }
+}
+AuthConfigService.ɵfac = function AuthConfigService_Factory(t) { return new (t || AuthConfigService)(); };
+AuthConfigService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: AuthConfigService, factory: AuthConfigService.ɵfac, providedIn: 'root' });
+/*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AuthConfigService, [{
+        type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
+        args: [{
+                providedIn: 'root'
+            }]
+    }], function () { return []; }, null); })();
 
 
 /***/ }),

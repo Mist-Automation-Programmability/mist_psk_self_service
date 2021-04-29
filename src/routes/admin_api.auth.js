@@ -285,9 +285,35 @@ function save_adfs(req, res) {
 
 /*==================   AUTH API    ===========================*/
 
-router.post("/:auth_method", function(req, res, next) {
+router.get("/:auth_method", (req, res) => {
+    var data = {
+        configured: false,
+        config: {}
+    }
+    if (req.session.mist) {
+        Account.findOne({ org_id: req.session.mist.org_id })
+            .populate('_' + req.params.auth_method)
+            .lean()
+            .exec((err, account) => {
+                if (err) {
+                    console.log(err)
+                    res.status(500).send(err)
+                } else if (account && account["_" + req.params.auth_method]) {
+                    if (account["_" + account.auth_method]) {
+                        data.configured = true
+                        data.config = account["_" + req.params.auth_method]
+                        delete data.config._id
+                        delete data.config.__v
+                    }
+                    res.json(data)
+                } else res.send()
+            })
+    } else res.status(401).send();
+})
+
+router.post("/:auth_method", (req, res) => {
     // check if the admin is authenticated 
-    if (!req.session.mist) res.status(403).send('Unknown session');
+    if (!req.session.mist) res.status(401).send();
     else if (!req.params.auth_method) res.status(400).send('Authentication method is missing');
     else if (!req.body.config) res.status(400).send("Authentication configuration is missing");
     else {

@@ -12,6 +12,9 @@ import { AzureComponent } from './authentication/azure/azure.component';
 import { GoogleComponent } from './authentication/google/google.component';
 import { OktaComponent } from './authentication/okta/okta.component';
 
+
+import { AuthConfigService } from "../services/auth.service";
+
 @Component({
   selector: 'app-configuration',
   templateUrl: './configuration.component.html',
@@ -24,7 +27,7 @@ export class ConfigurationComponent {
   @ViewChild(GoogleComponent) googleComp;
   @ViewChild(OktaComponent) oktaComp;
 
-  constructor(private _router: Router, private _http: HttpClient, public _dialog: MatDialog, private _snackBar: MatSnackBar) { }
+  constructor(private _router: Router, private _http: HttpClient, public _dialog: MatDialog, private _snackBar: MatSnackBar, private _auth_config_service: AuthConfigService) { }
 
 
   //COMMON
@@ -42,17 +45,17 @@ export class ConfigurationComponent {
   psk = {
     configured: false,
     config: {
-    scope: "site",
-    site_id: "",
-    ssid: "",
-    vlan_id: 0, 
-    min: true,
-    cap: false,
-    num: true,
-    spec: false,
-    length: 12
+      scope: "site",
+      site_id: "",
+      ssid: "",
+      vlan_id: 0,
+      min: true,
+      cap: false,
+      num: true,
+      spec: false,
+      length: 12
+    }
   }
-}
   sites;
   wlans;
   enable_vlan: boolean = false;
@@ -61,8 +64,7 @@ export class ConfigurationComponent {
     configured: false,
     host: "",
     org_id: "",
-    method: null,
-    config: {}
+    method: null
   }
   auth_methods = [
     { id: "adfs", name: "ADFS" },
@@ -80,6 +82,7 @@ export class ConfigurationComponent {
       next: data => {
         this.is_working = false;
         this.parse_response(data);
+        this.getAuth();
       },
       error: error => {
         this.parse_error(error);
@@ -102,7 +105,10 @@ export class ConfigurationComponent {
     }
 
     if (data.auth) {
-      this.auth = data.auth
+      if (data.auth.configured) this.auth.configured = data.auth.configured
+      if (data.auth.host) this.auth.host = data.auth.host
+      if (data.auth.org_id) this.auth.org_id = data.auth.org_id
+      if (data.auth.method) this.auth.method = data.auth.method      
     }
 
     if (data.wlans) {
@@ -187,6 +193,7 @@ export class ConfigurationComponent {
             this.is_working = false
             this.token.configured = false;
             this.token.auto_mode = true;
+            this.openSnackBar("API Token deleted.", "Ok")
           },
           error: error => this.parse_error(error)
         })
@@ -239,13 +246,14 @@ export class ConfigurationComponent {
   savePskConfig(): void {
     this.is_working = true;
     if (!this.enable_vlan) {
-      this.psk.config.vlan_id= 0
+      this.psk.config.vlan_id = 0
     }
     var data = this.psk.config
     this._http.post("/api/admin/psk", data).subscribe({
       next: data => {
         this.is_working = false;
         this.psk.configured = true;
+        this.openSnackBar("PSK configuration saved.", "Ok")
       },
       error: error => this.parse_error(error)
 
@@ -256,16 +264,26 @@ export class ConfigurationComponent {
   /////           AUTH
   //////////////////////////////////////////////////////////////////////////////
 
+  getAuth() {
+    this._http.get("/api/admin/auth/" + this.auth.method).subscribe({
+      next: data => {
+        this.auth.configured = data["configured"]
+        this._auth_config_service.setAuthConfig(data["config"])},
+      error: error => this.parse_error(error)
+    })
+  }
+
   saveAuth() {
     var data = {}
-    if (this.auth.method == "adfs") {data = {config:this.adfsComp.adfs}} 
-    else if (this.auth.method == "google") {data = {config:this.googleComp.google}} 
-    else if (this.auth.method == "azure") {data = {config:this.azureComp.azure}} 
-    else if (this.auth.method == "okta") {data = {config:this.oktaComp.okta}} 
+    if (this.auth.method == "adfs") { data = { config: this.adfsComp.adfs } }
+    else if (this.auth.method == "google") { data = { config: this.googleComp.google } }
+    else if (this.auth.method == "azure") { data = { config: this.azureComp.azure } }
+    else if (this.auth.method == "okta") { data = { config: this.oktaComp.okta } }
     this._http.post("/api/admin/auth/" + this.auth.method, data).subscribe({
       next: data => {
         this.is_working = false;
         this.auth.configured = true;
+        this.openSnackBar("Authentication configuration saved.", "Ok")
       },
       error: error => this.parse_error(error)
     })

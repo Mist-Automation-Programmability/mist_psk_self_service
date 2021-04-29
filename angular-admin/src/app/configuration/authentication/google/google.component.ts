@@ -4,6 +4,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 
+import { AuthConfigService } from "../../../services/auth.service";
 
 @Component({
   selector: 'app-configuration-google',
@@ -12,21 +13,25 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class GoogleComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  
+
   @Input() auth: {
     domains: []
   }
   @Input() host: string
 
-  constructor() { }
+  constructor(private _auth_config_service: AuthConfigService) { }
 
   google = {
     domains: []
   }
   error_message = ""
   ngOnInit(): void {
-    if (this.auth.domains) this.google.domains = this.auth.domains;
-    else this.google.domains = []
+    this.google.domains = []
+    this._auth_config_service.auth$.subscribe(config => {
+      if (config) {
+        if (config.hasOwnProperty("domains")) this.google.domains = config["domains"];
+      }
+    })
   }
 
   add(event: MatChipInputEvent): void {

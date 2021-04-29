@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { ErrorDialog } from '../../../common/error'
 
+import { AuthConfigService } from "../../../services/auth.service";
 @Component({
   selector: 'app-configuration-adfs',
   templateUrl: './adfs.component.html',
@@ -9,18 +10,9 @@ import { ErrorDialog } from '../../../common/error'
 })
 export class AdfsComponent implements OnInit {
 
-  @Input()  auth: {
-    server: string,
-    entity_id: string,
-    login_url: string,
-    logout_url: string,
-    entry_point: string,
-    certs: string[],
-    metadata: string
-  }
-  
-  constructor() { }
-  
+
+  constructor(private _auth_config_service: AuthConfigService) { }
+
   adfs: {
     server: string,
     entity_id: string,
@@ -31,28 +23,27 @@ export class AdfsComponent implements OnInit {
     metadata: string
   }
 
-  ngOnInit(): void { 
-    if (this.auth && this.auth.metadata){
-      this.adfs = {
-        server: this.auth.server,
-        entity_id: this.auth.entity_id,
-        login_url: this.auth.login_url,
-        logout_url: this.auth.logout_url,
-        entry_point: this.auth.entry_point,
-        certs: this.auth.certs,
-        metadata: this.auth.metadata
-      }      
-    }else{
-      this.adfs = {
-        server: "",
-        entity_id: "",
-        login_url: "",
-        logout_url: "",
-        entry_point: "",
-        certs: [],
-        metadata: ""
-      }
+  ngOnInit(): void {
+    this.adfs = {
+      server: "",
+      entity_id: "",
+      login_url: "",
+      logout_url: "",
+      entry_point: "",
+      certs: [],
+      metadata: ""
     }
+    this._auth_config_service.auth$.subscribe(config => {
+      if (config) {
+        if (config.hasOwnProperty("metadata")) this.adfs.metadata = config["metadata"]
+        if (config.hasOwnProperty("server")) this.adfs.server = config["server"]
+        if (config.hasOwnProperty("entity_id")) this.adfs.entity_id = config["entity_id"];
+        if (config.hasOwnProperty("login_url")) this.adfs.login_url = config["login_url"];
+        if (config.hasOwnProperty("logout_url")) this.adfs.logout_url = config["logout_url"];
+        if (config.hasOwnProperty("entry_point")) this.adfs.entry_point = config["entry_point"];
+        if (config.hasOwnProperty("certs")) this.adfs.certs = config["certs"];
+      }
+    })
   }
 
   changeAdfsMetadata(e) {
@@ -76,7 +67,7 @@ export class AdfsComponent implements OnInit {
 
       if (this.adfs.login_url) this.adfs.entry_point = this.adfs.login_url,
 
-      start = -1;
+        start = -1;
       start = this.adfs.metadata.indexOf("SingleLogoutService Binding=\"urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect\"");
       if (start) start = this.adfs.metadata.indexOf("Location=", start) + 10;
       if (start) this.adfs.logout_url = this.adfs.metadata.substring(start, this.adfs.metadata.indexOf("\"", start));
@@ -92,7 +83,7 @@ export class AdfsComponent implements OnInit {
           if (this.adfs.certs.indexOf(cert) < 0) this.adfs.certs.push(cert);
         } else break;
         i++;
-      }      
+      }
     }
   }
 
