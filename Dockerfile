@@ -1,6 +1,6 @@
 FROM node:14-alpine
-LABEL fr.ah-lab.get-a-key.version="0.0.3"
-LABEL fr.ah-lab.get-a-key.release-date="2017-03-11"
+LABEL fr.mist-lab.mpss.version="0.0.1"
+LABEL fr.mist-lab.mpss.release-date="2021-05-02"
 
 COPY ./src /app/
 
