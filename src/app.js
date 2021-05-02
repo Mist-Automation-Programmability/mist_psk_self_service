@@ -1,7 +1,6 @@
 var express = require('express');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var path = require('path');
@@ -68,29 +67,28 @@ app.use(morgan('\x1b[32minfo\x1b[0m: :remote-addr - :remote-user [:date[clf]] ":
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 // retrieve mongodb parameters from config file
-var mongoConfig = global.config.mongo;
-global.db = mongoose.connection;
+const db = mongoose.connection;
 
-db.on('error', console.error.bind(console, '\x1b[31mERROR\x1b[0m: unable to connect to mongoDB on ' + mongoConfig.host + ' server'));
+db.on('error', console.error.bind(console, '\x1b[31mERROR\x1b[0m: unable to connect to mongoDB on ' + global.config.mongo.host + ' server'));
 db.once('open', function() {
-    console.info("\x1b[32minfo\x1b[0m:", "Connected to mongoDB on " + mongoConfig.host + " server");
+    console.info("\x1b[32minfo\x1b[0m:", "Connected to mongoDB on " + global.config.mongo.host + " server");
 });
 
 // connect to mongodb
 var mongo_host = global.config.mongo.host
-if (global.config.mongo.user && global.config.mongo.password) mongo_host = global.config.mongo.user + ":" + global.config.mongo.password + "@" + mongo_host
-mongoose.connect('mongodb://' + mongoConfig.host + '/' + mongoConfig.base, { useNewUrlParser: true });
+if (global.config.mongo.user && global.config.mongo.password) mongo_host = global.config.mongo.user + ":" + encodeURI(global.config.mongo.password) + "@" + mongo_host
+mongoose.connect('mongodb://' + mongo_host + '/' + global.config.mongo.base + "?authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true });
 
 
 //===============APP=================
-app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
-app.use(bodyParser.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+app.use(express.json({ limit: '1mb' }));
 // express-session parameters:
 // save sessions into mongodb 
 app.use(session({
     secret: 'T9QrskYinhvSyt6NUrEcCaQdgez3',
     store: new MongoDBStore({
-        uri: 'mongodb://' + mongo_host + '/express-session',
+        uri: 'mongodb://' + mongo_host + '/express-session?authSource=admin',
         collection: 'mpss'
     }),
     rolling: true,
@@ -115,8 +113,8 @@ app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 app.use('/bower_components', express.static('../bower_components'));
