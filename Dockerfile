@@ -2,17 +2,13 @@ FROM node:14-alpine
 LABEL fr.ah-lab.get-a-key.version="0.0.3"
 LABEL fr.ah-lab.get-a-key.release-date="2017-03-11"
 
-#RUN npm install -g bower
-
 COPY ./src /app/
 
 WORKDIR /app
 
 RUN npm	install
 
-#RUN groupadd -r ah && useradd -mr -g ah ah
-#USER ah
 
-EXPOSE 51360
-ENTRYPOINT /app/docker-entrypoint.sh 51360
+EXPOSE 3000
+ENTRYPOINT npm start
 

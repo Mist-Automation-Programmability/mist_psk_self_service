@@ -13,10 +13,12 @@ try {
 
     config = {
         appServer: {
-            vhost: process.env.NODEJS_HOSTNAME || null,
-            enableHttps: process.env.NODEJS_HTTPS || false,
-            httpsCertificate: process.env.NODEJS_HTTPS_CERT || null,
-            httpsKey: process.env.NODEJS_HTTPS_KEY || null
+            vhost: process.env.NODE_HOSTNAME || null,
+            httpPort: process.env.NODE_PORT || null,
+            enableHttps: process.env.NODE_HTTPS || false,
+            httpsPort: process.env.NODE_PORT_HTTPS || null,
+            httpsCertificate: process.env.NODE_HTTPS_CERT || null,
+            httpsKey: process.env.NODE_HTTPS_KEY || null
         },
         mongo: {
             host: process.env.MONGO_HOSTNAME || null,

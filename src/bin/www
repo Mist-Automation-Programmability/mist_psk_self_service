@@ -10,7 +10,7 @@ var app = require('../app');
 
 var http = require('http');
 
-var httpPort = normalizePort(process.env.PORT || global.config.appServer.httpPort || '3000');
+var httpPort = normalizePort(global.config.appServer.httpPort || '3000');
 var httpServer = http.createServer(app);
 
 httpServer.listen(httpPort);
