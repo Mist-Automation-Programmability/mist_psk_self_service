@@ -20,7 +20,7 @@ try {
         },
         mongo: {
             host: process.env.MONGO_HOSTNAME || null,
-            base: process.env.MODNGO_DB || "mpss",
+            base: process.env.MONGO_DB || "mpss",
             user: process.env.MONGO_USER || null,
             password: process.env.MONGO_PASSWORD || null
         },
