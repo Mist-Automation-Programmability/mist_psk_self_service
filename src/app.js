@@ -16,7 +16,7 @@ try {
             vhost: process.env.NODEJS_HOSTNAME || null,
             enableHttps: process.env.NODEJS_HTTPS || false,
             httpsCertificate: process.env.NODEJS_HTTPS_CERT || null,
-            httpsKey: process.env.NODEJS_HTTPS_KEY || nuill
+            httpsKey: process.env.NODEJS_HTTPS_KEY || null
         },
         mongo: {
             host: process.env.MONGO_HOSTNAME || null,
