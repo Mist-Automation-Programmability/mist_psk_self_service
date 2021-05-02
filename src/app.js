@@ -147,9 +147,9 @@ app.use('/adfs/', adfs);
 //GOOGLE
 var google = require('./routes/user_google');
 app.use('/google/', google);
-//OPENID
-var openid = require('./routes/user_openid');
-app.use('/openid/', openid);
+// //OPENID
+// var openid = require('./routes/user_openid');
+// app.use('/openid/', openid);
 //OKTA
 var okta = require('./routes/user_okta');
 app.use('/okta/', okta);
