@@ -7,7 +7,6 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const AzureAdOAuth2Strategy = require('passport-azure-ad-oauth2').Strategy;
-var vhost = require("../config").appServer.vhost;
 const Account = require("../bin/models/account");
 const https = require('https');
 const req = require("./../bin/req")
@@ -151,7 +150,7 @@ function getAzureAdAccount(req, res, next) {
                     passport.use(new AzureAdOAuth2Strategy({
                         clientID: account._azure.client_id,
                         clientSecret: account._azure.client_secret,
-                        callbackURL: 'https://' + vhost + '/azure/callback',
+                        callbackURL: 'https://' + global.config.appServer.vhost + '/azure/callback',
                         resource: account._azure.resource,
                         tenant: account._azure.tenant
                     }, function(accessToken, refresh_token, params, profile, done) {
@@ -200,7 +199,7 @@ router.get('/callback', getAzureAdAccount,
 
 /* Handle Logout */
 router.get('/:org_id/logout/', function(req, res) {
-    const loginurl = "https://" + vhost + "/azure/" + req.session.mist.org_id + "/login"
+    const loginurl = "https://" + global.config.appServer.vhost + "/azure/" + req.session.mist.org_id + "/login"
     res.redirect("https://login.windows.net/" + req.session.account._azure.tenant + "/oauth2/logout?post_logout_redirect_uri=" + loginurl);
     req.logout();
     req.session.destroy();

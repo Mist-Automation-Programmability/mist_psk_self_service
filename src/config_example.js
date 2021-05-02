@@ -25,7 +25,7 @@ module.exports.appServer = {
 /******************************************************************************
  *                                MongoDB                                    *
  ******************************************************************************/
-module.exports.mongoConfig = {
+module.exports.mongo = {
     host: "localhost",
     base: "mpss"
 }

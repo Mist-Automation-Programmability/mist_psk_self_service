@@ -6,7 +6,6 @@ the req param "account_id" in the URL is used to identify the app account (so th
 var express = require('express');
 var router = express.Router();
 var OktaStrategy = require('passport-okta-oauth').Strategy;
-var vhost = require("../config").appServer.vhost;
 const Account = require("../bin/models/account");
 
 function getOktaAccount(req, res, next) {
@@ -30,7 +29,7 @@ function getOktaAccount(req, res, next) {
                     clientSecret: account._okta.client_secret,
                     scope: ['openid', 'email', 'profile'],
                     response_type: 'code',
-                    callbackURL: "https://" + vhost + "/okta/callback"
+                    callbackURL: "https://" + global.config.appServer.vhost + "/okta/callback"
                 }
                 passport.use(new OktaStrategy(options, function(accessToken, refreshToken, profile, cb) {
                     return cb(null, profile)

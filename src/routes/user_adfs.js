@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 
 var Account = require("../bin/models/account");
-var vhost = require("../config").appServer.vhost;
 var SamlStrategy = require('passport-saml').Strategy;
 var fs = require('fs');
 var mist_user = require("../bin/mist_user")
@@ -24,7 +23,7 @@ function getAccount(req, res, next) {
                 passport.use(new SamlStrategy({
                         entryPoint: account._saml.entry_point,
                         issuer: req.params.org_id,
-                        callbackUrl: 'https://' + vhost + '/saml/' + req.params.org_id + '/postResponse',
+                        callbackUrl: 'https://' + global.config.appServer.vhost + '/saml/' + req.params.org_id + '/postResponse',
                         privateKey: fs.readFileSync(global.appPath + "/certs/" + req.params.org_id + '.key', 'utf-8'),
                         cert: account._saml.certs,
                         // other authn contexts are available e.g. windows single sign-on

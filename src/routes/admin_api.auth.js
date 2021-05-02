@@ -6,7 +6,6 @@ Deal with all the web browser API call:
  ================================================================*/
 var express = require('express');
 var router = express.Router();
-var serverHostname = require("../config.js").appServer.vhost;
 var Account = require("../bin/models/account");
 var Azure = require("../bin/models/azure");
 var Adfs = require("../bin/models/adfs");
@@ -30,13 +29,13 @@ function genCertificate(org_id) {
             i = 999
             done = 0;
             var error;
-            var cmd = global.appPath + '/bin/generate_app_certificate.sh ' + org_id + ' https://' + serverHostname + "/adfs/" + org_id + '/ ' + global.appPath + '/certs/';
+            var cmd = global.appPath + '/bin/generate_app_certificate.sh ' + org_id + ' https://' + global.config.appServer.vhost + "/adfs/" + org_id + '/ ' + global.appPath + '/certs/';
             for (var i = 0; i < files.length; i++)
                 fs.access(files[i], fs.F_OK, function(err) {
                     done++;
                     if (err) error = err;
                     if (done == files.length)
-                        if (!error) console.log("SAML Ceritificates for " + serverHostname + "/" + org_id + " present.");
+                        if (!error) console.log("SAML Ceritificates for " + global.config.appServer.vhost + "/" + org_id + " present.");
                         else {
                             exec(cmd, {
                                 cwd: global.appPath + '/certs/'
@@ -46,7 +45,7 @@ function genCertificate(org_id) {
                                     console.log(stderr);
                                     console.log(stdout);
                                 } else {
-                                    console.log("SAML Certificates created for " + serverHostname + "/" + org_id);
+                                    console.log("SAML Certificates created for " + global.config.appServer.vhost + "/" + org_id);
                                     i = files.length;
                                 }
                             });
@@ -254,34 +253,6 @@ function save_adfs(req, res) {
 /*================================================================
  ROUTES
  ================================================================*/
-/*==================   AUTH API - COMMON   ===========================*/
-// // When to admin loads the AUTH configuration page
-// router.get("/", function(req, res, next) {
-//     // check if the admin is authenticated 
-//     if (req.session && req.session.mist) {
-//         // generate the x509 certifiate if needed
-//         genCertificate(req.session.account_id);
-//         // retrieve the current Account in the DB
-//         Account
-//             .findById(req.session.account_id)
-//             .populate("azure_ad")
-//             .populate("adfs")
-//             .exec(function(err, account) {
-//                 if (err) res.status(500).send(err);
-//                 else if (account) {
-//                     // return values to web server
-//                     res.status(200).json({
-//                         azure_ad: account.azure_ad,
-//                         adfs: account._adfs,
-//                         signin: "https://" + serverHostname + "/login/" + account._id + "/",
-//                         callback: "https://" + serverHostname + "/azure/" + account._id + "/callback",
-//                         logout: "https://" + serverHostname + "/login/" + account._id + "/",
-//                     });
-//                     res.status(200).json();
-//                 } else res.status(400).send("Account not found");
-//             });
-//     } else res.status(401).send()
-// });
 
 /*==================   AUTH API    ===========================*/
 

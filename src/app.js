@@ -1,12 +1,56 @@
 var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var path = require('path');
+
+var config = {}
+try {
+    config = require("./config")
+} catch (e) {
+
+    config = {
+        appServer: {
+            vhost: process.env.NODEJS_HOSTNAME || null,
+            enableHttps: process.env.NODEJS_HOSTNAME || false,
+            httpsCertificate: process.env.NODEJS_HOSTNAME || null,
+            httpsKey: process.env.NODEJS_HOSTNAME || nuill
+        },
+        mongo: {
+            host: process.env.MONGO_HOSTNAME || null,
+            base: process.env.NODNGO_DB || "mpss",
+            user: process.env.MONGO_USER || null,
+            password: process.env.MONGO_PASSWORD || null
+        },
+        smtp: {
+            host: process.env.SMTP_HOSTNAME || null,
+            port: process.env.SMTP_PORT || 25,
+            secure: process.env.SMTP_SECURE || false, // upgrade later with STARTTLS
+            tls: {
+                // do not fail on invalid certs
+                rejectUnauthorized: process.env.SMTP_REJECT_UNAUTHORIZED || false
+            },
+            auth: {
+                user: process.env.SMTP_USER || null,
+                pass: process.env.SMTP_PASSWORD || null
+            },
+            from_name: process.env.SMTP_FROM_NAME || "Wi-Fi Access",
+            from_email: process.env.SMTP_FROM_EMAIL || "wi-fi@corp.org",
+            subject: process.env.SMTP_SUBJECT || "Your Personal Wi-Fi access code",
+            logo_url: process.env.SMTP_LOGO || "https://cdn.mist.com/wp-content/uploads/logo.png",
+            enable_qrcode: process.env.SMTP_ENABLE_QRCODE || true
+        },
+        google: {
+            client_id: process.env.GOOGLE_CLIENTID || "",
+            client_secret: process.env.GOOGLE_CLIENTSECRET || ""
+        }
+    }
+} finally {
+    global.config = config
+    console.log(global.config)
+}
 
 global.appPath = path.dirname(require.main.filename).replace(new RegExp('/bin$'), "");
 
@@ -23,7 +67,7 @@ app.use(morgan('\x1b[32minfo\x1b[0m: :remote-addr - :remote-user [:date[clf]] ":
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 // retrieve mongodb parameters from config file
-var mongoConfig = require('./config').mongoConfig;
+var mongoConfig = global.config.mongo;
 global.db = mongoose.connection;
 
 db.on('error', console.error.bind(console, '\x1b[31mERROR\x1b[0m: unable to connect to mongoDB on ' + mongoConfig.host + ' server'));
@@ -32,7 +76,9 @@ db.once('open', function() {
 });
 
 // connect to mongodb
-mongoose.connect('mongodb://' + mongoConfig.host + '/' + mongoConfig.base, { useNewUrlParser: true, useNewUrlParser: true });
+var mongo_host = global.config.mongo.host
+if (global.config.mongo.user && global.config.mongo.password) mongo_host = global.config.mongo.user + ":" + global.config.mongo.password + "@" + mongo_host
+mongoose.connect('mongodb://' + mongoConfig.host + '/' + mongoConfig.base, { useNewUrlParser: true });
 
 
 //===============APP=================
@@ -42,12 +88,12 @@ app.use(bodyParser.json({ limit: '1mb' }));
 // save sessions into mongodb 
 app.use(session({
     secret: 'T9QrskYinhvSyt6NUrEcCaQdgez3',
-    resave: true,
     store: new MongoDBStore({
-        uri: 'mongodb://' + mongoConfig.host + '/express-session',
+        uri: 'mongodb://' + mongo_host + '/express-session',
         collection: 'mpss'
     }),
     rolling: true,
+    resave: true,
     saveUninitialized: true,
     cookie: {
         maxAge: 30 * 60 * 1000 // 30 minutes

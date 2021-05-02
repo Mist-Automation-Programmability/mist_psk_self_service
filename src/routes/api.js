@@ -6,14 +6,8 @@ Deal with all the web browser API call:
  ================================================================*/
 var express = require('express');
 var router = express.Router();
-var apiPsk = require("../bin/mist_psk.js");
-var serverHostname = require("../config.js").appServer.vhost;
 var Account = require("../bin/models/account");
-var Azure = require("../bin/models/azure");
-var SAML = require("../bin/models/saml");
-var Config = require("../bin/models/configuration");
 var Customization = require("../bin/models/customization");
-const devAccount = require("../config.js").devAccount;
 
 /*================================================================
  FUNCTIONS

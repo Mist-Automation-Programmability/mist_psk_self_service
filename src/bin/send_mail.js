@@ -1,4 +1,3 @@
-const config = require("../config")
 const nodemailer = require("nodemailer")
 const fs = require('fs')
 const mist_qrcode = require("./mist_qrcode")
@@ -26,19 +25,19 @@ function generateEmail(name, ssid, psk, cb) {
 
 module.exports.send = function(email, name, ssid, psk, cb) {
     var smtp = nodemailer.createTransport({
-        host: config.smtp.host,
-        port: config.smtp.port,
-        secure: config.smtp.secure,
-        auth: config.smtp.auth,
-        tls: config.smtp.tls
+        host: global.config.smtp.host,
+        port: global.config.smtp.port,
+        secure: global.config.smtp.secure,
+        auth: global.config.smtp.auth,
+        tls: global.config.smtp.tls
     });
 
     generateEmail(name, ssid, psk, (err, html) => {
         if (html) {
             var message = {
-                from: config.smtp.from_name + " <" + config.smtp.from_email + ">",
+                from: global.config.smtp.from_name + " <" + global.config.smtp.from_email + ">",
                 to: email,
-                subject: config.smtp.subject,
+                subject: global.config.smtp.subject,
                 html: html
             };
             smtp.sendMail(message, cb)

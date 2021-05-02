@@ -8,7 +8,6 @@ var router = express.Router();
 var Account = require('../bin/models/account');
 var Customization = require("../bin/models/customization");
 var mist_login = require("../bin/mist_login");
-var serverHostname = require("../config.js").appServer.vhost;
 
 
 
@@ -146,7 +145,7 @@ router.get('/config', (req, res) => {
                 } else if (account) {
                     req.session.account_id = account._id
                     data.account_created = true
-                    data.portal_url = "https://" + serverHostname + "/login/" + account.org_id + "/"
+                    data.portal_url = "https://" + global.config.appServer.vhost + "/login/" + account.org_id + "/"
                     if (account.scope) data.scope = data.scope
                         //token
                     if (account._token) {
@@ -173,7 +172,7 @@ router.get('/config', (req, res) => {
                     // auth
                     if (account.auth_method) {
                         data.auth.method = account.auth_method
-                        data.auth.host = serverHostname
+                        data.auth.host = global.config.appServer.vhost
                         data.auth.org_id = req.session.mist.org_id
                         if (account["_" + account.auth_method]) {
                             data.auth.configured = true
@@ -188,7 +187,7 @@ router.get('/config', (req, res) => {
 
 router.get("/portal_url", (req, res) => {
     if (req.session && req.session.org_id) {
-        res.json({ "portal_url": "https://" + serverHostname + "/login/" + req.session.org_id + "/" })
+        res.json({ "portal_url": "https://" + global.config.appServer.vhost + "/login/" + req.session.org_id + "/" })
     } else res.status(401).send()
 })
 

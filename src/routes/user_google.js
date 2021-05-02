@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const google_config = require("../config").google;
 const Account = require("../bin/models/account");
-const vhost = require("../config").appServer.vhost;
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mist_user = require("../bin/mist_user")
 
@@ -30,9 +28,9 @@ function getAccount(req, res, next) {
                 req.session.account = account;
                 req.session.domains = account._google.domains;
                 passport.use(new GoogleStrategy({
-                    clientID: google_config.client_id,
-                    clientSecret: google_config.client_secret,
-                    callbackURL: "https://" + vhost + "/google/callback"
+                    clientID: global.config.google.client_id,
+                    clientSecret: global.config.google.client_secret,
+                    callbackURL: "https://" + global.config.appServer.vhost + "/google/callback"
                 }, function(accessToken, refreshToken, profile, cb) {
                     return cb(err, profile, account);
                 }));
