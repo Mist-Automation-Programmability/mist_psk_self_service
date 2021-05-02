@@ -27,15 +27,15 @@ router.get('/help/:method', function(req, res, next) {
 
     if (req.params.method == "azure")
         res.render('help_azure', {
-            title: 'Get-a-Key Help'
+            title: 'MPSS Help'
         });
     else if (req.params.method == "adfs")
         res.render('help_adfs', {
-            title: 'Get-a-Key Help'
+            title: 'MPSS Help'
         });
     else if (req.params.method == "okta")
         res.render('help_okta', {
-            title: 'Get-a-Key Help'
+            title: 'MPSS Help'
         });
     else {
         const message = "The requested url " + req.originalUrl + " was not found on this server.";

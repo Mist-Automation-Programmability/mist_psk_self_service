@@ -48,10 +48,10 @@ function create_app_container
 # =========================================================
 # =========================================================
 SCRIPT_CONF=`pwd`"/ah-ref-app.conf"
-SCRIPT_NAME="get-a-key"
+SCRIPT_NAME="mpss"
 
-APP_NAME="get-a-key"
-APP_IMG="tmunzer/get-a-key"
+APP_NAME="mpss"
+APP_IMG="tmunzer/mpss"
 OAUTH_CALLBACK="/admin/oauth/reg"
 APP_CNF_LOC="/app"
 
@@ -1332,7 +1332,7 @@ SYNOPSIS
 
 DESCRIPTION
         This script will run the action to install, configure and control the
-        needed docker containers for Get-a-Key web app.
+        needed docker containers for MPSS web app.
 
 options are
         start         Validates the configuration and starts all the containers

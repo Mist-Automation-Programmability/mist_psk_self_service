@@ -30,7 +30,7 @@ If you want to use OAuth authentication, the application will need to use HTTPS.
 * Start the APP with `www_with_https`. 
 
 <!-- ### Docker Image
-You can easily deploy this application with [Docker](https://www.docker.com/). The image is publicly available on Docker Hub at https://hub.docker.com/r/tmunzer/get-a-key/.
+You can easily deploy this application with [Docker](https://www.docker.com/). The image is publicly available on Docker Hub at https://hub.docker.com/r/tmunzer/mpss/.
 In this case, you can choose to manually deploy the image and create the container, or you can use the automation script (for Linux). -->
 
 <!-- #### Automation Script
@@ -39,7 +39,7 @@ The Automation script will allow you to easily
 * Manage HTTPS certificates with self-signed certificates or with let's encrypt image (the script will automatically download and deploy the let's encrypt container if needed)
 * Download and Deploy dependencies, like NGINX and MongoDB container
 * Download, Deploy, Update the application container
-To use this script, just download it [here](https://raw.githubusercontent.com/tmunzer/get-a-key/master/get-a-key.sh), and run it in a terminal. -->
+To use this script, just download it [here](https://raw.githubusercontent.com/tmunzer/mpss/master/mpss.sh), and run it in a terminal. -->
 
 #### Manual deployment
 If you are manually deploying this container, you will need to a reverse proxy to manage HTTPS.
