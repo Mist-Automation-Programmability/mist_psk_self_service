@@ -187,7 +187,7 @@ router.get('/config', (req, res) => {
 
 router.get("/portal_url", (req, res) => {
     if (req.session && req.session.mist.org_id) {
-        res.json({ "portal_url": "https://" + global.config.appServer.vhost + "/login/" + req.session.org_id + "/" })
+        res.json({ "portal_url": "https://" + global.config.appServer.vhost + "/login/" + req.session.mist.org_id + "/" })
     } else res.status(401).send()
 })
 
