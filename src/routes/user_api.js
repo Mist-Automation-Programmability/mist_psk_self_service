@@ -127,11 +127,11 @@ router.get("/myInfo/:org_id", (req, res) => {
     if (req.session && req.session.passport) {
         data = {
             user: {
-                email: req.session.email,
                 name: req.session.name
             },
             logout_url: "/" + req.session.mist.auth_method + "/" + req.session.mist.org_id + "/logout"
         }
+        if (global.config.smtp && global.config.smtp.host) data.user.email = req.session.email
         res.json(data)
     } else res.status(401).send()
 })
