@@ -12,18 +12,20 @@ ROUTES
 // when the user load the unique login page
 router.get("/login/:org_id", function(req, res) {
     // determine the authenticaiton method (Azure / SAML) and generate the corresponding login link
-    if (req.params.org_id) mist_user.getAccount(req.params.org_id, (err, mist) => {
-        if (err) res.status(err.code).send(err.error)
-        else {
-            req.session.mist = mist
-            res.sendFile(global.appPath + '/views/user.html');
-        }
-        // res.render("login", {
-        //     title: 'Get a Key!',
-        //     method: method,
-        //     custom: req.custom
-        // });
-    })
+    if (req.params.org_id) {
+        mist_user.getAccount(req.params.org_id, (err, mist) => {
+            if (err) res.status(err.code).send(err.error)
+            else {
+                req.session.mist = mist
+                res.sendFile(global.appPath + '/views/user.html');
+            }
+            // res.render("login", {
+            //     title: 'Get a Key!',
+            //     method: method,
+            //     custom: req.custom
+            // });
+        })
+    } else res.status(401)
 });
 
 router.get("/portal/:org_id", (req, res) => {

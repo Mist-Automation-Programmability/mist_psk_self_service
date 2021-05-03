@@ -15,7 +15,7 @@ module.exports.getAccount = function(org_id, cb) {
         .populate("_saml")
         .populate("_customization")
         .exec((err, account) => {
-            if (err) cb({ code: 500, error: err })
+            if (err) return cb({ code: 500, error: err })
             else if (account) {
                 failure = false;
                 // store the usefull data in the user session
@@ -37,13 +37,13 @@ module.exports.getAccount = function(org_id, cb) {
                     }
                 } else {
                     failure = true;
-                    cb({ code: 400, error: "Account not configured" });
+                    return cb({ code: 400, error: "Account not configured" });
                 }
                 if (account._token) {
                     mist.token = account._token.apitoken
                 } else {
                     failure = true;
-                    cb({ code: 400, error: "Account API Token not configured" });
+                    return cb({ code: 400, error: "Account API Token not configured" });
                 }
                 if (account.auth_method && (
                         account.auth_method == "saml" && account["_" + account.auth_method] ||
@@ -55,7 +55,7 @@ module.exports.getAccount = function(org_id, cb) {
                     mist.auth_method = account.auth_method
                 } else {
                     failure = true;
-                    cb({ code: 400, error: "Account Auth Method not configured" });
+                    return cb({ code: 400, error: "Account Auth Method not configured" });
                 }
                 if (account.customization) {
                     mist.customization = account.customization;
