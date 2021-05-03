@@ -13,9 +13,9 @@ try {
     config = {
         appServer: {
             vhost: process.env.NODE_HOSTNAME || null,
-            httpPort: process.env.NODE_PORT || null,
+            httpPort: process.env.NODE_PORT || 3000,
             enableHttps: process.env.NODE_HTTPS || false,
-            httpsPort: process.env.NODE_PORT_HTTPS || null,
+            httpsPort: process.env.NODE_PORT_HTTPS || 3443,
             httpsCertificate: process.env.NODE_HTTPS_CERT || null,
             httpsKey: process.env.NODE_HTTPS_KEY || null
         },
@@ -31,7 +31,7 @@ try {
             secure: process.env.SMTP_SECURE || false, // upgrade later with STARTTLS
             tls: {
                 // do not fail on invalid certs
-                rejectUnauthorized: process.env.SMTP_REJECT_UNAUTHORIZED || false
+                rejectUnauthorized: process.env.SMTP_REJECT_UNAUTHORIZED || true
             },
             auth: {
                 user: process.env.SMTP_USER || null,
