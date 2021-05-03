@@ -128,14 +128,14 @@ var user_api = require("./routes/user_api");
 app.use("/api/user", user_api);
 var user_api_psk = require("./routes/user_api.psk");
 app.use("/api/user/psk", user_api_psk);
+//Customization
+var user_custom = require('./routes/user_api.custom');
+app.use('/api/user/custom', user_custom);
 // // User Interface
 // var user = require('./routes/user');
 // app.use('/login/', user);
 // var portal = require('./routes/user');
 // app.use('/portal/', portal);
-// //Customization
-// var custom = require('./routes/custom');
-// app.use('/custom/', custom);
 //Azure AD
 var azure = require('./routes/user_azure');
 app.use('/azure/', azure);

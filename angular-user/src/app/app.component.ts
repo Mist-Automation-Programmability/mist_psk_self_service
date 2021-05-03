@@ -15,12 +15,14 @@ export class AppComponent implements OnInit {
 
   current_language: string = "en";
   logout_url: string;
+  logo_url: string;
   languages = []
 
   ngOnInit(): void {
     this._language_service.setLanguage("en")
     this._logout_service.logout_url$.subscribe(url => this.logout_url = url)
     this.getLanguages()
+    this.getCustom()
   }
 
   changeLanguage(e) {
@@ -31,7 +33,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  parse_data(data) {
+  parse_language(data) {
     this.current_language = data.default;
     this._language_service.setLanguage(this.current_language)
     this.languages = data.languages;
@@ -42,7 +44,16 @@ export class AppComponent implements OnInit {
 
   getLanguages(): void {
     this._http.get("/api/user/languages").subscribe({
-      next: data => this.parse_data(data),
+      next: data => this.parse_language(data),
+      error: error => this.parse_error(error)
+    })
+  }
+  parse_custom(data):void {
+    this.logo_url = data.logo_url
+  }
+  getCustom(): void {
+    this._http.get("/api/user/custom").subscribe({
+      next: data => this.parse_custom(data),
       error: error => this.parse_error(error)
     })
   }
