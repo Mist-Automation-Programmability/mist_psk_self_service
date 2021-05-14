@@ -1,4 +1,5 @@
 .login-box {
-    max-width: 400px;
+    max-width: 30em;
+    min-width: 20em;
     margin-top: 10%;
 }
