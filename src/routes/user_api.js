@@ -49,7 +49,6 @@ router.post("/email", function(req, res) {
                     console.log(err)
                     res.status(500).send()
                 } else if (info) {
-                    console.log(info)
                     res.send()
                 } else res.send()
             })
@@ -64,7 +63,6 @@ I18N
 function getText(mist, lang, page, cb) {
     var data = i18n[lang][page]
     if (mist.customization && mist.customization.i18n["_" + lang]) {
-        console.log("test")
         I18n.findById(mist.customization.i18n["_" + lang])
             .exec((err, tmp) => {
                 if (tmp && tmp[page]) cb({ i18n: tmp[page] })
