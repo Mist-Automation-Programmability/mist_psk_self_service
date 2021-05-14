@@ -26,6 +26,7 @@
         "filereader": "^0.10.3",
         "globalize": "^1.6.0",
         "iana-tz-data": "^2019.1.0",
+        "ngx-color": "^6.2.0",
         "rxjs": "~6.6.0",
         "tslib": "^2.0.0",
         "zone.js": "~0.10.2"

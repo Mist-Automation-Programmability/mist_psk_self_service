@@ -57,8 +57,8 @@ module.exports.getAccount = function(org_id, cb) {
                     failure = true;
                     return cb({ code: 400, error: "Account Auth Method not configured" });
                 }
-                if (account.customization) {
-                    mist.customization = account.customization;
+                if (account._customization) {
+                    mist.customization = account._customization;
                 }
                 // update the user session
                 if (!failure) cb(null, mist)

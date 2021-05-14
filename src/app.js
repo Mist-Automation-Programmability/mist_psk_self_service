@@ -151,12 +151,6 @@ app.use('/google/', google);
 //OKTA
 var okta = require('./routes/user_okta');
 app.use('/okta/', okta);
-// //API
-// var api = require('./routes/api');
-// app.use('/api/', api);
-// //API Auth Config
-// var api_auth = require('./routes/api.auth');
-// app.use('/api/auth/', api_auth);
 
 //Admin Login
 var admin = require('./routes/admin');
@@ -164,6 +158,9 @@ app.use('/admin', admin);
 //Admin
 var admin_api = require('./routes/admin_api');
 app.use('/api/admin', admin_api);
+//Admin Customization
+var admin_api_custom = require('./routes/admin_api.custom');
+app.use('/api/admin/custom', admin_api_custom);
 //Admin
 var admin_api_token = require('./routes/admin_api.token');
 app.use('/api/admin/token', admin_api_token);

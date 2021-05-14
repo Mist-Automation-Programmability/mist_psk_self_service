@@ -7,7 +7,8 @@ Deal with all the web browser API call:
 var express = require('express');
 var router = express.Router();
 var mist_psk = require("../bin/mist_psk.js");
-var mist_user = require("../bin/mist_user");
+
+
 /*================================================================
  FUNCTIONS
  ================================================================*/
@@ -116,33 +117,17 @@ router.post("/", function(req, res) {
 
 // to let the web app know if the user already has a key (will disable buttons based on this)
 router.get("/:org_id", (req, res) => {
-    if (req.session.passport) {
-        if (req.session.mist) {
-            // retrieve the account details (to have the account_id)
-            getPsk(req, (err, psk) => {
-                if (err) {
-                    console.log(err)
-                    res.status(err.code).send(err.error)
-                } else if (psk) res.json(psk)
-                else res.send()
-            });
-        } else if (req.params.org_id) {
-            mist_user.getAccount(req.params.org_id, (err, mist) => {
-                if (err) res.status(err.code).send(err.error)
-                else {
-                    req.session.mist = mist;
-                    getPsk(req, (err, psk) => {
-                        if (err) {
-                            console.log(err)
-                            res.status(err.code).send(err.error)
-                        } else if (psk) res.json(psk)
-                        else res.send()
-                    });
-                }
-            })
-        } else res.status(401).send();
+    if (req.session.passport && req.session.mist) {
+        // retrieve the account details (to have the account_id)
+        getPsk(req, (err, psk) => {
+            if (err) {
+                console.log(err)
+                res.status(err.code).send(err.error)
+            } else if (psk) res.json(psk)
+            else res.send()
+        });
     } else res.status(401).send();
-});
+})
 
 
 // When user wants to delete its key

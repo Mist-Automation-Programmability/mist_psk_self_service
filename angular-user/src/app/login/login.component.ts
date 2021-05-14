@@ -19,8 +19,8 @@ export class LoginComponent implements OnInit {
   auth_url: string;
   i18n = {
     title: "",
-    content: "",
-    login: ""
+    text: "",
+    button: ""
   }
 
   error;

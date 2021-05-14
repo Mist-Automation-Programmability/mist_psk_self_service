@@ -4,7 +4,6 @@
 // ================================================================*/
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 
 // var Account = require("../bin/models/account");
 
@@ -106,8 +105,9 @@ const fs = require('fs');
 // });
 
 router.get("/", (req, res) => {
-    var logo_url = "/images/juniper.png"
-    res.json({ logo_url: logo_url })
+    if (req.session && req.session.mist.customization && req.session.mist.customization.logo && req.session.mist.customization.logo.url)
+        res.json({ logo_url: req.session.mist.customization.logo.url })
+    else res.json({ logo_url: "/images/juniper.png" })
 })
 
 function lightOrDark(color) {
@@ -153,10 +153,10 @@ router.get("/colors.css", (req, res) => {
     .toolbar{color:" + lightOrDark(bg_color) + "!important;}\
     mat-card{background-color:" + card_color + "!important;}\
     mat-card,mat-card-subtitle{color:" + lightOrDark(card_color) + "!important;}\
-    mat-card-actions>a,mat-card-actions>.mat-raised-button.mat-primary:not(.mat-button-disabled){background-color:" + primary_color + "!important;color:" + lightOrDark(primary_color) + "!important}\
-    mat-card-actions>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
-    mat-card-actions>.mat-button.mat-primary:not(.mat-button-disabled){color:" + primary_color + "!important}\
-    mat-card-actions>.mat-button.mat-accent:not(.mat-button-disabled){color:" + accent_color + "!important}"
+    mat-card-action>a,mat-card-actions>.mat-raised-button.mat-primary:not(.mat-button-disabled){background-color:" + primary_color + "!important;color:" + lightOrDark(primary_color) + "!important}\
+    mat-card-action>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
+    mat-card-action>.mat-button.mat-primary:not(.mat-button-disabled){color:" + primary_color + "!important}\
+    mat-card-action>.mat-button.mat-accent:not(.mat-button-disabled){color:" + accent_color + "!important}"
     res.writeHead(200, { 'Content-Type': 'text/css' });
     res.end(css, 'utf-8');
     res.end();

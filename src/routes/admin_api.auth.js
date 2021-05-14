@@ -55,198 +55,147 @@ function genCertificate(org_id) {
     }
 }
 
+function save_account(res, account) {
+    account.save(function(err) {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else res.status(200).send();
+    });
 
+}
 
-/*==================  azure   ===========================*/
-// Function to save the azure configuration
-function save_azure(req, res) {
-    // retrieve the current Account in the DB
-    Account
-        .findById(req.session.account_id)
-        .populate("_azure")
-        .exec(function(err, account) {
+function update_adfs(req, res, account) {
+    if (account._adfs)
+        Adfs.findOneAndUpdate({
+            _id: account.azure
+        }, req.body.config, function(err, result) {
             if (err) res.status(500).send(err);
-            else if (account) {
-                // if the current account already has a azure configuration
-                if (account.azure)
-                // update it
-                    Azure.findOneAndUpdate({
-                    _id: account.azure
-                }, req.body.config, function(err, result) {
-                    if (err) res.status(500).send(err);
-                    else {
-                        account._google = result;
-                        account.auth_method = "azure";
-                        account.save(function(err, result) {
-                            if (err) {
-                                console.log(err)
-                                res.status(500).send(err);
-                            } else res.status(200).send();
-                        });
-                    }
-                });
-                // if the current account has no azure aconfiguration, create it
-                else Azure(req.body.config).save(function(err, result) {
-                    if (err) res.status(500).send(err);
-                    else {
-                        account._azure = result;
-                        account.auth_method = "azure";
-                        account.save(function(err, result) {
-                            if (err) res.status(500).send(err);
-                            else res.status(200).send();
-                        });
-                    }
-                });
-            } else res.status(400).send("Account not found");
-        });
-}
-/*==================  Google   ===========================*/
-// Function to save the Google configuration
-function save_google(req, res) {
-    // retrieve the current Account in the DB
-    Account
-        .findById(req.session.account_id)
-        .populate("_google")
-        .exec(function(err, account) {
+            else {
+                account._adfs = result;
+                account.auth_method = "adfs";
+                save_account(res, account);
+            }
+        })
+    else
+        Adfs(req.body.config).save(function(err, result) {
             if (err) {
                 console.log(err)
                 res.status(500).send(err);
-            } else if (account) {
-                // if the current account already has a Google configuration
-                if (account._google)
-                // update it
-                    Google.findOneAndUpdate({
-                    _id: account._google
-                }, req.body.config, function(err, result) {
-                    console.log(err)
-                    if (err) res.status(500).send(err);
-                    else {
-                        account._google = result;
-                        account.auth_method = "google";
-                        account.save(function(err, result) {
-                            if (err) {
-                                console.log(err)
-                                res.status(500).send(err);
-                            } else res.status(200).send();
-                        });
-                    }
-                });
-                // if the current account has no Google aconfiguration, create it
-                else Google(req.body.config).save(function(err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.status(500).send(err);
-                    } else {
-                        account._google = result;
-                        account.auth_method = "google";
-                        account.save(function(err, result) {
-                            if (err) {
-                                console.log(err)
-                                res.status(500).send(err);
-                            } else res.status(200).send();
-                        });
-                    }
-                });
-            } else res.status(400).send("Account not found");
+            } else {
+                account._adfs = result;
+                account.auth_method = "adfs";
+                save_account(res, account);
+            }
         });
 }
-/*==================  Okta   ===========================*/
-// Function to save the Okta configuration
-function save_okta(req, res) {
-    // retrieve the current Account in the DB
-    Account
-        .findById(req.session.account_id)
-        .populate("_okta")
-        .exec(function(err, account) {
+
+
+function update_azure(req, res, account) {
+    if (account._azure)
+        Azure.findOneAndUpdate({
+            _id: account.azure
+        }, req.body.config, function(err, result) {
+            if (err) res.status(500).send(err);
+            else {
+                account._azure = result;
+                account.auth_method = "azure";
+                save_account(res, account);
+            }
+        })
+    else
+        Azure(req.body.config).save(function(err, result) {
             if (err) {
                 console.log(err)
                 res.status(500).send(err);
-            } else if (account) {
-                // if the current account already has a Okta configuration
-                if (account._okta)
-                // update it
-                    Okta.findOneAndUpdate({
-                    _id: account._okta
-                }, req.body.config, (err, result) => {
-                    console.log(err)
-                    if (err) res.status(500).send(err);
-                    else {
-                        account._google = result;
-                        account.auth_method = "okta";
-                        account.save(function(err, result) {
-                            if (err) {
-                                console.log(err)
-                                res.status(500).send(err);
-                            } else res.status(200).send();
-                        });
-                    }
-                });
-                // if the current account has no Okta aconfiguration, create it
-                else Okta(req.body.config).save(function(err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.status(500).send(err);
-                    } else {
-                        account._okta = result;
-                        account.auth_method = "okta";
-                        account.save((err, result) => {
-                            if (err) {
-                                console.log(err)
-                                res.status(500).send(err);
-                            } else res.status(200).send();
-                        });
-                    }
-                });
-            } else res.status(400).send("Account not found");
+            } else {
+                account._azure = result;
+                account.auth_method = "azure";
+                save_account(res, account);
+            }
         });
 }
+
+function update_google(req, res, account) {
+    if (account._google)
+        Google.findOneAndUpdate({
+            _id: account.azure
+        }, req.body.config, function(err, result) {
+            if (err) res.status(500).send(err);
+            else {
+                account._google = result;
+                account.auth_method = "google";
+                save_account(res, account);
+            }
+        })
+    else
+        Google(req.body.config).save(function(err, result) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err);
+            } else {
+                account._google = result;
+                account.auth_method = "google";
+                save_account(res, account);
+            }
+        });
+}
+
+function update_okta(req, res, account) {
+    if (account._okta)
+        Okta(req.body.config).save(function(err, result) {
+            if (err) {
+                console.log(err)
+                res.status(500).send(err);
+            } else {
+                account._okta = result;
+                account.auth_method = "okta";
+                save_account(res, account);
+            }
+        });
+    else
+        Okta.find({
+            _id: account.azure
+        }, req.body.config, function(err, result) {
+            if (err) res.status(500).send(err);
+            else {
+                account._okta = result;
+                account.auth_method = "okta";
+                save_account(res, account);
+            }
+        })
+}
+
 /*==================  SAML   ===========================*/
 // Function to save the SAML configuration
-function save_adfs(req, res) {
+function save_auth(req, res, auth_type) {
     genCertificate(req.session.mist.org_id);
     // retrieve the current Account in the DB
     Account
         .findById(req.session.account_id)
-        .populate("_adfs")
-        .exec(function(err, account) {
+        .populate("_" + auth_type)
+        .exec((err, account) => {
             if (err) {
                 console.log(err)
                 res.status(500).send(err);
             } else if (account) {
-                // if the current account already has a SAML configuration
-                if (account._adfs)
-                // update it
-                    Adfs.findOneAndUpdate({
-                    _id: account._adfs
-                }, req.body.config, function(err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.status(500).send(err);
-                    } else {
-                        account._google = result;
-                        account.auth_method = "adfs";
-                        account.save(function(err, result) {
-                            if (err) {
-                                console.log(err)
-                                res.status(500).send(err);
-                            } else res.status(200).send();
-                        });
-                    }
-                });
-                // if the current account has no SAML aconfiguration, create it
-                else Adfs(req.body.config).save(function(err, result) {
-                    if (err) {
-                        console.log(err)
-                        res.status(500).send(err);
-                    } else {
-                        account._adfs = result;
-                        account.auth_method = "adfs";
-                        account.save(function(err, result) {
-                            if (err) res.status(500).send(err);
-                            else res.status(200).send();
-                        });
-                    }
-                });
+                switch (auth_type) {
+                    case "adfs":
+                        update_adfs(req, res, account);
+                        break;
+                    case "azure":
+                        update_azure(req, res, account);
+                        break;
+                    case "google":
+                        update_google(req, res, account);
+                        break;
+                    case "okta":
+                        update_okta(req, res, account);
+                        break;
+                    default:
+                        res.status(400).send("Unknown auth method");
+                        break;
+                }
             } else res.status(400).send("Account not found");
         });
 }
@@ -287,23 +236,7 @@ router.post("/:auth_method", (req, res) => {
     if (!req.session.mist) res.status(401).send();
     else if (!req.params.auth_method) res.status(400).send('Authentication method is missing');
     else if (!req.body.config) res.status(400).send("Authentication configuration is missing");
-    else {
-        switch (req.params.auth_method) {
-            case "azure":
-                save_azure(req, res);
-                break;
-            case "adfs":
-                save_adfs(req, res);
-                break;
-            case "google":
-                console.log("google")
-                save_google(req, res);
-                break;
-            case "okta":
-                save_okta(req, res);
-                break;
-        }
-    }
+    else save_auth(req, res, req.params.auth_method)
 });
 
 /*==================   AUTH API - SAML   ===========================*/

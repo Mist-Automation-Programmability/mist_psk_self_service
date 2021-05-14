@@ -20,14 +20,14 @@ export class PortalComponent implements OnInit {
   constructor(private _router: Router, private _http: HttpClient, public _dialog: MatDialog, private _snackBar: MatSnackBar, private _activated_route: ActivatedRoute, private _language_service: LanguageService, private _logout_service: LogoutService) { }
 
   i18n = {
-    hi: "",
     title: "",
-    subtitle: "",
+    text: "",
     rows: [],
-    getMyKey: "",
-    deliverByEmail: "",
-    displayQrCode: "",
-    revoke: "",
+    create_button: "",
+    email_button: "",
+    qrcode_button: "",
+    delete_button: "",
+    logout_button: "",
     keyCreatedSuccesfully: "",
     keyDeletededSuccesfully: "",
     keySentSuccesfully: ""
@@ -96,6 +96,17 @@ export class PortalComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////
   parseText(data): void {
     this.i18n = data.i18n;
+    
+    this.i18n.title = this.i18n.title.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.text = this.i18n.text.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.create_button = this.i18n.create_button.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.email_button = this.i18n.email_button.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.qrcode_button = this.i18n.qrcode_button.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.delete_button = this.i18n.delete_button.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.logout_button = this.i18n.logout_button.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.keyCreatedSuccesfully = this.i18n.keyCreatedSuccesfully.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.keyDeletededSuccesfully = this.i18n.keyDeletededSuccesfully.replace("{username}", this.user.name).replace("{email}", this.user.email)
+    this.i18n.keySentSuccesfully = this.i18n.keySentSuccesfully.replace("{username}", this.user.name).replace("{email}", this.user.email)
   }
 
   getText(language: string): void {

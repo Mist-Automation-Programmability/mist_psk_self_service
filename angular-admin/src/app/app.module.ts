@@ -3,17 +3,19 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ErrorDialog } from './common/error';
 import { LoginComponent } from './login/login.component';
 import { TwoFactorDialog } from './login/login-2FA';
 import { OrgSelectComponent } from './org-select/org-select.component';
 import { ConfigurationComponent } from './configuration/configuration.component';
-import { ApitokenManualDialog } from './configuration/configuration.token.manual';
+import { AuthenticationComponent } from './configuration/authentication/authentication.component';
+import { ApitokenManualDialog } from './configuration/authentication/authentification.token.manual';
 import { AdfsComponent } from './configuration/authentication/adfs/adfs.component';
 import { AzureComponent } from './configuration/authentication/azure/azure.component';
 import { GoogleComponent } from './configuration/authentication/google/google.component';
 import { OktaComponent } from './configuration/authentication/okta/okta.component';
 import { ConfirmDialog } from './configuration/configuration.confirm';
-//import { CustomizationComponent } from './customization/customization.component';
+import { CustomizationComponent } from './configuration/customization/customization.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -39,14 +41,20 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+
+import { ColorChromeModule } from 'ngx-color/chrome';
+
 
 @NgModule({
   declarations: [
     AppComponent,
+    ErrorDialog,
     LoginComponent, TwoFactorDialog,
-    AdfsComponent, GoogleComponent, OktaComponent, AzureComponent,
+    AuthenticationComponent, AdfsComponent, GoogleComponent, OktaComponent, AzureComponent,
+    CustomizationComponent,
     ConfigurationComponent, ConfirmDialog,
     ApitokenManualDialog,
     OrgSelectComponent,
@@ -79,8 +87,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatSlideToggleModule,
     MatSliderModule,
     MatSnackBarModule,
+    MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ColorChromeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,169 @@
+<div fxLayout="column">
+    <div fxLayout="row wrap" fxLayoutAlign="start">
+        <div>
+            <mat-card>
+                <mat-card-title>Preview</mat-card-title>
+                <mat-card-content>
+                    <table>
+                        <tr>
+                            <th>Login Page</th>
+                            <td><a href="" target="_blank">https</a></td>
+                        </tr>
+                        <tr>
+                            <th>Portal Page</th>
+                            <td><a href="" target="_blank">https</a></td>
+                        </tr>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+
+
+            <mat-card>
+                <mat-card-title>Logo</mat-card-title>
+                <mat-card-content fxLayout="column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Logo URL</mat-label>
+                        <input matInput type="text" [(ngModel)]="logo.url" />
+                    </mat-form-field>
+                    <img *ngIf="logo.url" src="{{logo.url}}" style="width: 20em;" />
+                    <img *ngIf="!logo.url" src="/images/juniper.png" style="width: 20em;" />
+                </mat-card-content>
+                <mat-card-action fxLayoutAlign="end">
+                    <button mat-button color="accent" (click)="resetLogo()">Reset</button>
+                    <button mat-raised-button color="primary" (click)="saveLogo()">Save</button>
+                </mat-card-action>
+            </mat-card>
+
+
+            <mat-card>
+                <mat-card-title>Colors</mat-card-title>
+                <mat-card-content>
+                </mat-card-content>
+                <mat-card-action fxLayoutAlign="end">
+                    <button mat-button color="accent" (click)="resetLogo()">Reset</button>
+                    <button mat-raised-button color="primary" (click)="saveLogo()">Save</button>
+                </mat-card-action>
+            </mat-card>
+
+
+            <mat-card>
+                <mat-card-title>Default Language</mat-card-title>
+                <mat-card-content fxLayout="column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Default Locale</mat-label>
+                        <mat-select [(value)]="default_locale" (selectionChange)="setDefaultLanguage($event)">
+                            <mat-option *ngFor="let locale of locales" [value]="locale.short">{{locale.long}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </mat-card-content>
+                <mat-card-action fxLayoutAlign="end">
+                    <button mat-button color="accent" (click)="resetDefaultI18n()">Reset</button>
+                    <button mat-raised-button color="primary" (click)="saveDefaultI18n()">Save</button>
+                </mat-card-action>
+            </mat-card>
+
+
+            <mat-card>
+                <mat-card-title>Languages</mat-card-title>
+                <mat-card-content fxLayout="column">
+                    <div>You can customize the text for any language you want to allow on your portal. If you customize locales, only the customized locales will be available on the portal.</div>
+                    <div style="margin-bottom: 1em;">Available variables: &#123;username&#125;, &#123;email&#125;, &#123;ssid&#125;
+                    </div>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Customize Locale</mat-label>
+                        <mat-select [(value)]="current_customized_locale" (selectionChange)="changeCustomLocal($event)">
+                            <mat-option *ngFor="let locale of locales" [value]="locale.short">{{locale.long}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Login Title</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.login.title" placeholder="Login" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Login Text</mat-label>
+                        <textarea matInput required [(ngModel)]="custom_i18n.login.text" cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="2" cdkAutosizeMaxRows="5" placeholder="To get your personal key to be able to connect to the network, please click on the button below to authenticate with your domain credentials."></textarea>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Login Button</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.login.button" placeholder="Log In" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Portal Title</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.title" placeholder="Requesting a WiFi key is a one-button process" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Portal Text</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.text" mat-maxlength="200" placeholder="Hi {username}! You need to know a few things first:">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Create PSK Button</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.create_button" placeholder="Get a Key" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Send PSK by email Button</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.email_button" placeholder="Send By Email" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Show PSK QRCode Button</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.qrcode_button" placeholder="Show QrCode" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Delete PSK Button</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.delete_button" placeholder="Delete PSK" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Logout Button</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.logout_button" placeholder="Logout" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>PSK Created Message</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.keyCreatedSuccesfully" placeholder="Key succesfully created!" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>PSK Send by email Message</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.keyDeletededSuccesfully" placeholder="Key succesfully deleted!" />
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>PSK Deleted Message</mat-label>
+                        <input matInput required type="text" [(ngModel)]="custom_i18n.portal.keySentSuccesfully" placeholder="Key sent succesfully to {email}!" />
+                    </mat-form-field>
+
+                    <mat-divider style="position: relative; margin: 1em 0;"></mat-divider>
+                    <div>You can also customize the main part of the portal. You can add/remove/customize logo and text from here for each locale you cant to propose.</div>
+                    <div style="margin-bottom: 1em;">You can find the whole list of icons <a href="https://fonts.google.com/icons?selected=Material+Icons" targer="_blank">here</a>.
+                    </div>
+                    <div *ngFor="let row of custom_i18n.portal.rows" fxLayout="column">
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <mat-form-field appearance="outline" style="width: 5em;">
+                                <mat-label>Icon</mat-label>
+                                <input matInput type="text" [(ngModel)]="row.icon">
+                            </mat-form-field>
+                            <div style="width: 5em;" fxLayout="row" fxLayoutAlign="center" style="padding-bottom: 1.34375em;">
+                                <mat-icon class="row-icon">{{row.icon}}</mat-icon>
+                            </div>
+                            <mat-form-field appearance="outline" style="width: 25em;">
+                                <mat-label>Text</mat-label>
+                                <textarea matInput required [(ngModel)]="row.text" mat-maxlength="500" cdkTextareaAutosize cdkAutosizeMinRows="1" cdkAutosizeMaxRows="5"></textarea>
+                            </mat-form-field>
+                            <button mat-button class="mat-primary" (click)="removeRow(row.index)" style="margin-bottom: 1.34375em;">
+                                <i class="material-icons">remove_circle_outline</i>
+                            </button>
+                            <button mat-button class="mat-primary" (click)="removeRow(row.index)" style="margin-bottom: 1.34375em;">
+                                <i class="material-icons">north</i>
+                            </button>
+                            <button mat-button (click)="removeRow(row.index)" style="margin-bottom: 1.34375em;">
+                                <i class="material-icons">south</i>
+                            </button>
+                        </div>
+                        <mat-divider style="position: relative; margin: 1em 0;"></mat-divider>
+                    </div>
+                </mat-card-content>
+                <mat-card-action fxLayoutAlign="end">
+                    <button mat-button color="accent" (click)="resetI18n()">Reset</button>
+                    <button mat-raised-button color="primary" (click)="saveI18n()">Save</button>
+                </mat-card-action>
+            </mat-card>
+        </div>
+    </div>
+</div>

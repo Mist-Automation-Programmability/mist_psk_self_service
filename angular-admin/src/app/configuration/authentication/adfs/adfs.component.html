@@ -1,9 +1,5 @@
-<div mat-whiteframe="5" style="margin:15px 0 20px 0">
-    <mat-toolbar class="mat-hue-2" style="height: 40px;min-height: 40px;">
-        <div class="mat-toolbar-tools">
-            <span>ADFS Metadata</span>
-        </div>
-    </mat-toolbar>
+<div>
+    <h3>ADFS Metadata</h3>
     <div layout-margin>
         <div>To use this app with your ADFS, you will have to import your ADFS Metadata.</div>
         <div>To retrieve your ADFS Metadata, you can manually download the metadata.xml file, or indicate your ADFS FQDN below and use the "Download" Button
@@ -15,8 +11,7 @@
             <input matInput id="adfsServer" type="text" [(ngModel)]="adfs.server" />
         </mat-form-field>
         <div style="margin:1em">
-
-            <a mat-button [disabled]="adfs.server==''" color="primary" [href]="adfsCert()" target="_blank">Download ADFS Metadata</a>
+            <a mat-button [disabled]="adfs.server==''" color="accent" [href]="adfsCert()" target="_blank">Download ADFS Metadata</a>
         </div>
     </div>
     <div layout-margin>Once you have the xml Metadata file, just edit it, and copy/paste the content below
@@ -81,14 +76,13 @@
         </div>
 
     </div>
-</div>
-<div mat-whiteframe="5" style="margin:15px 0 20px 0">
-    <mat-toolbar class="mat-hue-2" style="height: 40px;min-height: 40px;">
-        <div class="mat-toolbar-tools">
-            <span>APP Metdata</span>
+    <mat-divider style="position: relative; margin: 1em 0;"></mat-divider>
+    <h3>APP Metdata</h3>
+    <div fxLayout="row">
+        <div>You will have create a "Relying Party Trust" on your ADFS. To do so, you can download the App Metadata (which includes your app certificate) by using the button below.</div>
+        <div>
+            <a mat-raised-button color="accent" href="/api/admin/auth/cert" style="color: white;" aria-label="Get App Certificate">Download App Metadata</a>
         </div>
-    </mat-toolbar>
-    <div layout-margin>You will have create a "Relying Party Trust" on your ADFS. To do so, you can download the App Metadata (including its certificate) by using the button below.</div>
-    <a mat-raised-button href="/api/admin/auth/cert" translate="authentication.adfs.getAppCertificate" aria-label="Get App Certificate">Download App Metadata</a>
+    </div>
 
 </div>

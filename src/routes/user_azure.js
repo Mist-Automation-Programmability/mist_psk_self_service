@@ -7,7 +7,6 @@ var express = require('express');
 var router = express.Router();
 const jwt = require('jsonwebtoken');
 const AzureAdOAuth2Strategy = require('passport-azure-ad-oauth2').Strategy;
-const Account = require("../bin/models/account");
 const https = require('https');
 const req = require("./../bin/req")
 

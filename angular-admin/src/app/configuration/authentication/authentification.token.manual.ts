@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'token.manual',
-    templateUrl: 'configuration.token.manual.html',
+    templateUrl: 'authentication.token.manual.html',
 })
 export class ApitokenManualDialog {
     public apitoken: string;

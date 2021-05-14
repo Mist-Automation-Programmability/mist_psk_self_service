@@ -38,7 +38,7 @@ export class OrgSelectComponent implements OnInit {
         this.orgs = data;
         this.loading = false;
       },
-      error: error => this.error_message(error.error)
+      error: error => this.error_message(error)
     })
   }
 
@@ -52,9 +52,12 @@ export class OrgSelectComponent implements OnInit {
   }
 
   // WHEN AUTHENTICATION IS NOT OK
-  error_message(message): void {
+  error_message(data): void {
     this.loading = false;
-    this.error_mess = message;
+    if (data.status == "401") {
+      this._router.navigate(["/"])
+    }
+    this.error_mess = data.error;
   }
 
 }

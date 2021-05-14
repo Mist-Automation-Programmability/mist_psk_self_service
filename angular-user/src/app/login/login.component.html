@@ -1,13 +1,13 @@
 <div style="height: 100%;" fxLayout="row" fxLayoutAlign="center start">
-    <mat-card fxLayout="column" fxLayoutAlign="center center" class="mat-elevation-z8 login-box">
+    <mat-card fxLayout="column" fxLayoutAlign="center center" style="min-width: 20em;">
         <mat-card-title>
             {{i18n.title}}
         </mat-card-title>
         <mat-card-content>
-            {{i18n.content}}
+            {{i18n.text}}
         </mat-card-content>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-            <a mat-raised-button color="accent" href="{{auth_url}}">{{i18n.login}}</a>
+            <a mat-raised-button color="accent" href="{{auth_url}}">{{i18n.button}}</a>
         </mat-card-actions>
 
     </mat-card>
