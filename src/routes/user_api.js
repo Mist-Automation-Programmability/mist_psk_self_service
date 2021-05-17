@@ -7,7 +7,8 @@ const express = require('express');
 const router = express.Router();
 const send_mail = require("../bin/send_mail");
 const i18n = require("./../i18n")
-const I18n = require("./../bin/models/i18n")
+const I18n = require("./../bin/models/i18n");
+const { languages } = require('./../i18n');
 
 /*================================================================
 VARS
@@ -72,26 +73,24 @@ function getText(mist, lang, page, cb) {
 }
 
 router.get("/languages", (req, res) => {
+    var languages = []
     if (req.session.mist.customization) {
-        languages = []
-        if (req.session.mist.customization.i18n._en) languages.push({ short: "en", long: "English" })
-        if (req.session.mist.customization.i18n._fi) languages.push({ short: "fi", long: "Finnish" })
-        if (req.session.mist.customization.i18n._fr) languages.push({ short: "fr", long: "French" })
-        if (req.session.mist.customization.i18n._de) languages.push({ short: "de", long: "German" })
-        if (req.session.mist.customization.i18n._it) languages.push({ short: "it", long: "Italian" })
-        if (req.session.mist.customization.i18n._pt) languages.push({ short: "pt", long: "Portuguese" })
-        if (req.session.mist.customization.i18n._es) languages.push({ short: "es", long: "Spanish" })
-        if (req.session.mist.customization.i18n._se) languages.push({ short: "se", long: "Swedish" })
+        req.session.mist.customization.i18n.forEach(entry => {
+            if ("_" + entry["short"] in i18n) languages.push(entry)
+        })
 
         if (req.session.lang) var lang = req.session.lang
         else if (req.session.mist.customization_default) var lang = req.session.mist.customization_default
         else var lang = "en"
-        res.json({ languages: languages, default: lang })
     } else {
+        i18n.languages.forEach(entry => {
+            if (entry["short"] in i18n) languages.push(entry)
+        })
+
         if (req.session.lang) var lang = req.session.lang
         else var lang = "en"
-        res.json({ languages: i18n.languages, default: lang })
     }
+    res.json({ languages: languages, default: lang })
 })
 
 router.get("/text/:org_id", (req, res) => {

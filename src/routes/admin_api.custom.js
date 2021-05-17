@@ -111,10 +111,10 @@ router.get("/", (req, res) => {
                 if (err) {
                     console.log(err)
                     res.status(500).send()
-                } else {
-                    if (account._customization.i18n) delete account._customization.i18n
+                } else if (account) {
+                    if (account._customization && account._customization.i18n) delete account._customization.i18n
                     res.json({ customization: account._customization })
-                }
+                } else res.json()
             })
 
     } else res.status(401).send()
@@ -136,7 +136,7 @@ router.get("/i18n", (req, res) => {
                 if (err) {
                     console.log(err)
                     res.status(500).send()
-                } else {
+                } else if (account && account._customization) {
                     var data = {
                         en: account._customization.i18n._en,
                         fi: account._customization.i18n._fi,
@@ -148,6 +148,8 @@ router.get("/i18n", (req, res) => {
                         se: account._customization.i18n._se
                     }
                     res.json({ i18n: data, default_i18n: default_i18n })
+                } else {
+                    res.json({ i18n: {}, default_i18n: default_i18n })
                 }
             })
 
