@@ -93,29 +93,29 @@ export class CustomizationComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////
   saveLogo(): void {
     this._http.post("/api/admin/custom", { logo: this.logo }).subscribe({
-      next: data => this.openSnackBar("Colors saved!", "Ok"),
+      next: data => this.openSnackBar("Logo saved!", "Ok"),
       error: error => this.parse_error(error)
     })
   }
   resetLogo(): void {
-    this.colors = {
-      background: "#ececec",
-      card: "#ffffff",
-      primary: "#005c95",
-      accent: "#84b135"
-    }
+    this.logo.url = null
   }
   //////////////////////////////////////////////////////////////////////////////
   /////           COLORS
   //////////////////////////////////////////////////////////////////////////////
   saveColors(): void {
     this._http.post("/api/admin/custom", { colors: this.colors }).subscribe({
-      next: data => this.openSnackBar("Logo saved!", "Ok"),
+      next: data => this.openSnackBar("Colors saved!", "Ok"),
       error: error => this.parse_error(error)
     })
   }
   resetColors(): void {
-    this.logo.url = null
+    this.colors = {
+      background: "#ececec",
+      card: "#ffffff",
+      primary: "#005c95",
+      accent: "#84b135"
+    }
   }
   //////////////////////////////////////////////////////////////////////////////
   /////           DEFAULT LOCALE
