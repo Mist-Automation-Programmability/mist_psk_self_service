@@ -66,7 +66,11 @@ router.get("/colors.css", (req, res) => {
     mat-card-actions>a,mat-card-actions>.mat-raised-button.mat-primary:not(.mat-button-disabled){background-color:" + primary_color + "!important;color:" + lightOrDark(primary_color) + "!important}\
     mat-card-actions>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
     mat-card-actions>.mat-button.mat-primary:not(.mat-button-disabled){color:" + primary_color + "!important}\
-    mat-card-actions>.mat-button.mat-accent:not(.mat-button-disabled){color:" + accent_color + "!important}"
+    mat-card-actions>.mat-button.mat-accent:not(.mat-button-disabled){color:" + accent_color + "!important}\
+    mat-dialog-container{background-color:" + card_color + "!important;}\
+    mat-dialog-container{color:" + lightOrDark(card_color) + "!important;}\
+    app-qrcode>div>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
+    .mat-simple-snackbar-action{color:" + primary_color + "!important;}"
     res.writeHead(200, { 'Content-Type': 'text/css' });
     res.end(css, 'utf-8');
     res.end();
