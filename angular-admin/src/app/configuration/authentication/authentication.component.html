@@ -92,7 +92,7 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <a mat-button [disabled]='auth.method ==""' color="primary" href="/admin/help/{{auth.method}}" target=_blank mat-raised-primary>Configuration Help</a>
+                    <a mat-button [disabled]='auth.method =="" || auth.method=="google"' color="primary" href="/admin/help/{{auth.method}}" target=_blank mat-raised-primary>Configuration Help</a>
                     <app-configuration-adfs *ngIf="auth.method=='adfs'" [auth]="auth.config"></app-configuration-adfs>
                     <app-configuration-azure *ngIf="auth.method=='azure'" [host]="auth.host" [org_id]="auth.org_id"></app-configuration-azure>
                     <app-configuration-google *ngIf="auth.method=='google'" [host]="auth.host" [org_id]="auth.org_id"></app-configuration-google>
