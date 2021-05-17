@@ -63,7 +63,7 @@ I18N
  ================================================================*/
 function getText(mist, lang, page, cb) {
     var data = i18n[lang][page]
-    if (mist.customization && mist.customization.i18n["_" + lang]) {
+    if (mist.customization && mist.customization.i18n && mist.customization.i18n["_" + lang]) {
         I18n.findById(mist.customization.i18n["_" + lang])
             .exec((err, tmp) => {
                 if (tmp && tmp[page]) cb({ i18n: tmp[page] })
