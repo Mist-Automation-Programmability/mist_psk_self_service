@@ -45,7 +45,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ColorChromeModule } from 'ngx-color/chrome';
+import { NgxColorsModule } from 'ngx-colors';
 
 
 @NgModule({
@@ -90,7 +90,7 @@ import { ColorChromeModule } from 'ngx-color/chrome';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    ColorChromeModule
+    NgxColorsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

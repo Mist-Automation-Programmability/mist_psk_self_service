@@ -1,0 +1,27 @@
+.locale-icon-text {
+    width: 10%
+}
+
+.locale-icon-show {
+    width: 10%
+}
+
+.locale-text>mat-form-field {
+    width: 100%;
+}
+
+.locale-text {
+    width: 75%;
+}
+
+.locale-buttons {
+    width: 5%;
+}
+
+.logo {
+    object-fit: scale-down;
+    max-width: 30em;
+    max-height: 10em;
+    width: auto;
+    height: auto;
+}

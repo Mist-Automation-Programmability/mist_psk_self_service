@@ -20,12 +20,12 @@
                 </div>
             </div>
         </mat-card-content>
-        <mat-card-action fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="5px">
+        <mat-card-actions fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="5px">
             <div></div>
             <button mat-raised-button color="accent" [disabled]="is_working" (click)="createMyKey()" aria-label="get">{{i18n.create_button}}</button>
             <button mat-raised-button color="primary" *ngIf="user.email" [disabled]="is_working || !key_exists" (click)="deliverByEmail()" aria-label="deliverByEmail">{{i18n.email_button}}</button>
             <button mat-raised-button color="primary" [disabled]="is_working || !key_exists" (click)="openQrcode()" aria-label="displayQrCode">{{i18n.qrcode_button}}</button>
             <button mat-button color="primary" [disabled]="is_working || !key_exists" (click)="revokeMyKey()" aria-label="revoke">{{i18n.delete_button}}</button>
-        </mat-card-action>
+        </mat-card-actions>
     </mat-card>
 </div>

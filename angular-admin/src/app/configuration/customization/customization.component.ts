@@ -8,12 +8,12 @@ import { ErrorDialog } from "../../common/error"
 @Component({
   selector: 'app-customization',
   templateUrl: './customization.component.html',
-  styleUrls: ['./../configuration.component.css']
+  styleUrls: ['./../configuration.component.css', "./customization.component.css"]
 })
 export class CustomizationComponent implements OnInit {
 
   constructor(private _router: Router, private _http: HttpClient, private _snackBar: MatSnackBar, private _dialog: MatDialog) { }
-
+  leftColor
   is_working = false
   logo = {
     url: null
@@ -74,17 +74,6 @@ export class CustomizationComponent implements OnInit {
     }
   }
 
-  addRow() {
-    this.custom_i18n.portal.rows.push({ index: this.custom_i18n.portal.rows.length, icon: "", text: "" });
-  }
-  removeRow(index) {
-    this.custom_i18n.portal.rows.splice(index, 1);
-    for (var i = 0; i < this.custom_i18n.portal.rows.length; i++) {
-      this.custom_i18n.portal.rows[i].index = i;
-    }
-  }
-
-
   loadMain() {
     this._http.get<any>('/api/admin/custom/').subscribe({
       next: data => {
@@ -104,16 +93,30 @@ export class CustomizationComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////
   saveLogo(): void {
     this._http.post("/api/admin/custom", { logo: this.logo }).subscribe({
-      next: data => this.openSnackBar("Logo saved!", "Ok"),
+      next: data => this.openSnackBar("Colors saved!", "Ok"),
       error: error => this.parse_error(error)
     })
   }
   resetLogo(): void {
-    this.logo.url = null
+    this.colors = {
+      background: "#ececec",
+      card: "#ffffff",
+      primary: "#005c95",
+      accent: "#84b135"
+    }
   }
   //////////////////////////////////////////////////////////////////////////////
   /////           COLORS
   //////////////////////////////////////////////////////////////////////////////
+  saveColors(): void {
+    this._http.post("/api/admin/custom", { colors: this.colors }).subscribe({
+      next: data => this.openSnackBar("Logo saved!", "Ok"),
+      error: error => this.parse_error(error)
+    })
+  }
+  resetColors(): void {
+    this.logo.url = null
+  }
   //////////////////////////////////////////////////////////////////////////////
   /////           DEFAULT LOCALE
   //////////////////////////////////////////////////////////////////////////////
@@ -131,6 +134,16 @@ export class CustomizationComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////
   /////           LOCALES
   //////////////////////////////////////////////////////////////////////////////
+  addRow() {
+    this.custom_i18n.portal.rows.push({ index: this.custom_i18n.portal.rows.length, icon: "", text: "" });
+  }
+  removeRow(index) {
+    this.custom_i18n.portal.rows.splice(index, 1);
+    for (var i = 0; i < this.custom_i18n.portal.rows.length; i++) {
+      this.custom_i18n.portal.rows[i].index = i;
+    }
+  }
+
   parse_i18n(data): void {
 
     if (data.i18n_default) this.default_locale = data.i18n_default
@@ -151,23 +164,26 @@ export class CustomizationComponent implements OnInit {
   saveI18n(): void {
     this.changeCustomLocal(null)
     this._http.post("/api/admin/custom", { i18n: this.i18n }).subscribe({
-      next: data => this.openSnackBar("Logo saved!", "Ok"),
+      next: data => this.openSnackBar("Languages saved!", "Ok"),
       error: error => this.parse_error(error)
     })
-  }
-  resetI18n(): void {
-    this.i18n = this.default_i18n;
   }
   setDefaultLanguage(event): void {
     this.i18n["default"] = event.value
   }
 
-  displayCustomLocal(keep_previous_icons = false): void {
-    var rows = this.custom_i18n.portal.rows
+  displayCustomLocal(): void {
+    
     // retrieve and display the values for newly selected locale
     if (this.i18n[this.current_customized_locale]) {
       this.custom_i18n = this.i18n[this.current_customized_locale]
+      // or display empty fields
     } else {
+      //save the rows/icons from the previously selected locale
+        var rows = []
+        this.custom_i18n.portal.rows.forEach((row)=> {
+          rows.push({icon: row.icon, text: ""})  
+        })
       this.custom_i18n = {
         login: {
           title: "",
@@ -185,21 +201,11 @@ export class CustomizationComponent implements OnInit {
           keyCreatedSuccesfully: "",
           keyDeletededSuccesfully: "",
           keySentSuccesfully: "",
-          rows: []
+          rows: rows
         }
       }
     }
-    if (keep_previous_icons) {
-      //set the same icons as the previously selected locale
-      for (var i = 0; i < rows.length; i++) {
-        if (this.custom_i18n.portal.rows[i]) {
-          rows[i].text = this.custom_i18n.portal.rows[i].text
-        } else {
-          rows[i].text = ""
-        }
-      }
-      this.custom_i18n.portal.rows = rows
-    }
+
     // save the current locale selection
     this.previous_customized_locale = this.current_customized_locale
   }
@@ -207,6 +213,7 @@ export class CustomizationComponent implements OnInit {
 
   validateCustomLocal(cb) {
     var error = 0
+    var max_errors = 13
     if (this.custom_i18n.login.title == "") error += 1
     if (this.custom_i18n.login.text == "") error += 1
     if (this.custom_i18n.login.button == "") error += 1
@@ -220,37 +227,37 @@ export class CustomizationComponent implements OnInit {
     if (this.custom_i18n.portal.keyCreatedSuccesfully == "") error += 1
     if (this.custom_i18n.portal.keyDeletededSuccesfully == "") error += 1
     if (this.custom_i18n.portal.keySentSuccesfully == "") error += 1
-    console.log(error)
-    console.log(this.custom_i18n)
-    if (error > 0 && error < 13) {
-      this.openError("Warning!", "Some fields are not configured. If you continue, the locale " + this.current_customized_locale + " won't be saved. Do you want to continue?", (result) => {
+    this.custom_i18n.portal.rows.forEach((row) => {
+      max_errors +=1
+      if (row.text == "") {
+        error += 1
+      }
+    })
+    console.log(error, max_errors)
+    if (error > 0 && error < max_errors) {
+      this.openError("Warning!", "Some fields are not configured. If you continue, the changes on the locale \"" + this.previous_customized_locale + "\" will be discarded. Do you want to continue?", (result) => {
+        console.log(result)
         cb(false, result)
       })
-    } if (error == 13 && this.i18n.hasOwnProperty(this.current_customized_locale)) {
-      delete this.i18n[this.current_customized_locale]
+    } else if (error == max_errors && this.i18n.hasOwnProperty(this.previous_customized_locale)) {
+      delete this.i18n[this.previous_customized_locale]
       cb(false, true)
     } else cb(true)
   }
 
   changeCustomLocal(event): void {
-    console.log(this.i18n)
-    console.log(this.previous_customized_locale)
-    console.log(this.current_customized_locale)
-    var error = null
-    // save the customization into the locale selected before the change event
-    this.validateCustomLocal((valid, discard) => {
-      console.log(valid)
+    // check if all the fields are valid
+    this.validateCustomLocal((valid:boolean, discard:boolean) => {
+      console.log(valid, discard)
       if (valid) {
-        // save customized locale
+        // form is valid. Save customized locale and display the requested one
         this.i18n[this.previous_customized_locale] = this.custom_i18n
-        this.previous_customized_locale = this.current_customized_locale
         this.displayCustomLocal()
       } else if (discard) {
-        // if the user confirm, confirm the change and display the values without saving the customization
-        this.previous_customized_locale = this.current_customized_locale
+        // form is not valid, but the user wants to discard the changes. Discard customized locale and display the requested one
         this.displayCustomLocal()
       } else {
-        // if the user doesn't confirm, reset the selected local with the previous one
+        // form is not valid and user didn't want to discard the changes. Restore the previous locale as the current locale
         this.current_customized_locale = this.previous_customized_locale
       }
     })

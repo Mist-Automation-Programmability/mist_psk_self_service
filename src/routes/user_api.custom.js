@@ -141,10 +141,17 @@ function lightOrDark(color) {
 }
 
 router.get("/colors.css", (req, res) => {
-    var bg_color = "#ececec"
-    var card_color = "#ffffff"
-    var primary_color = "#005c95"
-    var accent_color = "#84b135"
+    if (req.session.mist && req.session.mist.customization && req.session.mist.customization.colors) {
+        var bg_color = req.session.mist.customization.colors.background
+        var card_color = req.session.mist.customization.colors.card
+        var primary_color = req.session.mist.customization.colors.primary
+        var accent_color = req.session.mist.customization.colors.accent
+    } else {
+        var bg_color = "#ececec"
+        var card_color = "#ffffff"
+        var primary_color = "#005c95"
+        var accent_color = "#84b135"
+    }
     var css = "\
     body{background-color:" + bg_color + "!important;}\
     mat-toolbar>a{background-color:" + bg_color + "!important;color:" + lightOrDark(bg_color) + "!important}\
@@ -153,12 +160,13 @@ router.get("/colors.css", (req, res) => {
     .toolbar{color:" + lightOrDark(bg_color) + "!important;}\
     mat-card{background-color:" + card_color + "!important;}\
     mat-card,mat-card-subtitle{color:" + lightOrDark(card_color) + "!important;}\
-    mat-card-action>a,mat-card-actions>.mat-raised-button.mat-primary:not(.mat-button-disabled){background-color:" + primary_color + "!important;color:" + lightOrDark(primary_color) + "!important}\
-    mat-card-action>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
-    mat-card-action>.mat-button.mat-primary:not(.mat-button-disabled){color:" + primary_color + "!important}\
-    mat-card-action>.mat-button.mat-accent:not(.mat-button-disabled){color:" + accent_color + "!important}"
+    mat-card-actions>a,mat-card-actions>.mat-raised-button.mat-primary:not(.mat-button-disabled){background-color:" + primary_color + "!important;color:" + lightOrDark(primary_color) + "!important}\
+    mat-card-actions>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
+    mat-card-actions>.mat-button.mat-primary:not(.mat-button-disabled){color:" + primary_color + "!important}\
+    mat-card-actions>.mat-button.mat-accent:not(.mat-button-disabled){color:" + accent_color + "!important}"
     res.writeHead(200, { 'Content-Type': 'text/css' });
     res.end(css, 'utf-8');
     res.end();
+
 })
 module.exports = router;
