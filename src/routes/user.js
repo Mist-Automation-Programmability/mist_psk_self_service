@@ -19,11 +19,6 @@ router.get("/login/:org_id", function(req, res) {
                 req.session.mist = mist
                 res.sendFile(global.appPath + '/views/user.html');
             }
-            // res.render("login", {
-            //     title: 'Get a Key!',
-            //     method: method,
-            //     custom: req.custom
-            // });
         })
     } else res.status(401)
 });

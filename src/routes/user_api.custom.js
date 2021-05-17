@@ -70,10 +70,12 @@ router.get("/colors.css", (req, res) => {
     mat-dialog-container{background-color:" + card_color + "!important;}\
     mat-dialog-container{color:" + lightOrDark(card_color) + "!important;}\
     app-qrcode>div>.mat-raised-button.mat-accent:not(.mat-button-disabled){background-color:" + accent_color + "!important;color:" + lightOrDark(accent_color) + "!important}\
-    .mat-simple-snackbar-action{color:" + primary_color + "!important;}"
+    .mat-simple-snackbar-action{color:" + primary_color + "!important;}\
+    .mat-progress-bar-fill::after{background-color:" + primary_color + "!important;}\
+    .mat-progress-bar-buffer{background-color:" + card_color + "!important;}\
+    .top-bar-static{background-color:" + primary_color + ";}"
     res.writeHead(200, { 'Content-Type': 'text/css' });
     res.end(css, 'utf-8');
     res.end();
-
 })
 module.exports = router;

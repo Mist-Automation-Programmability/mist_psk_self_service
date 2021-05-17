@@ -1,10 +1,11 @@
 <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center" class="toolbar">
     <img height="100%" alt="Mist Logo" src="{{logo_url}}" />
     <span style="flex: auto"></span>
-    <a mat-button href="{{logout_url}}" aria-label="logout" *ngIf="logout_url != ''">
+    <a mat-button href="{{logout_url}}" aria-label="logout" *ngIf="show_logout">
         <mat-icon class="row-icon">logout</mat-icon>
     </a>
-    <mat-form-field>
+
+    <mat-form-field *ngIf="show_language">
         <mat-select [(value)]="current_language" style="font-size: smaller;">
             <mat-option *ngFor="let language of languages" [value]="language.short" (onSelectionChange)="changeLanguage($event)">
                 {{language.long}}

@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { PortalComponent} from './portal/portal.component';
+import { UnknownComponent } from './unknown/unknown.component';
+import { PortalComponent } from './portal/portal.component';
 import { QrCodeDialog } from './portal/qrcode/qrcode';
 import { ErrorDialog } from './common/error';
 
@@ -19,6 +20,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -30,6 +32,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     AppComponent,
     LoginComponent,
     PortalComponent,
+    UnknownComponent,
     QrCodeDialog,
     ErrorDialog
   ],
@@ -47,6 +50,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     MatButtonModule,
     MatListModule,
     MatIconModule,
+    MatProgressBarModule,
     MatSelectModule,
     MatSnackBarModule,
     MatToolbarModule,

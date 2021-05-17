@@ -13,7 +13,7 @@ import { LogoutService } from "../services/logout.service"
 @Component({
   selector: 'app-portal',
   templateUrl: './portal.component.html',
-  styleUrls: ['./portal.component.css']
+  styleUrls: ['./portal.component.css', '../app.component.css']
 })
 export class PortalComponent implements OnInit {
 
@@ -41,11 +41,16 @@ export class PortalComponent implements OnInit {
   key = "";
   ssid = "";
 
-
-  is_working = false;
   key_exists = false;
   org_id: string;
 
+  is_working: boolean = true;
+  is_ready: boolean = false;
+  loaded = {
+    text: false,
+    info: false,
+    psk: false
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /////           INIT
@@ -53,13 +58,26 @@ export class PortalComponent implements OnInit {
 
   ngOnInit(): void {
     this._language_service.current_language$.subscribe(current_language => {
-       this.getText(current_language);
+      this.getText(current_language);
     });
     this._activated_route.params.forEach(p => this.org_id = p["org_id"])
     this.retrieveInfo();
     this.getMyKey();
   }
 
+  //////////////////////////////////////////////////////////////////////////////
+  /////           READY STATE
+  //////////////////////////////////////////////////////////////////////////////
+
+  checkLoads(part: string, status: boolean) {
+    this.loaded[part] = status
+    var tmp = true
+    for (const [key, value] of Object.entries(this.loaded)) {
+      if (value == false) tmp = false
+    }
+    this.is_ready = tmp
+    if (this.is_ready) this.is_working = false;
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   /////           FUNCTIONS
@@ -69,7 +87,7 @@ export class PortalComponent implements OnInit {
     this.is_working = false
     console.log(data)
     if (data.status == 401) {
-      window.location.href="/login/" + this.org_id
+      window.location.href = "/login/" + this.org_id
     } else {
       var message: string = "Unable to contact the server... Please try again later... "
       if (data.error && data.error.message) message = data.error.message
@@ -80,12 +98,11 @@ export class PortalComponent implements OnInit {
 
 
   retrieveInfo(): void {
-    this.is_working = true
     this._http.get<any>('/api/user/myInfo/' + this.org_id).subscribe({
       next: data => {
         this.user = data.user,
-        this._logout_service.setUrl(data.logout_url)
-          this.is_working = false
+          this._logout_service.setUrl(data.logout_url)
+        this.checkLoads("info", true)
       },
       error: error => this.parse_error(error)
     })
@@ -96,7 +113,7 @@ export class PortalComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////
   parseText(data): void {
     this.i18n = data.i18n;
-    
+
     this.i18n.title = this.i18n.title.replace("{username}", this.user.name).replace("{email}", this.user.email).replace("ssid", this.ssid)
     this.i18n.text = this.i18n.text.replace("{username}", this.user.name).replace("{email}", this.user.email).replace("ssid", this.ssid)
     this.i18n.create_button = this.i18n.create_button.replace("{username}", this.user.name).replace("{email}", this.user.email).replace("ssid", this.ssid)
@@ -107,6 +124,7 @@ export class PortalComponent implements OnInit {
     this.i18n.keyCreatedSuccesfully = this.i18n.keyCreatedSuccesfully.replace("{username}", this.user.name).replace("{email}", this.user.email).replace("ssid", this.ssid)
     this.i18n.keyDeletededSuccesfully = this.i18n.keyDeletededSuccesfully.replace("{username}", this.user.name).replace("{email}", this.user.email).replace("ssid", this.ssid)
     this.i18n.keySentSuccesfully = this.i18n.keySentSuccesfully.replace("{username}", this.user.name).replace("{email}", this.user.email).replace("ssid", this.ssid)
+    this.checkLoads("text", true)
   }
 
   getText(language: string): void {
@@ -120,17 +138,19 @@ export class PortalComponent implements OnInit {
   //////////////////////////////////////////////////////////////////////////////
 
   getMyKey(): void {
-    this.is_working = true
     this._http.get<any>('/api/user/psk/' + this.org_id).subscribe({
       next: data => {
         if (data && data.passphrase && data.ssid) {
           this.key = data.passphrase;
           this.ssid = data.ssid;
           this.key_exists = true;
-          this.is_working = false;
+          this.checkLoads("psk", true)
         }
       },
-      error: error => this.parse_error(error)
+      error: error => {
+        this.parse_error(error)
+        this.checkLoads("psk", true)
+      }
     })
   }
   createMyKey(): void {
@@ -143,7 +163,10 @@ export class PortalComponent implements OnInit {
         this.is_working = false;
         this.openSnackBar(this.i18n.keyCreatedSuccesfully, "Ok");
       },
-      error: error => this.parse_error(error)
+      error: error => {
+        this.parse_error(error)
+        this.is_working = false;
+      }
     })
   }
   revokeMyKey(): void {
@@ -152,11 +175,14 @@ export class PortalComponent implements OnInit {
       next: data => {
         this.key = "";
         this.ssid = "";
-        this.is_working = false;
         this.key_exists = false;
+        this.is_working = false;
         this.openSnackBar(this.i18n.keyDeletededSuccesfully, "Ok")
       },
-      error: error => this.parse_error(error)
+      error: error => {
+        this.parse_error(error)
+        this.is_working = false;
+      }
     })
   }
   deliverByEmail(): void {
@@ -166,7 +192,10 @@ export class PortalComponent implements OnInit {
         this.is_working = false;
         this.openSnackBar(this.i18n.keySentSuccesfully.replace("{email}", this.user.email), "Ok")
       },
-      error: error => this.parse_error(error)
+      error: error => {
+        this.parse_error(error)
+        this.is_working = false;
+      }
     })
   }
   //////////////////////////////////////////////////////////////////////////////

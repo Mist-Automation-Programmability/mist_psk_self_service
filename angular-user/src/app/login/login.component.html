@@ -1,4 +1,7 @@
-<div style="height: 100%;" fxLayout="row" fxLayoutAlign="center start">
+<mat-progress-bar [ngClass]="is_ready ? 'static':'loading'" mode="indeterminate" class="top-bar"></mat-progress-bar>
+<div class="top-bar-static"></div>
+
+<div style="height: 100%;" fxLayout="row" fxLayoutAlign="center start" [ngClass]="is_ready ? 'showed': 'hidden'">
     <mat-card fxLayout="column" fxLayoutAlign="center center" class="login-box">
         <mat-card-title>
             {{i18n.title}}
@@ -7,7 +10,7 @@
             {{i18n.text}}
         </mat-card-content>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
-            <a mat-raised-button color="accent" href="{{auth_url}}">{{i18n.button}}</a>
+            <a mat-raised-button color="primary" href="{{auth_url}}">{{i18n.button}}</a>
         </mat-card-actions>
 
     </mat-card>

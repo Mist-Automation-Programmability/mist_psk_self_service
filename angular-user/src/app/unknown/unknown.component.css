@@ -1,0 +1,14 @@
+.login-box {
+    max-width: 30em;
+    min-width: 20em;
+    margin-top: 10%;
+}
+
+mat-card-title {
+    text-align: center;
+    line-height: normal;
+}
+
+mat-card-content {
+    margin: 16px 0;
+}

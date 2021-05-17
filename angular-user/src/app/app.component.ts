@@ -10,24 +10,25 @@ import { LogoutService } from "./services/logout.service";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  
+
   constructor(private _http: HttpClient, private _language_service: LanguageService, private _logout_service: LogoutService) { }
 
-  current_language: string = "en";
+  current_language: string;
+  show_language: boolean = false;
   logout_url: string;
+  show_logout: boolean = false;
   logo_url: string;
   languages = []
 
   ngOnInit(): void {
-    this._language_service.setLanguage("en")
+    this._language_service.show_language$.subscribe(show => this.show_language = show)
     this._logout_service.logout_url$.subscribe(url => this.logout_url = url)
+    this._logout_service.show_language$.subscribe(show => this.show_logout = show)
     this.getLanguages()
     this.getCustom()
   }
-
   changeLanguage(e) {
     if (e.source._selected) {
-      console.log(e)
       this.current_language = e.source.value
       this._language_service.setLanguage(this.current_language)
     }
@@ -39,7 +40,7 @@ export class AppComponent implements OnInit {
     this.languages = data.languages;
   }
   parse_error(data): void {
-    console.log(data)
+    this.logo_url = "/images/juniper.png"
   }
 
   getLanguages(): void {
@@ -48,7 +49,7 @@ export class AppComponent implements OnInit {
       error: error => this.parse_error(error)
     })
   }
-  parse_custom(data):void {
+  parse_custom(data): void {
     this.logo_url = data.logo_url
   }
   getCustom(): void {
