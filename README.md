@@ -34,6 +34,7 @@ This application is available as a [Docker Image](https://hub.docker.com/reposit
 Configuration can be done through the config file. An example of the `config.js` file can be found in `src/config_example.js`. Then, you just need to link the `config.js` file to `/app/config.js` in you container.
 
 You can also use environment variables to configure the app:
+
 Variable Name | Type | Default Value | Comment 
 ------------- | ---- | ------------- | ------- 
 NODE_HOSTNAME | string | null | Server FQDN. Used to forge the url. |
