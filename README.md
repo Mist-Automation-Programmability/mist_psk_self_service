@@ -21,6 +21,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 <img src="__readme_img/portal_1.png" width="40%">
 <img src="__readme_img/portal_2.png" width="40%">
 </div>
+
 ## Install
 This Reference Application can be used as a standalone Application, or it can be deployed as a Docker Image (recommanded).
 
