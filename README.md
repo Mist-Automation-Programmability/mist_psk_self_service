@@ -75,7 +75,7 @@ This Reference APP is built over NodeJS.
 * Start the APP with `npm start` from the `src` folder
 
 #### Manage HTTPS at the application level
-If you want to use OAuth authentication, the application will need to use HTTPS. To do so, you can use a reverse Proxy (NGINX, Apache, ...) and manage the certificates at the reverse proxy level, or you can start the application with `www_with_https`. In this case:
-* Create a `cert` folder into the `src` project folder.
-* Place you certificate and certificate key in this new folder, with the names `server.pem` and `server.key`.
-* Start the APP with `www_with_https`. 
+If you want to use OAuth authentication, the application will need to use HTTPS. To do so, you can use a reverse Proxy (NGINX, Apache, ...) and manage the certificates at the reverse proxy level, or you can configure the app to enable HTTPS. In this case:
+* Edit the `config..js` to enable HTTP
+* Place you certificate and certificate key in the `src/certs` folder. The certificate and key must be name based on the names configured in the `config.js`file
+* Start the APP with `npm start` from the `src` folder
