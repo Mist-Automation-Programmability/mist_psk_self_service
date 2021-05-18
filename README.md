@@ -93,7 +93,7 @@ To protect your data, be sure to:
 It is also possible to encypt most of the information stored by the application by setting the `MONGO_ENC_KEY` and `MONGO_SIG_KEY` configuration variables (or `encKey` and `sigKey` in the `config.js` file).
 
 ### Migrate from unencrypted DB to encrypted DB
-** WARNING: Be sure to backup you're DB before starting the migration **
+** WARNING: Be sure to backup your DB before starting the migration **
 
 If you start to use the application without setting the encription and signature keys, the application already stored some data unencrypted.
 
