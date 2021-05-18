@@ -1,20 +1,20 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var OktaSchema = new mongoose.Schema({
-    audience: { type: String, required: true },
-    client_id: { type: String, required: true },
-    client_secret: { type: String, required: true },
+const OktaSchema = new mongoose.Schema({
+    audience: { type: String },
+    client_id: { type: String },
+    client_secret: { type: String },
     created_at: { type: Date },
     updated_at: { type: Date }
 });
 
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
-    var encrypt = require('mongoose-encryption');
+    const encrypt = require('mongoose-encryption');
     OktaSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
 }
 
-var Okta = mongoose.model('Okta', OktaSchema);
+const Okta = mongoose.model('Okta', OktaSchema);
 
 
 // Pre save

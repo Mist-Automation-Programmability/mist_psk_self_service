@@ -1,17 +1,17 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-var GoogleSchema = new mongoose.Schema({
-    domains: [{ type: String, required: false }],
+const GoogleSchema = new mongoose.Schema({
+    domains: [{ type: String }],
     created_at: { type: Date },
     updated_at: { type: Date }
 });
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
-    var encrypt = require('mongoose-encryption');
+    const encrypt = require('mongoose-encryption');
     GoogleSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
 }
 
-var Google = mongoose.model('Google', GoogleSchema);
+const Google = mongoose.model('Google', GoogleSchema);
 
 
 // Pre save

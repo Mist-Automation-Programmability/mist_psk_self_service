@@ -1,10 +1,4 @@
 const mongoose = require('mongoose');
-const Token = require('./token');
-const Azure = require('./azure');
-const Adfs = require('./adfs');
-const Google = require('./google');
-const Config = require('./psk');
-const Customization = require('./customization');
 
 const AccountSchema = new mongoose.Schema({
     host: { type: String, required: true },

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const PskSchema = new mongoose.Schema({
-    scope: { type: String, required: true },
-    site_id: { type: String, required: false },
-    ssid: { type: String, required: true },
+    scope: { type: String },
+    site_id: { type: String },
+    ssid: { type: String },
     vlan_id: { type: Number, default: 0 },
     min: { type: Boolean, default: false },
     cap: { type: Boolean, default: false },
@@ -15,7 +15,7 @@ const PskSchema = new mongoose.Schema({
 });
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
-    var encrypt = require('mongoose-encryption');
+    const encrypt = require('mongoose-encryption');
     PskSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
 }
 

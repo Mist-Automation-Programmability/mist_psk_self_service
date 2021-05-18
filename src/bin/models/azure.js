@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const AzureSchema = new mongoose.Schema({
-    client_id: { type: String, required: true },
-    client_secret: { type: String, required: true },
-    tenant: { type: String, required: false },
-    resource: { type: String, required: false },
+    client_id: { type: String },
+    client_secret: { type: String },
+    tenant: { type: String },
+    resource: { type: String },
     allow_external_users: { type: Boolean, default: false },
     allow_unlicensed_users: { type: Boolean, default: false },
     user_groups: [{ type: String }],
@@ -13,7 +13,7 @@ const AzureSchema = new mongoose.Schema({
 });
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
-    var encrypt = require('mongoose-encryption');
+    const encrypt = require('mongoose-encryption');
     AzureSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
 }
 

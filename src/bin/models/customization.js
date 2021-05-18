@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const I18n = require('./i18n');
 
 const CustomizationSchema = new mongoose.Schema({
     logo: {
