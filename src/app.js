@@ -5,6 +5,16 @@ var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var path = require('path');
 
+
+function stringToBool(val, def_val) {
+    if (val) {
+        val = val.toLowerCase()
+        if (val == "true" || val == "1") return true
+        else if (val == "false" || val == "0") return false
+    }
+    return def_val
+}
+
 var config = {}
 try {
     config = require("./config")
@@ -14,7 +24,7 @@ try {
         appServer: {
             vhost: process.env.NODE_HOSTNAME || null,
             httpPort: process.env.NODE_PORT || 3000,
-            enableHttps: process.env.NODE_HTTPS || false,
+            enableHttps: stringToBool(process.env.NODE_HTTPS, false),
             httpsPort: process.env.NODE_PORT_HTTPS || 3443,
             httpsCertificate: process.env.NODE_HTTPS_CERT || null,
             httpsKey: process.env.NODE_HTTPS_KEY || null
@@ -28,10 +38,10 @@ try {
         smtp: {
             host: process.env.SMTP_HOSTNAME || null,
             port: process.env.SMTP_PORT || 25,
-            secure: process.env.SMTP_SECURE || false, // upgrade later with STARTTLS
+            secure: stringToBool(process.env.SMTP_SECURE, false), // upgrade later with STARTTLS
             tls: {
                 // do not fail on invalid certs
-                rejectUnauthorized: process.env.SMTP_REJECT_UNAUTHORIZED || true
+                rejectUnauthorized: stringToBool(process.env.SMTP_REJECT_UNAUTHORIZED, true)
             },
             auth: {
                 user: process.env.SMTP_USER || null,
@@ -41,7 +51,7 @@ try {
             from_email: process.env.SMTP_FROM_EMAIL || "wi-fi@corp.org",
             subject: process.env.SMTP_SUBJECT || "Your Personal Wi-Fi access code",
             logo_url: process.env.SMTP_LOGO || "https://cdn.mist.com/wp-content/uploads/logo.png",
-            enable_qrcode: process.env.SMTP_ENABLE_QRCODE || true
+            enable_qrcode: stringToBool(process.env.SMTP_ENABLE_QRCODE, true)
         },
         google: {
             client_id: process.env.GOOGLE_CLIENTID || "",
@@ -50,6 +60,7 @@ try {
     }
 } finally {
     global.config = config
+    console.log(config)
 }
 
 global.appPath = path.dirname(require.main.filename).replace(new RegExp('/bin$'), "");
