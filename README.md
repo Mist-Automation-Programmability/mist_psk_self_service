@@ -28,7 +28,7 @@ This Reference Application can be used as a standalone Application, or it can be
 This application is available as a [Docker Image](https://hub.docker.com/repository/docker/tmunzer/mpss). The Dockerfile is also available if you want top build it on your own.
 
 #### Run the Docker version
-`   docker create -v  <path_to_config.js>/config.js:/app/config.js:ro --link <mongoDB_container_name>:mongo --name="<container_name>" -p 3000:80 tmunzer/mist_psk_self_service`
+`   docker create -v  <path_to_config.js>/config.js:/app/config.js:ro --link <mongoDB_container_name>:mongo --name="<container_name>" -p 3000:80 tmunzer/mpss`
 
 #### Configure the Docker version
 Configuration can be done through the config file. An example of the `config.js` file can be found in `src/config_example.js`. Then, you just need to link the `config.js` file to `/app/config.js` in you container.
@@ -78,12 +78,3 @@ If you want to use OAuth authentication, the application will need to use HTTPS.
 * Create a `cert` folder into the `src` project folder.
 * Place you certificate and certificate key in this new folder, with the names `server.pem` and `server.key`.
 * Start the APP with `www_with_https`. 
-
-
-#### Manual deployment
-If you are manually deploying this container, you will need to a reverse proxy to manage HTTPS.
-
-`   docker create -v  <path_to_config.js>/config.js:/app/config.js:ro --link <mongoDB_container_name>:mongo --name="<container_name>" -p 51360:80 tmunzer/mist_psk_self_service`
-
-
-
