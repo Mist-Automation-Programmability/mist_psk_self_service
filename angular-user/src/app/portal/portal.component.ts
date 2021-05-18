@@ -143,8 +143,8 @@ export class PortalComponent implements OnInit {
           this.key = data.passphrase;
           this.ssid = data.ssid;
           this.key_exists = true;
-          this.checkLoads("psk", true)
         }
+        this.checkLoads("psk", true)
       },
       error: error => {
         this.parse_error(error)
