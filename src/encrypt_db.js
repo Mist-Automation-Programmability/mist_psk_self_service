@@ -1,4 +1,3 @@
-var session = require('express-session');
 var path = require('path');
 
 /*================================================================
@@ -60,6 +59,8 @@ try {
     }
 } finally {
     global.config = config
+    console.log("Configuration loaded:")
+    console.log(config)
 }
 
 global.appPath = path.dirname(require.main.filename).replace(new RegExp('/bin$'), "");
@@ -85,6 +86,7 @@ if (global.config.mongo.user && global.config.mongo.password) mongo_host = globa
 mongoose.connect('mongodb://' + mongo_host + '/' + global.config.mongo.base + "?authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true });
 
 
+console.log("Loading DB Schemas")
 const AdfsSchema = new mongoose.Schema({
     metadata: { type: String },
     entry_point: { type: String },
@@ -140,46 +142,45 @@ const PskSchema = new mongoose.Schema({
     updated_at: { type: Date }
 });
 
+console.log("Starting encryption")
+var encrypt = require('mongoose-encryption');
+AdfsSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+const Adfs = mongoose.model('Adfs', AdfsSchema);
+Adfs.migrateToA(function(err) {
+    if (err) { throw err; }
+    console.log('AdfsSchema Migration successful');
+});
+AzureSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+const Azure = mongoose.model('Azure', AzureSchema);
+Azure.migrateToA(function(err) {
+    if (err) { throw err; }
+    console.log('AzureSchema Migration successful');
+});
+GoogleSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+const Google = mongoose.model('Google', GoogleSchema);
+Google.migrateToA(function(err) {
+    if (err) { throw err; }
+    console.log('GoogleSchema Migration successful');
+});
+OktaSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+const Okta = mongoose.model('Okta', OktaSchema);
+Okta.migrateToA(function(err) {
+    if (err) { throw err; }
+    console.log('OktaSchema Migration successful');
+});
+PskSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+const Psk = mongoose.model('Psk', PskSchema);
+Psk.migrateToA(function(err) {
+    if (err) { throw err; }
+    console.log('PskSchema Migration successful');
+});
+TokenSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+const Token = mongoose.model('Token', TokenSchema);
+Token.migrateToA(function(err) {
+    if (err) { throw err; }
+    console.log('TokenSchema Migration successful');
+});
 
-if (global.config.mongo.encKey && global.config.mongo.sigKey) {
-    var encrypt = require('mongoose-encryption');
-    AdfsSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
-    const Adfs = mongoose.model('Adfs', AdfsSchema);
-    Adfs.migrateToA(function(err) {
-        if (err) { throw err; }
-        console.log('AdfsSchema Migration successful');
-    });
-    AzureSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
-    const Azure = mongoose.model('Azure', AzureSchema);
-    Azure.migrateToA(function(err) {
-        if (err) { throw err; }
-        console.log('AzureSchema Migration successful');
-    });
-    GoogleSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
-    const Google = mongoose.model('Google', GoogleSchema);
-    Google.migrateToA(function(err) {
-        if (err) { throw err; }
-        console.log('GoogleSchema Migration successful');
-    });
-    OktaSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
-    const Okta = mongoose.model('Okta', OktaSchema);
-    Okta.migrateToA(function(err) {
-        if (err) { throw err; }
-        console.log('OktaSchema Migration successful');
-    });
-    PskSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
-    const Psk = mongoose.model('Psk', PskSchema);
-    Psk.migrateToA(function(err) {
-        if (err) { throw err; }
-        console.log('PskSchema Migration successful');
-    });
-    TokenSchema.plugin(encrypt.migrations, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
-    const Token = mongoose.model('Token', TokenSchema);
-    Token.migrateToA(function(err) {
-        if (err) { throw err; }
-        console.log('TokenSchema Migration successful');
-    });
 
-}
 
 exit(0)

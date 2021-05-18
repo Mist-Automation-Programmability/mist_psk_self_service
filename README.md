@@ -48,8 +48,8 @@ MONGO_HOSTNAME | string | null | Mongo server hostname |
 MONGO_DB | string | mpss | Mongo Database name |
 MONGO_USER | string | null | If the Mongo server require authentication |
 MONGO_PASSWORD | string | null | If the Mongo server require authentication |
-MONGO_ENC_KEY | string | null | Used to encrypt the data stored inside the Mongo DB. If not set, the data will be store in cleartext. Can be generated with `openssl rand -base64 32;`command |
-MONGO_SIG_KEY | string | null | Used to encrypt the data stored inside the Mongo DB. If not set, the data will be store in cleartext. Can be generated with `openssl rand -base64 64;`command |
+MONGO_ENC_KEY | string | null | Used to encrypt the data stored inside the Mongo DB. If not set, the data will be store in cleartext. Can be generated with `openssl rand -base64 32` command |
+MONGO_SIG_KEY | string | null | Used to encrypt the data stored inside the Mongo DB. If not set, the data will be store in cleartext. Can be generated with `openssl rand -base64 64` command |
 SMTP_HOSTNAME | string | null | SMTP server FQDN or IP Address |
 SMTP_PORT | int | 25 | | 
 SMTP_SECURE | boolean | false | indicate NODE to use STARTTLS or SSL/TLS to communicate with the SMTP server |
