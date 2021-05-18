@@ -6,10 +6,10 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 # Mist PSK Self Service v1
 * Admin interface to configure:
- * the Mist integration 
- * the Authentication method
- * the logo and colors 
- * the translations
+  * the Mist integration 
+  * the Authentication method
+  * the logo and colors 
+  * the translations
 * AzureAD, ADFS/SAML, Google and Okta integration
 * User self-service portal with Email and QRcode features
 
