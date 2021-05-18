@@ -5,7 +5,9 @@ var session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 var path = require('path');
 
-
+/*================================================================
+ LOAD APP SETTINGS
+ ================================================================*/
 function stringToBool(val, def_val) {
     if (val) {
         val = val.toLowerCase()
@@ -64,6 +66,9 @@ try {
 
 global.appPath = path.dirname(require.main.filename).replace(new RegExp('/bin$'), "");
 
+/*================================================================
+ EXPRESS
+ ================================================================*/
 var app = express();
 // remove http header
 app.disable('x-powered-by');
@@ -72,7 +77,9 @@ app.use(morgan('\x1b[32minfo\x1b[0m: :remote-addr - :remote-user [:date[clf]] ":
     skip: function(req, res) { return res.statusCode < 400 && req.originalUrl != "/"; }
 }));
 
-//===============MONGODB=================
+/*================================================================
+ MONGO
+ ================================================================*/
 // configure mongo database
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
@@ -90,7 +97,9 @@ if (global.config.mongo.user && global.config.mongo.password) mongo_host = globa
 mongoose.connect('mongodb://' + mongo_host + '/' + global.config.mongo.base + "?authSource=admin", { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-//===============APP=================
+/*================================================================
+ APP
+ ================================================================*/
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(express.json({ limit: '1mb' }));
 // express-session parameters:
