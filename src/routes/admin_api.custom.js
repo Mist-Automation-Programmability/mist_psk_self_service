@@ -14,7 +14,6 @@ const default_i18n = require("./../i18n")
 
 
 function save_customization(org_id, customization, cb) {
-    console.log(customization)
     Account.findOne({ org_id: org_id })
         .populate("_customization")
         .exec((err, account) => {

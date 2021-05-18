@@ -60,7 +60,6 @@ try {
     }
 } finally {
     global.config = config
-    console.log(config)
 }
 
 global.appPath = path.dirname(require.main.filename).replace(new RegExp('/bin$'), "");

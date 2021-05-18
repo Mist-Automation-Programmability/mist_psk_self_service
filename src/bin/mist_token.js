@@ -60,7 +60,6 @@ module.exports.delete = function(mist, token, callback) {
                 console.log(err)
                 callback(err)
             } else {
-                console.log(data)
                 callback(null, data)
             }
         });

@@ -42,8 +42,6 @@ function genCertificate(org_id) {
                             }, function(error, stdout, stderr) {
                                 if (error) {
                                     console.log(error);
-                                    console.log(stderr);
-                                    console.log(stdout);
                                 } else {
                                     console.log("SAML Certificates created for " + global.config.appServer.vhost + "/" + org_id);
                                     i = files.length;

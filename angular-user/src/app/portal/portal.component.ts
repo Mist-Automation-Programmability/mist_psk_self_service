@@ -85,7 +85,6 @@ export class PortalComponent implements OnInit {
 
   parse_error(data): void {
     this.is_working = false
-    console.log(data)
     if (data.status == 401) {
       window.location.href = "/login/" + this.org_id
     } else {
