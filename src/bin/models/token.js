@@ -9,6 +9,11 @@ const TokenSchema = new mongoose.Schema({
     updated_at: { type: Date }
 });
 
+if (global.config.mongo.encKey && global.config.mongo.sigKey) {
+    var encrypt = require('mongoose-encryption');
+    TokenSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+}
+
 const Token = mongoose.model('Token', TokenSchema);
 
 

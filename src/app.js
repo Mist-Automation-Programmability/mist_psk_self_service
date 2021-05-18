@@ -35,7 +35,9 @@ try {
             host: process.env.MONGO_HOSTNAME || null,
             base: process.env.MONGO_DB || "mpss",
             user: process.env.MONGO_USER || null,
-            password: process.env.MONGO_PASSWORD || null
+            password: process.env.MONGO_PASSWORD || null,
+            encKey: process.env.MONGO_ENC_KEY || null,
+            sigKey: process.env.MONGO_SIG_KEY || null
         },
         smtp: {
             host: process.env.SMTP_HOSTNAME || null,

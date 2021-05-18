@@ -21,6 +21,7 @@ const AccountSchema = new mongoose.Schema({
     updated_at: { type: Date }
 });
 
+
 const Account = mongoose.model('Account', AccountSchema);
 
 

@@ -27,7 +27,11 @@ module.exports.appServer = {
  ******************************************************************************/
 module.exports.mongo = {
     host: "localhost",
-    base: "mpss"
+    base: "mpss",
+    user: "mongo_user",
+    password: "mongo_password",
+    encKey: "SOME_32BYTE_BASE64_STRING", //openssl rand -base64 32; 
+    sigKey: "SOME_64BYTE_BASE64_STRING" //openssl rand -base64 64;
 }
 
 module.exports.smtp = {

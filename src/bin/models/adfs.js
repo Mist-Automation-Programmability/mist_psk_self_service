@@ -11,6 +11,11 @@ var AdfsSchema = new mongoose.Schema({
     updated_at: { type: Date }
 });
 
+if (global.config.mongo.encKey && global.config.mongo.sigKey) {
+    var encrypt = require('mongoose-encryption');
+    AdfsSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+}
+
 var Adfs = mongoose.model('Adfs', AdfsSchema);
 
 

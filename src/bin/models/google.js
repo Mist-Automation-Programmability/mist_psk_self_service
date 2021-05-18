@@ -6,6 +6,11 @@ var GoogleSchema = new mongoose.Schema({
     updated_at: { type: Date }
 });
 
+if (global.config.mongo.encKey && global.config.mongo.sigKey) {
+    var encrypt = require('mongoose-encryption');
+    GoogleSchema.plugin(encrypt, { encryptionKey: global.config.mongo.encKey, signingKey: global.config.mongo.sigKey });
+}
+
 var Google = mongoose.model('Google', GoogleSchema);
 
 
