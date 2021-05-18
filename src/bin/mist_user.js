@@ -61,8 +61,8 @@ module.exports.getAccount = function(org_id, cb) {
                     mist.customization = account._customization;
                 }
                 // update the user session
-                if (!failure) cb(null, mist)
+                if (!failure) return cb(null, mist)
             } else
-                cb({ code: 404, error: "Page Not Found" })
+                return cb({ code: 404, error: "Page Not Found" })
         });
 }

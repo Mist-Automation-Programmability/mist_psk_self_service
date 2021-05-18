@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component'
 import { UnknownComponent } from './unknown/unknown.component'
+import { ErrorComponent } from './error/error.component'
 import { PortalComponent } from './portal/portal.component'
 
 const routes: Routes = [
   { path: 'login/:org_id', component: LoginComponent },
   { path: 'portal/:org_id', component: PortalComponent },
   { path: 'unknown', component: UnknownComponent },
+  { path: 'error', component: ErrorComponent },
   { path: '', redirectTo: '/unknown', pathMatch: 'full' }, // redirect to `first-component`
   { path: '**', redirectTo: '/unknown' }, // redirect to `first-component`
 ];

@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { UnknownComponent } from './unknown/unknown.component';
+import { ErrorComponent } from './error/error.component';
 import { PortalComponent } from './portal/portal.component';
 import { QrCodeDialog } from './portal/qrcode/qrcode';
 import { ErrorDialog } from './common/error';
@@ -32,7 +33,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     AppComponent,
     LoginComponent,
     PortalComponent,
-    UnknownComponent,
+    UnknownComponent, ErrorComponent,
     QrCodeDialog,
     ErrorDialog
   ],
