@@ -35,11 +35,7 @@ function getOktaAccount(req, res, next) {
                     return cb(null, profile)
                 }));
                 next();
-            } else res.render('error', {
-                status: 404,
-                message: "Page not found",
-                stack: {}
-            });
+            } else res.redirect("/unknown")
         })
 }
 

@@ -210,7 +210,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
-        res.render('error', {
+        res.redirect('error', {
             message: err.message,
             stack: err
         });
@@ -220,13 +220,9 @@ if (app.get('env') === 'development') {
     // production error handler
     // no stacktraces leaked to user
     app.use(function(err, req, res, next) {
-        if (err.status == 404) err.message = "The requested url " + req.originalUrl + " was not found on this server.";
+        if (err.status == 404) res.redirect('/unknown');
         res.status(err.status || 500);
-        res.render('error', {
-            status: err.status,
-            message: err.message,
-            stack: {}
-        });
+        res.redirect('/error');
     });
 }
 

@@ -124,11 +124,10 @@ function getAzureAdAccount(req, res, next) {
     // if Azure OAuth returns an error message
     if (req.query.error) {
         console.error("\x1b[31mERROR\x1b[0m:", "AzureAD error: " + req.query.error);
-        if (req.query.error_description) console.error("\x1b[31mERROR\x1b[0m:", "AzureAD message: " + req.query.error_description.replace(/\+/g, " "));
-        res.render('error', {
-            status: req.query.error,
-            message: req.query.error_description.replace(/\+/g, " ")
-        });
+        if (req.query.error_description) {
+            console.error("\x1b[31mERROR\x1b[0m:", "AzureAD message: " + req.query.error_description.replace(/\+/g, " "));
+            return res.redirect('/login/' + req.params.org_id + "?error=" + req.query.error_description);
+        }
     } else
     // retrieve the configuration from DB
     {
@@ -166,11 +165,7 @@ function getAzureAdAccount(req, res, next) {
                         done(null, waadProfile);
                     }));
                     next();
-                } else res.render('error', {
-                    status: 404,
-                    message: "Page not found",
-                    stack: {}
-                });
+                } else res.redirect("/unknown")
             })
     }
 }

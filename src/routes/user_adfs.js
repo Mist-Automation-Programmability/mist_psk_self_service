@@ -47,11 +47,7 @@ function getAccount(req, res, next) {
                     }
                 ));
                 next();
-            } else res.render('error', {
-                status: 404,
-                message: "Page not found",
-                stack: {}
-            });
+            } else res.redirect("/unknown")
         });
 }
 
@@ -74,11 +70,7 @@ router.post('/:org_id/postResponse', getAccount,
 
         if (req.session.mist) res.redirect('/portal/' + req.session.mist.org_id);
         else mist_user.getAccount(req.params.org_id, (err, mist) => {
-            if (err) res.render('error', {
-                status: 404,
-                message: "Page not found",
-                stack: {}
-            });
+            if (err) res.redirect("/error")
             else {
                 req.session.mist = mist
                 res.redirect('/portal/' + req.session.mist.org_id);

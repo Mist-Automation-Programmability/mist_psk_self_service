@@ -41,17 +41,10 @@ router.get("/error", (req, res) => {
 
 // just to be sure. Should never be called...
 router.get("/login/:org_id/callback", function(req, res) {
-    res.render('error', { error: { message: "It seems the callback URL is misconfigured on your AzureAD or SAML. Please be sure to use the callback url from the configuration interface." } });
+    var error_description = "It seems the callback URL is misconfigured on your AzureAD or SAML. Please contact your administrator."
+    res.redirect('/login/' + req.session.mist.org_id + "?error=" + error_description);
 });
 
-// // When the generic login page is called
-// router.get("/login", function(req, res) {
-//     res.render("login", {
-//         title: 'Get a Key!',
-//         authUrl: "/admin_access",
-//         method: null
-//     });
-// });
 // When the logout URL is called
 router.get("/logout/", function(req, res) {
     var loginurl = require('querystring').escape("https://" + serverHostname + "/login/" + req.session.account._id + "/");

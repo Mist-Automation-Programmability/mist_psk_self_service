@@ -43,6 +43,11 @@ export class LoginComponent implements OnInit {
     });
     this._activated_route.params.forEach(p => this.org_id = p["org_id"])
     this.getAuthUrl();
+
+    this._activated_route.queryParams.subscribe(params => {
+      if (params.error) this.error = params.error
+      console.log(params)
+  });
   }
   //////////////////////////////////////////////////////////////////////////////
   /////           READY STATE

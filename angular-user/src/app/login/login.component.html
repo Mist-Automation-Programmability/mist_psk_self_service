@@ -6,8 +6,10 @@
         <mat-card-title>
             {{i18n.title}}
         </mat-card-title>
-        <mat-card-content>
-            {{i18n.text}}
+        <mat-card-content fxLayout="column">
+            <div>
+                {{i18n.text}}</div>
+            <div *ngIf="error" style="color: red; margin-top: 2em">{{error}}</div>
         </mat-card-content>
         <mat-card-actions fxLayout="row" fxLayoutAlign="end center">
             <a mat-raised-button color="primary" href="{{auth_url}}">{{i18n.button}}</a>

@@ -35,11 +35,7 @@ function getAccount(req, res, next) {
                     return cb(err, profile, account);
                 }));
                 next();
-            } else res.render('error', {
-                status: 404,
-                message: "Page not found",
-                stack: {}
-            });
+            } else res.redirect("/unknown")
         })
 };
 
@@ -61,11 +57,7 @@ router.get('/callback', getAccount,
             if (req.session.mist) res.redirect('/portal/' + req.session.org_id);
 
             else mist_user.getAccount(req.session.org_id, (err, mist) => {
-                if (err) res.render('error', {
-                    status: 404,
-                    message: "Page not found",
-                    stack: {}
-                });
+                if (err) res.redirect('/unknown');
                 else {
                     req.session.mist = mist
                     res.redirect('/portal/' + req.session.org_id);
@@ -73,13 +65,10 @@ router.get('/callback', getAccount,
             })
         } else {
             console.info("\x1b[32minfo\x1b[0m:", 'User ' + req.session.email + ' logged in but domain ' + domain + " not authorized");
+            var error_description = "Emails from the domain " + domain + " are not authorized to access this application. Please contact your administrator."
+            res.redirect('/login/' + req.session.mist.org_id + "?error=" + error_description);
             req.logout();
             req.session.destroy();
-            res.render('error', {
-                status: 401,
-                message: "Domain " + domain + " not authorized to access this application.",
-                stack: {}
-            });
         }
     }
 );
