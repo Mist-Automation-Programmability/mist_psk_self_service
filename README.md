@@ -6,10 +6,10 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 # Mist PSK Self Service v1
 * Admin interface to configure:
- * the Mist integration 
- * the Authentication method
- * the logo and colors 
- * the translations
+  * the Mist integration 
+  * the Authentication method
+  * the logo and colors 
+  * the translations
 * AzureAD, ADFS/SAML, Google and Okta integration
 * User self-service portal with Email and QRcode features
 
@@ -21,6 +21,7 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 <img src="__readme_img/portal_1.png" width="40%">
 <img src="__readme_img/portal_2.png" width="40%">
 </div>
+
 ## Install
 This Reference Application can be used as a standalone Application, or it can be deployed as a Docker Image (recommanded).
 
@@ -28,14 +29,15 @@ This Reference Application can be used as a standalone Application, or it can be
 This application is available as a [Docker Image](https://hub.docker.com/repository/docker/tmunzer/mpss). The Dockerfile is also available if you want top build it on your own.
 
 #### Run the Docker version
-`   docker create -v  <path_to_config.js>/config.js:/app/config.js:ro --link <mongoDB_container_name>:mongo --name="<container_name>" -p 3000:80 tmunzer/mist_psk_self_service`
+`   docker create -v  <path_to_config.js>/config.js:/app/config.js:ro --link <mongoDB_container_name>:mongo --name="<container_name>" -p 3000:80 tmunzer/mpss`
 
 #### Configure the Docker version
 Configuration can be done through the config file. An example of the `config.js` file can be found in `src/config_example.js`. Then, you just need to link the `config.js` file to `/app/config.js` in you container.
 
 You can also use environment variables to configure the app:
-| Variable Name | Type | Default Value | Comment |
-| ------------- | ---- | ------------- | ------- |
+
+Variable Name | Type | Default Value | Comment 
+------------- | ---- | ------------- | ------- 
 NODE_HOSTNAME | string | null | Server FQDN. Used to forge the url. |
 NODE_PORT | int | 3000 | TCP Port used for HTTP |
 NODE_HTTPS | boolean | false | enable HTTPS in Node. require `NODE_HTTPS_CERT` and `NODE_HTTPS_KEY` |
@@ -74,16 +76,7 @@ This Reference APP is built over NodeJS.
 * Start the APP with `npm start` from the `src` folder
 
 #### Manage HTTPS at the application level
-If you want to use OAuth authentication, the application will need to use HTTPS. To do so, you can use a reverse Proxy (NGINX, Apache, ...) and manage the certificates at the reverse proxy level, or you can start the application with `www_with_https`. In this case:
-* Create a `cert` folder into the `src` project folder.
-* Place you certificate and certificate key in this new folder, with the names `server.pem` and `server.key`.
-* Start the APP with `www_with_https`. 
-
-
-#### Manual deployment
-If you are manually deploying this container, you will need to a reverse proxy to manage HTTPS.
-
-`   docker create -v  <path_to_config.js>/config.js:/app/config.js:ro --link <mongoDB_container_name>:mongo --name="<container_name>" -p 51360:80 tmunzer/mist_psk_self_service`
-
-
-
+If you want to use OAuth authentication, the application will need to use HTTPS. To do so, you can use a reverse Proxy (NGINX, Apache, ...) and manage the certificates at the reverse proxy level, or you can configure the app to enable HTTPS. In this case:
+* Edit the `config..js` to enable HTTP
+* Place you certificate and certificate key in the `src/certs` folder. The certificate and key must be name based on the names configured in the `config.js`file
+* Start the APP with `npm start` from the `src` folder
