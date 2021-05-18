@@ -7,7 +7,7 @@ function generate_headers(mist) {
         headers = {}
         for (var i in mist.cookie) {
             cookie = mist.cookie[i].split(';')[0].split("=")
-            if (cookie[0] == "csrftoken") {
+            if (cookie[0].startsWith("csrftoken")) {
                 headers["X-CSRFToken"] = cookie[1]
             }
         }
