@@ -75,8 +75,8 @@ function getText(mist, lang, page, cb) {
 router.get("/languages", (req, res) => {
     var languages = []
     if (req.session.mist.customization && req.session.mist.customization.i18n) {
-        req.session.mist.customization.i18n.forEach(entry => {
-            if ("_" + entry["short"] in i18n) languages.push(entry)
+        i18n.languages.forEach(entry => {
+            if ("_" + entry["short"] in req.session.mist.customization.i18n) languages.push(entry)
         })
 
         if (req.session.lang) var lang = req.session.lang
