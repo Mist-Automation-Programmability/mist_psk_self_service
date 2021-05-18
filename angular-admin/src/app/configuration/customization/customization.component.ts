@@ -233,10 +233,8 @@ export class CustomizationComponent implements OnInit {
         error += 1
       }
     })
-    console.log(error, max_errors)
     if (error > 0 && error < max_errors) {
       this.openError("Warning!", "Some fields are not configured. If you continue, the changes on the locale \"" + this.previous_customized_locale + "\" will be discarded. Do you want to continue?", (result) => {
-        console.log(result)
         cb(false, result)
       })
     } else if (error == max_errors && this.i18n.hasOwnProperty(this.previous_customized_locale)) {
@@ -248,7 +246,6 @@ export class CustomizationComponent implements OnInit {
   changeCustomLocal(event): void {
     // check if all the fields are valid
     this.validateCustomLocal((valid:boolean, discard:boolean) => {
-      console.log(valid, discard)
       if (valid) {
         // form is valid. Save customized locale and display the requested one
         this.i18n[this.previous_customized_locale] = this.custom_i18n

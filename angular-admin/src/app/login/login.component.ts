@@ -87,7 +87,6 @@ export class LoginComponent implements OnInit {
   // WHEN AUTHENTICATION IS NOT OK
   parse_error(message): void {
     this.loading = false;
-    console.log(message)
     this.error_message = message;
   }
 
@@ -112,7 +111,6 @@ export class LoginComponent implements OnInit {
   submit2FA(twoFactor: number): void {
     if (this.check_host()) {
       this.loading = true;
-      console.log(this.frmStepLogin)
       this._http.post<any>('/api/admin/login', { host: this.frmStepLogin.value.host, username: this.frmStepLogin.value.username, password: this.frmStepLogin.value.password, two_factor_code: twoFactor }).subscribe({
         next: data => this.parse_response(data),
         error: error => this.parse_error(error.error)
