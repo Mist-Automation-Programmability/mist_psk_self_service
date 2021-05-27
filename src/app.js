@@ -192,6 +192,9 @@ app.use('/api/admin/psk', admin_api_psk);
 var admin_api_auth = require('./routes/admin_api.auth');
 app.use('/api/admin/auth', admin_api_auth);
 //Otherwise
+var admin_api_account = require('./routes/admin_api.account');
+app.use('/api/admin/account', admin_api_account);
+//Otherwise
 app.get("*", function(req, res) {
     res.redirect("/login");
 });
