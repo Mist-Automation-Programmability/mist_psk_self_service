@@ -159,26 +159,26 @@ function getTextPreview(mist, lang, page, cb) {
 }
 
 router.get("/text/:org_id", (req, res) => {
-    if (req.query.page) {
+    if (!req.query.page) res.status(400).send("Missing parameters")
+    if (!req.session.mist) res.status(401).send("Not Authorized")
+    else {
         if (req.query.lang) {
             var lang = req.query.lang
             req.session.lang = lang
         } else var lang = "en"
 
-        if (req.session.mist) {
-            if (req.params.org_id == "preview") {
-                getTextPreview(req.session.mist, lang, req.query.page, (text) => {
-                    res.set('Cache-Control', 'no-store')
-                    res.json(text)
-                })
-            } else {
-                getText(req.session.mist, lang, req.query.page, (text) => {
-                    res.set('Cache-Control', 'no-store')
-                    res.json(text)
-                })
-            }
-        } else res.status(401).send("Not Authorized")
-    } else res.status(400).send("Not Authorized")
+        if (req.params.org_id == "preview") {
+            getTextPreview(req.session.mist, lang, req.query.page, (text) => {
+                res.set('Cache-Control', 'no-store')
+                res.json(text)
+            })
+        } else {
+            getText(req.session.mist, lang, req.query.page, (text) => {
+                res.set('Cache-Control', 'no-store')
+                res.json(text)
+            })
+        }
+    }
 })
 
 

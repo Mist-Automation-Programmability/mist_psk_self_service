@@ -84,10 +84,10 @@ router.get("/colors.css", (req, res) => {
         .populate("_customization")
         .exec((err, account) => {
             if (account && account._customization && account._customization.colors) {
-                var bg_color = account._customization.colors.background
-                var card_color = account._customization.colors.card
-                var primary_color = account._customization.colors.primary
-                var accent_color = account._customization.colors.accent
+                var bg_color = account._customization.colors.background || "#ececec"
+                var card_color = account._customization.colors.card || "#ffffff"
+                var primary_color = account._customization.colors.primary || "#005c95"
+                var accent_color = account._customization.colors.accent || "#84b135"
             } else {
                 var bg_color = "#ececec"
                 var card_color = "#ffffff"
