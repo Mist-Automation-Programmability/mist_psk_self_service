@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
     this.current_language = data.default;
     this._language_service.setLanguage(this.current_language)
     this.languages = data.languages;
+    this._language_service.showLanaguage(data.languages.length > 1)
   }
   parse_error(data): void {
     this.logo_url = "/images/juniper.png"

@@ -20,7 +20,9 @@ export class LanguageService {
     // Service message commands
     setLanguage(language: string) {
         this.languageSource.next(language);
-        this.show.next(language != "")        
+    }
+    showLanaguage(show: boolean){
+        this.show.next(show);
     }
 
     
