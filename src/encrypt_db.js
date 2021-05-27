@@ -93,9 +93,7 @@ const AdfsSchema = new mongoose.Schema({
     entity_id: { type: String },
     login_url: { type: String },
     logout_url: { type: String },
-    certs: [{ type: String }],
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    certs: [{ type: String }]
 });
 const AzureSchema = new mongoose.Schema({
     client_id: { type: String },
@@ -104,29 +102,21 @@ const AzureSchema = new mongoose.Schema({
     resource: { type: String },
     allow_external_users: { type: Boolean, default: false },
     allow_unlicensed_users: { type: Boolean, default: false },
-    user_groups: [{ type: String }],
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    user_groups: [{ type: String }]
 });
 const GoogleSchema = new mongoose.Schema({
-    domains: [{ type: String }],
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    domains: [{ type: String }]
 });
 const OktaSchema = new mongoose.Schema({
     audience: { type: String },
     client_id: { type: String },
-    client_secret: { type: String },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    client_secret: { type: String }
 });
 const TokenSchema = new mongoose.Schema({
     apitoken: { type: String },
     apitoken_id: { type: String },
     scope: { type: String },
-    created_by: { type: String },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    created_by: { type: String }
 });
 const PskSchema = new mongoose.Schema({
     scope: { type: String },
@@ -137,9 +127,7 @@ const PskSchema = new mongoose.Schema({
     cap: { type: Boolean, default: false },
     num: { type: Boolean, default: false },
     spec: { type: Boolean, default: false },
-    length: { type: Number, default: 12 },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    length: { type: Number, default: 12 }
 });
 
 console.log("Starting encryption")
