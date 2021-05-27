@@ -13,7 +13,8 @@ router.get("/", (req, res) => {
         Account.findOne({ org_id: req.session.mist.org_id })
         .populate("_customization")
         .exec((err, account) => {
-            if (account && account._customization && account._customization.logo) res.json({ logo_url: account._customization.logo.url })
+            if (account && account._customization && account._customization.logo && account._customization.logo.url) res.json({ logo_url: account._customization.logo.url })
+            else res.json({ logo_url: "/images/juniper.png" })
         })
     else if (req.session && req.session.mist && req.session.mist.customization && req.session.mist.customization.logo && req.session.mist.customization.logo.url)
         res.json({ logo_url: req.session.mist.customization.logo.url })
