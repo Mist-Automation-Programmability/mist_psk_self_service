@@ -107,7 +107,7 @@ function sendLanguage(custom_i18n, req, res) {
 
 function getLanguages(req, res) {
     if (req.session.mist.customization && req.session.mist.customization.i18n) sendLanguage(req.session.mist.customization.i18n, req, res)
-    else sendLanguage(null, res)
+    else sendLanguage(null, req, res)
 }
 
 function getLanguagesPreview(req, res) {
@@ -115,7 +115,7 @@ function getLanguagesPreview(req, res) {
         .populate("_customization")
         .exec((err, account) => {
             if (account && account._customization && account._customization.i18n) sendLanguage(account._customization.i18n.toJSON(), req, res)
-            else sendLanguage(null, res)
+            else sendLanguage(null, req, res)
         })
 
 }
