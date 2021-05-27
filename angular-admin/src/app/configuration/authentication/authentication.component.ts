@@ -141,6 +141,29 @@ export class AuthenticationComponent {
 
 
   //////////////////////////////////////////////////////////////////////////////
+  /////           DELETE
+  //////////////////////////////////////////////////////////////////////////////
+  deleteAccount(): void {
+    this.is_working = true;
+    const dialogRef = this._dialog.open(ConfirmDialog, { data: { title: "Delete Account", message: "This action will delete all the current configuration." } });
+    dialogRef.afterClosed().subscribe(result => {
+      this.is_working = true
+      if (result) {
+        this._http.delete("/api/admin/account").subscribe({
+          next: data => {
+            this.is_working = false
+            this.openSnackBar("Account deleted.", "Ok")
+            setTimeout(()=>{
+              window.location.reload();
+            }, 1000);
+          },
+          error: error => this.parse_error(error)
+        })
+      }
+    })
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
   /////           TOKEN
   //////////////////////////////////////////////////////////////////////////////
   getPortalUrl(): void {
@@ -157,6 +180,8 @@ export class AuthenticationComponent {
       next: data => {
         this.token.configured = true;
         this.token.auto_mode = true;
+        this.token.can_delete = true;
+        this.account_created = true;
         this.is_working = false
         this.openSnackBar("New API Token created.", "Ok")
         this.getPortalUrl();
