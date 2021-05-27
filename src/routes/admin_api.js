@@ -136,7 +136,6 @@ router.get('/config', (req, res) => {
         Account.findOne({ org_id: req.session.mist.org_id, host: req.session.mist.host })
             .populate("_token")
             .populate("_psk")
-            .lean()
             .exec((err, account) => {
                 if (err) {
                     console.log(err)

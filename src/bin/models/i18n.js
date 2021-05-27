@@ -23,22 +23,10 @@ const I18nSchema = new mongoose.Schema({
             text: { type: String }
         }],
 
-    },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    }
 });
 
 const I18n = mongoose.model('I18n', I18nSchema);
 
-
-// Pre save
-I18nSchema.pre('save', function(next) {
-    const now = new Date();
-    this.updated_at = now;
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
 
 module.exports = I18n;

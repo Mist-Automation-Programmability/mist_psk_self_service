@@ -41,11 +41,18 @@ function createToken(account, new_token, cb) {
 
 function updateToken(account, new_token, cb) {
     result = { status: 200, data: null }
-    Token.updateOne({ _id: account._token }, new_token, (err, saved_token) => {
-        if (err) {
-            console.log(err)
-            cb(500, err)
-        } else cb(200, { created_by: new_token.created_by, auto_mode: new_token.apitoken_id != "manual_token" })
+    Token.findOne({ _id: account._token }, (err, data) => {
+        for (const [key, value] of Object.entries(psk_data)) {
+            if (!key.startsWith("_")) {
+                data[key] = psk_data[key]
+            }
+        }
+        data.save((err, save_token) => {
+            if (err) {
+                console.log(err)
+                cb(500, err)
+            } else cb(200, { created_by: new_token.created_by, auto_mode: new_token.apitoken_id != "manual_token" })
+        })
     })
 }
 

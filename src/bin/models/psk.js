@@ -9,9 +9,7 @@ const PskSchema = new mongoose.Schema({
     cap: { type: Boolean, default: false },
     num: { type: Boolean, default: false },
     spec: { type: Boolean, default: false },
-    length: { type: Number, default: 12 },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    length: { type: Number, default: 12 }
 });
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
@@ -22,15 +20,5 @@ if (global.config.mongo.encKey && global.config.mongo.sigKey) {
 
 const Psk = mongoose.model('Psk', PskSchema);
 
-
-// Pre save
-PskSchema.pre('save', function(next) {
-    const now = new Date();
-    this.updated_at = now;
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
 
 module.exports = Psk;

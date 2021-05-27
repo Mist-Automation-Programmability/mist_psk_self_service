@@ -105,7 +105,6 @@ router.get("/", (req, res) => {
     if (req.session && req.session.mist && req.session.mist.org_id) {
         Account.findOne({ org_id: req.session.mist.org_id })
             .populate("_customization")
-            .lean()
             .exec((err, account) => {
                 if (err) {
                     console.log(err)
@@ -130,7 +129,6 @@ router.get("/i18n", (req, res) => {
             .populate({ path: "_customization", populate: { path: 'i18n._pt' } })
             .populate({ path: "_customization", populate: { path: 'i18n._es' } })
             .populate({ path: "_customization", populate: { path: 'i18n._se' } })
-            .lean()
             .exec((err, account) => {
                 if (err) {
                     console.log(err)

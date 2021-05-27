@@ -7,9 +7,7 @@ const AzureSchema = new mongoose.Schema({
     resource: { type: String },
     allow_external_users: { type: Boolean, default: false },
     allow_unlicensed_users: { type: Boolean, default: false },
-    user_groups: [{ type: String }],
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    user_groups: [{ type: String }]
 });
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
@@ -19,15 +17,5 @@ if (global.config.mongo.encKey && global.config.mongo.sigKey) {
 
 const Azure = mongoose.model('Azure', AzureSchema);
 
-
-// Pre save
-AzureSchema.pre('save', function(next) {
-    const now = new Date();
-    this.updated_at = now;
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
 
 module.exports = Azure;

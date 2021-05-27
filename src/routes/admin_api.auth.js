@@ -64,16 +64,22 @@ function save_account(res, account) {
 }
 
 function update_adfs(req, res, account) {
+    genCertificate(req.session.mist.org_id);
     if (account._adfs)
-        Adfs.findOneAndUpdate({
-            _id: account.azure
-        }, req.body.config, function(err, result) {
-            if (err) res.status(500).send(err);
-            else {
-                account._adfs = result;
-                account.auth_method = "adfs";
-                save_account(res, account);
+        Adfs.findOne({ _id: account._adfs }, (err, data) => {
+            for (const [key, value] of Object.entries(req.body.config)) {
+                if (!key.startsWith("_")) {
+                    data[key] = req.body.config[key]
+                }
             }
+            data.save((err, saved_data) => {
+                if (err) res.status(500).send(err);
+                else {
+                    account._adfs = saved_data._id;
+                    account.auth_method = "adfs";
+                    save_account(res, account);
+                }
+            })
         })
     else
         Adfs(req.body.config).save(function(err, result) {
@@ -91,15 +97,20 @@ function update_adfs(req, res, account) {
 
 function update_azure(req, res, account) {
     if (account._azure)
-        Azure.findOneAndUpdate({
-            _id: account.azure
-        }, req.body.config, function(err, result) {
-            if (err) res.status(500).send(err);
-            else {
-                account._azure = result;
-                account.auth_method = "azure";
-                save_account(res, account);
+        Azure.findOne({ _id: account._azure }, (err, data) => {
+            for (const [key, value] of Object.entries(req.body.config)) {
+                if (!key.startsWith("_")) {
+                    data[key] = req.body.config[key]
+                }
             }
+            data.save((err, saved_data) => {
+                if (err) res.status(500).send(err);
+                else {
+                    account._azure = saved_data._id;
+                    account.auth_method = "azure";
+                    save_account(res, account);
+                }
+            })
         })
     else
         Azure(req.body.config).save(function(err, result) {
@@ -116,15 +127,20 @@ function update_azure(req, res, account) {
 
 function update_google(req, res, account) {
     if (account._google)
-        Google.findOneAndUpdate({
-            _id: account.azure
-        }, req.body.config, function(err, result) {
-            if (err) res.status(500).send(err);
-            else {
-                account._google = result;
-                account.auth_method = "google";
-                save_account(res, account);
+        Google.findOne({ _id: account._google }, (err, data) => {
+            for (const [key, value] of Object.entries(req.body.config)) {
+                if (!key.startsWith("_")) {
+                    data[key] = req.body.config[key]
+                }
             }
+            data.save((err, saved_data) => {
+                if (err) res.status(500).send(err);
+                else {
+                    account._google = saved_data._id;
+                    account.auth_method = "google";
+                    save_account(res, account);
+                }
+            })
         })
     else
         Google(req.body.config).save(function(err, result) {
@@ -141,6 +157,22 @@ function update_google(req, res, account) {
 
 function update_okta(req, res, account) {
     if (account._okta)
+        Okta.findOne({ _id: account._okta }, (err, data) => {
+            for (const [key, value] of Object.entries(req.body.config)) {
+                if (!key.startsWith("_")) {
+                    data[key] = req.body.config[key]
+                }
+            }
+            data.save((err, saved_data) => {
+                if (err) res.status(500).send(err);
+                else {
+                    account._okta = saved_data;
+                    account.auth_method = "okta";
+                    save_account(res, account);
+                }
+            })
+        })
+    else
         Okta(req.body.config).save(function(err, result) {
             if (err) {
                 console.log(err)
@@ -151,26 +183,14 @@ function update_okta(req, res, account) {
                 save_account(res, account);
             }
         });
-    else
-        Okta.find({
-            _id: account.azure
-        }, req.body.config, function(err, result) {
-            if (err) res.status(500).send(err);
-            else {
-                account._okta = result;
-                account.auth_method = "okta";
-                save_account(res, account);
-            }
-        })
 }
 
 /*==================  SAML   ===========================*/
 // Function to save the SAML configuration
 function save_auth(req, res, auth_type) {
-    genCertificate(req.session.mist.org_id);
     // retrieve the current Account in the DB
     Account
-        .findById(req.session.account_id)
+        .findOne({ org_id: req.session.mist.org_id })
         .populate("_" + auth_type)
         .exec((err, account) => {
             if (err) {
@@ -211,7 +231,6 @@ router.get("/:auth_method", (req, res) => {
     if (req.session.mist) {
         Account.findOne({ org_id: req.session.mist.org_id })
             .populate('_' + req.params.auth_method)
-            .lean()
             .exec((err, account) => {
                 if (err) {
                     console.log(err)

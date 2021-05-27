@@ -10,23 +10,11 @@ const AccountSchema = new mongoose.Schema({
     _adfs: { type: mongoose.Schema.ObjectId, ref: "Adfs" },
     _google: { type: mongoose.Schema.ObjectId, ref: "Google" },
     _okta: { type: mongoose.Schema.ObjectId, ref: "Okta" },
-    auth_method: { type: String },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    auth_method: { type: String }
 });
 
 
 const Account = mongoose.model('Account', AccountSchema);
 
-
-// Pre save
-AccountSchema.pre('save', function(next) {
-    const now = new Date();
-    this.updated_at = now;
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
 
 module.exports = Account;

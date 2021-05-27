@@ -4,9 +4,7 @@ const TokenSchema = new mongoose.Schema({
     apitoken: { type: String },
     apitoken_id: { type: String },
     scope: { type: String },
-    created_by: { type: String },
-    created_at: { type: Date },
-    updated_at: { type: Date }
+    created_by: { type: String }
 });
 
 if (global.config.mongo.encKey && global.config.mongo.sigKey) {
@@ -16,15 +14,5 @@ if (global.config.mongo.encKey && global.config.mongo.sigKey) {
 
 const Token = mongoose.model('Token', TokenSchema);
 
-
-// Pre save
-TokenSchema.pre('save', function(next) {
-    const now = new Date();
-    this.updated_at = now;
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
 
 module.exports = Token;

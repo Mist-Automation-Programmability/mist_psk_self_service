@@ -36,13 +36,21 @@ function createConfig(account_id, psk_data, cb) {
 }
 
 function updateConfig(account_id, psk_id, psk_data, cb) {
-    Psk.findByIdAndUpdate(psk_id, psk_data.body, (err, psk) => {
-        if (err) {
-            console.log(err)
-            cb(500, err)
-        } else if (psk) cb(200)
-        else createConfig(account_id, psk_data, cb)
+    Psk.findOne({ _id: psk_id }, (err, data) => {
+        for (const [key, value] of Object.entries(psk_data)) {
+            if (!key.startsWith("_")) {
+                console.log(key, value)
+                data[key] = psk_data[key]
+            }
+        }
+        data.save((err, psk) => {
+            if (err) {
+                console.log(err)
+                cb(500, err)
+            } else if (psk) cb(200)
+            else createConfig(account_id, psk_data, cb)
 
+        })
     })
 }
 
@@ -65,8 +73,8 @@ router.get("/sites", (req, res) => {
             else res.json(sites)
         })
     } else res.status(401).send()
-
 })
+
 router.get("/wlans", (req, res) => {
     if (req.session && req.session.mist) {
         if (req.query.site_id) {
@@ -88,8 +96,8 @@ router.get("/wlans", (req, res) => {
             })
         }
     } else res.status(401).send()
-
 })
+
 router.get('/', (req, res) => {
     if (req.session && req.session.mist && req.session.mist.org_id) {
         data = {
