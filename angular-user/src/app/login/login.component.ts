@@ -75,7 +75,10 @@ export class LoginComponent implements OnInit {
       next: data => {
         this.parseAuthUrl(data)
       },
-      error: error => this.error = error
+      error: error => {
+        this.error = error.error.message
+        this.checkLoads("auth", true)
+      }
     })
   }
 
@@ -92,7 +95,10 @@ export class LoginComponent implements OnInit {
     if (current_language != 'init') query += "&lang=" + current_language
     this._http.get("/api/user/text/" + this.org_id + query).subscribe({
       next: data => this.parseText(data),
-      error: error => this.error = error
+      error: error => {
+        this.error = error.error.message
+        this.checkLoads("text", true)  
+      }
     })
   }
 
