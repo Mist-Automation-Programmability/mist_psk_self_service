@@ -13,8 +13,9 @@ import { ErrorDialog } from "../../common/error"
 export class CustomizationComponent implements OnInit {
 
   constructor(private _router: Router, private _http: HttpClient, private _snackBar: MatSnackBar, private _dialog: MatDialog) { }
-  leftColor
   is_working = false
+  login_preview=""
+  portal_preview=""
   logo = {
     url: null
   };
@@ -77,6 +78,8 @@ export class CustomizationComponent implements OnInit {
   loadMain() {
     this._http.get<any>('/api/admin/custom/').subscribe({
       next: data => {
+        this.login_preview = data.login_preview
+        this.portal_preview = data.portal_preview
         if (data.customization) {
           if (data.customization.logo) this.logo = data.customization.logo
           if (data.customization.colors) this.colors = data.customization.colors

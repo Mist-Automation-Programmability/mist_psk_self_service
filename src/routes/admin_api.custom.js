@@ -111,7 +111,11 @@ router.get("/", (req, res) => {
                     res.status(500).send()
                 } else if (account) {
                     if (account._customization && account._customization.i18n) delete account._customization.i18n
-                    res.json({ customization: account._customization })
+                    res.json({
+                        customization: account._customization,
+                        login_preview: "https://" + global.config.appServer.vhost + "/login/preview",
+                        portal_preview: "https://" + global.config.appServer.vhost + "/portal/preview"
+                    })
                 } else res.json()
             })
 

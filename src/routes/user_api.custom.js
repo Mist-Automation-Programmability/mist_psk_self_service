@@ -3,11 +3,19 @@
 // endpoints used to dynamicly return customized colors
 // ================================================================*/
 const express = require('express');
+const Account = require('../bin/models/account');
 const router = express.Router();
 
 
 router.get("/", (req, res) => {
-    if (req.session && req.session.mist.customization && req.session.mist.customization.logo && req.session.mist.customization.logo.url)
+    res.set('Cache-Control', 'no-store')
+    if (req.session.self)
+        Account.findOne({ org_id: req.session.mist.org_id })
+        .populate("_customization")
+        .exec((err, account) => {
+            if (account && account._customization && account._customization.logo) res.json({ logo_url: account._customization.logo.url })
+        })
+    else if (req.session && req.session.mist && req.session.mist.customization && req.session.mist.customization.logo && req.session.mist.customization.logo.url)
         res.json({ logo_url: req.session.mist.customization.logo.url })
     else res.json({ logo_url: "/images/juniper.png" })
 })
@@ -42,19 +50,8 @@ function lightOrDark(color) {
     else return '#ffffff';
 }
 
-router.get("/colors.css", (req, res) => {
-    res.set('Cache-Control', 'no-store')
-    if (req.session.mist && req.session.mist.customization && req.session.mist.customization.colors) {
-        var bg_color = req.session.mist.customization.colors.background
-        var card_color = req.session.mist.customization.colors.card
-        var primary_color = req.session.mist.customization.colors.primary
-        var accent_color = req.session.mist.customization.colors.accent
-    } else {
-        var bg_color = "#ececec"
-        var card_color = "#ffffff"
-        var primary_color = "#005c95"
-        var accent_color = "#84b135"
-    }
+
+function sendColors(bg_color, card_color, primary_color, accent_color, res) {
     var css = "\
     body{background-color:" + bg_color + "!important;}\
     mat-toolbar>a{background-color:" + bg_color + "!important;color:" + lightOrDark(bg_color) + "!important}\
@@ -74,8 +71,45 @@ router.get("/colors.css", (req, res) => {
     .mat-progress-bar-fill::after{background-color:" + primary_color + "!important;}\
     .mat-progress-bar-buffer{background-color:" + card_color + "!important;}\
     .top-bar-static{background-color:" + primary_color + ";}"
+    res.set('Cache-Control', 'no-store')
     res.writeHead(200, { 'Content-Type': 'text/css' });
     res.end(css, 'utf-8');
     res.end();
+
+}
+
+router.get("/colors.css", (req, res) => {
+    // preview mode if Mist self in session
+    if (req.session.self) Account.findOne({ org_id: req.session.mist.org_id })
+        .populate("_customization")
+        .exec((err, account) => {
+            if (account && account._customization && account._customization.colors) {
+                var bg_color = account._customization.colors.background
+                var card_color = account._customization.colors.card
+                var primary_color = account._customization.colors.primary
+                var accent_color = account._customization.colors.accent
+            } else {
+                var bg_color = "#ececec"
+                var card_color = "#ffffff"
+                var primary_color = "#005c95"
+                var accent_color = "#84b135"
+            }
+            sendColors(bg_color, card_color, primary_color, accent_color, res)
+        })
+        // user mode
+    else if (req.session.mist && req.session.mist.customization && req.session.mist.customization.colors) {
+        var bg_color = req.session.mist.customization.colors.background
+        var card_color = req.session.mist.customization.colors.card
+        var primary_color = req.session.mist.customization.colors.primary
+        var accent_color = req.session.mist.customization.colors.accent
+        sendColors(bg_color, card_color, primary_color, accent_color, res)
+            // default mode
+    } else {
+        var bg_color = "#ececec"
+        var card_color = "#ffffff"
+        var primary_color = "#005c95"
+        var accent_color = "#84b135"
+        sendColors(bg_color, card_color, primary_color, accent_color, res)
+    }
 })
 module.exports = router;

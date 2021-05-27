@@ -91,61 +91,69 @@ function deliverCredentialByEmail(req, psk, callback) {
 /*==================   USER API   ===========================*/
 
 // When user wants to get a new key
-router.post("/", function(req, res) {
+router.post("/", (req, res) => {
     // check if the user is authenticated 
-    if (req.session.passport) {
-        getPsk(req, (err, psk) => {
-            if (err) res.status(err.code).send(err.error)
-            else if (psk) {
-                deletePsk(req, psk, (err) => {
-                    if (err) res.status(err.code).send(err.error)
-                    else createPsk(req, (err, new_psk) => {
-                        if (err) res.status(err.code).send(err.error)
-                        else res.json(new_psk)
-                    })
-                })
-
-            } else {
-                createPsk(req, (err, new_psk) => {
+    if (!req.session.mist) res.status(401).send("Unknown session")
+        // preview mode (passport authentication only used by users)
+    else if (!req.session.passport) res.json({ passphrase: "passphrase", ssid: "ssid" })
+        // authenticated user mode
+        // retrieve the account details (to have the account_id)
+    else getPsk(req, (err, psk) => {
+        if (err) res.status(err.code).send(err.error)
+        else if (psk) {
+            deletePsk(req, psk, (err) => {
+                if (err) res.status(err.code).send(err.error)
+                else createPsk(req, (err, new_psk) => {
                     if (err) res.status(err.code).send(err.error)
                     else res.json(new_psk)
                 })
-            }
-        })
-    } else res.status(401).send('Unknown session');
+            })
+
+        } else {
+            createPsk(req, (err, new_psk) => {
+                if (err) res.status(err.code).send(err.error)
+                else res.json(new_psk)
+            })
+        }
+    })
 });
 
 // to let the web app know if the user already has a key (will disable buttons based on this)
 router.get("/:org_id", (req, res) => {
-    if (req.session.passport && req.session.mist) {
+    // check if the user is authenticated 
+    if (!req.session.mist) res.status(401).send("Unknown session")
+        // preview mode
+    else if (req.params.org_id == "preview") res.json({ passphrase: "passphrase", ssid: "ssid" })
+        // authenticated user mode
         // retrieve the account details (to have the account_id)
-        getPsk(req, (err, psk) => {
-            if (err) {
-                console.log(err)
-                res.status(err.code).send(err.error)
-            } else if (psk) res.json(psk)
-            else res.send()
-        });
-    } else res.status(401).send();
+    else getPsk(req, (err, psk) => {
+        if (err) {
+            console.log(err)
+            res.status(err.code).send(err.error)
+        } else if (psk) res.json(psk)
+        else res.send()
+    });
 })
 
 
 // When user wants to delete its key
-router.delete("/", function(req, res, next) {
+router.delete("/", (req, res) => {
     // check if the user is authenticated 
-    if (req.session.email) {
+    if (!req.session.mist) res.status(401).send("Unknown session")
+        // preview mode (passport authentication only used by users)
+    else if (!req.session.passport) res.send()
+        // authenticated user mode
         // retrieve the account details (to have the account_id)
-        getPsk(req, function(err, psk) {
+    else getPsk(req, function(err, psk) {
+        if (err) res.status(err.code).send(err.error)
+            // try to delete the current key
+        else if (psk) deletePsk(req, psk, (err) => {
+            console.log(err)
             if (err) res.status(err.code).send(err.error)
-                // try to delete the current key
-            else if (psk) deletePsk(req, psk, (err) => {
-                console.log(err)
-                if (err) res.status(err.code).send(err.error)
-                else res.send()
-            });
-            else res.status(404).send()
+            else res.send()
         });
-    } else res.status(401).send('Unknown session');
+        else res.status(404).send()
+    });
 });
 
 
