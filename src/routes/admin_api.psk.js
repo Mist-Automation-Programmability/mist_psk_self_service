@@ -39,7 +39,6 @@ function updateConfig(account_id, psk_id, psk_data, cb) {
     Psk.findOne({ _id: psk_id }, (err, data) => {
         for (const [key, value] of Object.entries(psk_data)) {
             if (!key.startsWith("_")) {
-                console.log(key, value)
                 data[key] = psk_data[key]
             }
         }

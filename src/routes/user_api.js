@@ -106,7 +106,7 @@ function sendLanguage(custom_i18n, req, res) {
 }
 
 function getLanguages(req, res) {
-    if (req.session.mist.customization && req.session.mist.customization.i18n) sendLanguage(req.session.mist.customization.i18n, req, res)
+    if (req.session.mist && req.session.mist.customization && req.session.mist.customization.i18n) sendLanguage(req.session.mist.customization.i18n, req, res)
     else sendLanguage(null, req, res)
 }
 
