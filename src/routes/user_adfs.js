@@ -21,11 +21,11 @@ function getAccount(req, res, next) {
             if (err) res.status(500).json({ error: err });
             else if (account) {
                 passport.use(new SamlStrategy({
-                        entryPoint: account._saml.entry_point,
+                        entryPoint: account._adfs.entry_point,
                         issuer: req.params.org_id,
                         callbackUrl: 'https://' + global.config.appServer.vhost + '/saml/' + req.params.org_id + '/postResponse',
                         privateKey: fs.readFileSync(global.appPath + "/certs/" + req.params.org_id + '.key', 'utf-8'),
-                        cert: account._saml.certs,
+                        cert: account._adfs.certs,
                         // other authn contexts are available e.g. windows single sign-on
                         authnContext: 'http://schemas.microsoft.com/ws/2008/06/identity/authenticationmethod/password',
                         // not sure if this is necessary?
