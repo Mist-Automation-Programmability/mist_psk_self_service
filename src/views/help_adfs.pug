@@ -7,30 +7,80 @@ html
         // [endif]
         meta(name="viewport" content="width=device-width, initial-scale=1")
 
-        link(rel='stylesheet' href='/css/footer.css')
         
-    body(ng-app="gak" ng-controller="AppCtrl").icons-docs
-        div(id="loading")
-                        
-        header.md-page-header
-            div.header
-            md-toolbar.header.fixed(layout='row')
-                h1.logo.md-toolbar-tools
-                    img(src="/images/juniper.png" alt="Mist")
-                span(flex)
+        style.
+            body {
+                font: 400 14px/20px Roboto, "Helvetica Neue", sans-serif;
+                margin: 0;
+                display: flex;
+                flex-direction: column
+            }
+            .header {
+                background-color: rgb(236, 236, 236);
+                color: gray;
+                flex-direction: row;
+                box-sizing: border-box;
+                display: flex;
+                place-content: center flex-start;
+                align-items: center;
+                padding: 0 16px;
+                width: 100%;
+                height: 40px;
+            }
+            .header img {
+                height: 100%;
+            }
+
+            .footer {
+                  position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                background-color: rgb(236, 236, 236);
+                    color: black;
+                    text-align: center;
+            }
+
+            .title {
+                color: black;
+                font-weight: lighter;
+                margin-left: 1em;
+            }
+
+            .toolbar {
+                background-color: rgb(236 236 236);
+                color: gray;
+                height: 1.5em;
+                margin: 0.5em 0;
+            }
+            .help {
+                width: 600px;
+                margin: auto;
+                padding-bottom: 2em;
+            }
+
+            .help h3 {
+                margin-left: -20px
+            }
+            .capture {
+                display: flex;
+            }
+
+    body                      
+        div.header    
+            img(src="/images/juniper.png" alt="Mist")
+            div Mist PSK Self Service - Okta
+            
 
                              
-        div.page-footer
-            span © 2020 Juniper Networks. All Rights Reserved.
+        div.footer
+            span © 2021 Juniper Networks. All Rights Reserved.
 
 
-        div(layout="column" layout-align="center center" layout-gt-sm="row" layout-align-gt-sm="center start")
+        div.help
 
             div.panel
-                div.inside(md-whiteframe="5" style="width: 100%" )
-                    md-toolbar
-                        div.md-toolbar-tools
-                            h2 SAML Configuration Help
+                div.inside(md-whiteframe="5" style="width: 100%")
                     md-content(layout="column" layout-padding)
                         h3 Get your SAML Metadata
                         div 
@@ -43,7 +93,7 @@ html
                                 span field, and click the 
                                 b=" Download "
                                 span button to download the Metadata from your SAML server. You will get a xml file.
-                        img(src="/help/saml/1.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/1.png" style="width: 50%;margin: auto;")
                         ul
                             li
                                 span Copy the content of the XML file into the 
@@ -55,51 +105,53 @@ html
                                 span and 
                                 b=" Logout URL "
                                 span should be automatically filled.
-                        img(src="/help/saml/2.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/2.png" style="width: 50%;margin: auto;")
                         ul
                             li
                                 span Click on the 
                                 b=" Download MPSS Certificate " 
                                 span to download the xml file required to configure the rule on your SAML. This file will be used in the next steps.
-                        img(src="/help/saml/3.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/3.png" style="width: 50%;margin: auto;")
+                    
+                    
+                    div(class="content")
                         h3 SAML Configuration
                         ul
                             li
                                 span Open the SAML Snap'in, and create a new 
                                 b=" Relying Party Trust"
-                        div
-                            img(src="/help/saml/4.png" style="width: 25%;margin: auto;")
-                            img(src="/help/saml/5.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/4.png" style="width: 25%;margin: auto;")
+                        img.capture(src="/help/adfs/5.png" style="width: 50%;margin: auto;")
                         ul
                             li
                                 span In the 
                                 b=" Select Data Source "
                                 span step, import the XML file you downloaded from the App.
-                        img(src="/help/saml/6.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/6.png" style="width: 50%;margin: auto;")
                         ul 
                             li
                                 span Create a rule to limit the access to some members of your domain, or select "Permit Everyone"
-                        img(src="/help/saml/8.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/8.png" style="width: 50%;margin: auto;")
                         ul
                             li 
                                 span At the end of the wizard, select
                                 b=" Configure claims issuance policy for this application"
                                 span . This will allow you to select the information to send to the App when a user logs in.
-                        img(src="/help/saml/10.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/10.png" style="width: 100%;margin: auto;")
                         ul
                             li
                                 span Create a new Issuance rule
-                        img(src="/help/saml/11.png" style="width: 35%;margin: auto;")
+                        img.capture(src="/help/adfs/11.png" style="width: 35%;margin: auto;")
                         ul 
                             li 
                                 span In the Claim rule template, select
                                 b=" Send LDAP Attributes as Claims"
                                 span .
-                        img(src="/help/saml/12.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/12.png" style="width: 75%;margin: auto;")
                         ul 
                             li 
                                 span Create the rule as per below
-                        img(src="/help/saml/13.png" style="width: 50%;margin: auto;")
+                        img.capture(src="/help/adfs/13.png" style="width: 100%;margin: auto;")
                         ul
                             li
                                 b="Save "

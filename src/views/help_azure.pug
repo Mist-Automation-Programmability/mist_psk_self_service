@@ -7,11 +7,9 @@ html
         // [endif]
         meta(name="viewport" content="width=device-width, initial-scale=1")
 
-        link(rel='stylesheet' href='/css/ah-tm.tags.css')
-        link(rel="stylesheet" href="/bower_components/angular-material/angular-material.min.css")
-        link(rel='stylesheet' href='/css/ah-tm.login.css')
-        link(rel='stylesheet' href='/css/ah-tm.help.css')
-        link(rel="stylesheet" href="/bower_components/material-design-icons/iconfont/material-icons.css")
+        link(rel='stylesheet' href='/css/header.css')
+        link(rel='stylesheet' href='/css/footer.css')
+        link(rel='stylesheet' href='/css/capture.css')
 
     body(ng-app="gak" ng-controller="AppCtrl").icons-docs
         div(id="loading")
@@ -20,21 +18,14 @@ html
             div.header
             md-toolbar.header.fixed(layout='row')
                 h1.logo.md-toolbar-tools
-                    img(src="/images/logo_w.png" alt="Mist")
-                span(flex)
-
-                             
-        div.page-footer
-            span © 2020 Juniper Networks. All Rights Reserved.
+                    img(class="logo" src="/images/juniper.png" alt="Mist")
+                    span AzureAD Configuration 
 
 
         div(layout="column" layout-align="center center" layout-gt-sm="row" layout-align-gt-sm="center start")
 
             div.panel
                 div.inside(md-whiteframe="5" style="width: 100%" )
-                    md-toolbar
-                        div.md-toolbar-tools
-                            h2 AzureAD Configuration Help
                     md-content(layout="column" layout-padding)
                         h3 Get all the information to configure your AzureAD API
                         div 
@@ -45,7 +36,7 @@ html
                             span and 
                             b=" logout URL"
                             span ).
-                        img(src="/web-app/help/azureAD/params.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/params.png" style="width: 50%;margin: auto;")
                         h3 Connect to you 
                             a(href="https://portal.azure.com/" target=_blank) AzureAD portal
                         div 
@@ -54,7 +45,7 @@ html
                             span (if it's not available, click on 
                             b=" More Services "
                             span to find it).
-                        img(src="/web-app/help/azureAD/azure1.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/azure1.png" style="width: 50%;margin: auto;")
                         h3 Create a new App
                         div 
                             span Click on 
@@ -70,7 +61,7 @@ html
                                 span Put the 
                                 b=" SignIn URL "
                                 span from the Settings Page in the Sign-on URL field
-                        img(src="/web-app/help/azureAD/azure2.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/azure2.png" style="width: 50%;margin: auto;")
                         h3 Logout URL
                         span The Logout URL is the URL where to send back the user after the logout.
                         div
@@ -79,7 +70,7 @@ html
                             span from the 
                             b=" Settings page"
                             span .
-                        img(src="/web-app/help/azureAD/azure3.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/azure3.png" style="width: 50%;margin: auto;")
                         h3 Callback URL
                         div
                             span Once the App is created, you will be able to configure the Callback URL with the 
@@ -91,7 +82,7 @@ html
                             span Remove the pre-configured callback URL, add yours, and click 
                             b=" Save"
                             span .
-                        img(src="/web-app/help/azureAD/azure4.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/azure4.png" style="width: 50%;margin: auto;")
                         h3 Permissions
                         span This App requiring some basic permissions to be able to work properly.
                         span To configure them
@@ -114,7 +105,7 @@ html
                             li 
                                 span Click 
                                 b=" Grant Permissions"
-                        img(src="/web-app/help/azureAD/permissions.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/permissions.png" style="width: 50%;margin: auto;")
                         h3 App Key
                         div 
                             span You now have to generate a unique key for this App. Under the 
@@ -124,7 +115,7 @@ html
                             li putting a new name
                             li setting the key validity
                             li clicking Save
-                        img(src="/web-app/help/azureAD/azure5.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/azure5.png" style="width: 50%;margin: auto;")
                         div 
                             span The Key value in only displayed once you click 
                             b=" Save "
@@ -141,7 +132,7 @@ html
                             span To do so, you can click on the 
                             b=" Manifest "
                             span button.
-                        img(src="/web-app/help/azureAD/azure6.png" style="width: 50%;margin: auto;")
+                        img(src="/help/azureAD/azure6.png" style="width: 50%;margin: auto;")
                         span You will find here:
                         ul 
                             li 
@@ -163,30 +154,3 @@ html
                     
                         
 
-
-    script(type="text/javascript").
-        function fadeIn(element){  
-            var i = 1;
-            var f = 0.5;  
-            setTimeout(function(){
-                element.style.opacity = parseFloat(element.style.opacity) - (f * i * i);
-                i++;
-                if (element.style.opacity < 0 || i > 50) element.parentNode.removeChild(element);
-                else fadeIn(element);
-                }, 40);
-        }
-        document.addEventListener("DOMContentLoaded", function(event) {
-            var element = document.getElementById("loading"); 
-            element.style.opacity = 1.0;                
-            fadeIn(element);
-        });
-    script(src="/custom/colors/default")
-    script(src="/bower_components/angular/angular.min.js")
-    script(src="/bower_components/angular-aria/angular-aria.js")
-    script(src="/bower_components/angular-animate/angular-animate.min.js")
-    script(src="/bower_components/angular-material/angular-material.js")
-    script(src="/bower_components/angular-messages/angular-messages.js")
-    script(src="/bower_components/angular-route/angular-route.min.js")
-    script(src="/bower_components/angular-bootstrap/ui-bootstrap.js")
-    script(src="/bower_components/angular-sanitize/angular-sanitize.min.js")
-    script(src="/web-app/help/app.js")

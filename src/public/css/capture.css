@@ -1,0 +1,24 @@
+img.capture {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+div.capture {
+    display: flex;
+
+}
+
+.content {
+    margin:1em;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding-bottom: 1em;
+}
+
+.content > div {
+    margin: 1em;
+}
+
+.content > h3 {
+    background-color: #0098a5;
+    margin-top: 0;
+    padding: 1em;
+    color: white;
+}
