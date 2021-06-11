@@ -23,7 +23,7 @@ function getAccount(req, res, next) {
                 passport.use(new SamlStrategy({
                         entryPoint: account._adfs.entry_point,
                         issuer: req.params.org_id,
-                        callbackUrl: 'https://' + global.config.appServer.vhost + '/saml/' + req.params.org_id + '/postResponse',
+                        callbackUrl: 'https://' + global.config.appServer.vhost + '/adfs/' + req.params.org_id + '/postResponse',
                         privateKey: fs.readFileSync(global.appPath + "/certs/" + req.params.org_id + '.key', 'utf-8'),
                         cert: account._adfs.certs,
                         // other authn contexts are available e.g. windows single sign-on
