@@ -16,7 +16,7 @@ passport.deserializeUser(function(user, done) {
 function getAccount(req, res, next) {
     Account
         .findOne({ org_id: req.params.org_id })
-        .populate("_saml")
+        .populate("_adfs")
         .exec(function(err, account) {
             if (err) res.status(500).json({ error: err });
             else if (account) {

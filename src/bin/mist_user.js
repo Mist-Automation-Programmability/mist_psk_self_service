@@ -12,7 +12,7 @@ module.exports.getAccount = function(org_id, cb) {
         .populate("_psk")
         .populate("_token")
         .populate("_azure")
-        .populate("_saml")
+        .populate("_adfs")
         .populate("_customization")
         .exec((err, account) => {
             if (err) return cb({ code: 500, error: err })

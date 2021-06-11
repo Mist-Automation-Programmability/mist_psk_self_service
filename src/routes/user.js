@@ -54,8 +54,8 @@ router.get("/logout/", function(req, res) {
     // if the account is configured with AzureAD, redirect the user to azure logout URL
     if (req.session.account.azure) {
         res.redirect("https://login.windows.net/" + req.session.account.azure.tenant + "/oauth2/logout?post_logout_redirect_uri=" + loginurl);
-    } else if (req.session.account.saml) {
-        res.redirect(req.session.account.saml.logoutUrl + "?wa=wsignout1.0&wreply=" + loginurl);
+    } else if (req.session.account.adfs) {
+        res.redirect(req.session.account.adfs.logoutUrl + "?wa=wsignout1.0&wreply=" + loginurl);
     } else res.redirect("/");
     req.logout();
     req.session.destroy();
