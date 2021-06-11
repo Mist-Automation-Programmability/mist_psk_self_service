@@ -2,7 +2,7 @@ FROM node:14-alpine
 LABEL fr.mist-lab.mpss.version="0.0.1"
 LABEL fr.mist-lab.mpss.release-date="2021-05-02"
 
-RUN apk update && apk add bash
+RUN apk update && apk add bash openssl
 
 COPY ./src /app/
 
