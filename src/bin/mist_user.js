@@ -46,7 +46,7 @@ module.exports.getAccount = function(org_id, cb) {
                     return cb({ code: 400, error: "Account API Token not configured" });
                 }
                 if (account.auth_method && (
-                        account.auth_method == "saml" && account["_" + account.auth_method] ||
+                        account.auth_method == "adfs" && account["_" + account.auth_method] ||
                         account.auth_method == "azure" && account["_" + account.auth_method] ||
                         account.auth_method == "google" ||
                         account.auth_method == "okta" ||
