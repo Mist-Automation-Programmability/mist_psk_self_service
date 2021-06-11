@@ -220,6 +220,13 @@ function save_auth(req, res, auth_type) {
 /*================================================================
  ROUTES
  ================================================================*/
+/*==================   AUTH API - SAML   ===========================*/
+
+router.get("/cert", (req, res) => {
+    // generate the x509 certifiate if needed
+    var file = global.appPath + '/certs/' + req.session.mist.org_id + ".xml";
+    res.download(file);
+});
 
 /*==================   AUTH API    ===========================*/
 
@@ -256,12 +263,5 @@ router.post("/:auth_method", (req, res) => {
     else save_auth(req, res, req.params.auth_method)
 });
 
-/*==================   AUTH API - SAML   ===========================*/
-
-router.get("/cert", (req, res) => {
-    // generate the x509 certifiate if needed
-    var file = global.appPath + '/certs/' + req.session.mist.org_id + ".xml";
-    res.download(file);
-});
 
 module.exports = router;
