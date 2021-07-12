@@ -148,14 +148,20 @@ export class CustomizationComponent implements OnInit {
   }
 
   parse_i18n(data): void {
-
+    // getting the default language on the portal
     if (data.i18n_default) this.default_locale = data.i18n_default
     else this.default_locale = data.default_i18n.i18n_default
+    // checking if any language has been customized. Otherwise, takes the default ones.
     if (data.i18n && Object.keys(data.i18n).length > 0) this.i18n = data.i18n
     else this.i18n["en"] = data.default_i18n.en
+    // getting the supported languages
     this.locales = data.default_i18n.languages
+    // setting the displayed language with the default language
     this.current_customized_locale = this.default_locale
-    this.custom_i18n = this.i18n[this.current_customized_locale]
+    // getting the language to display (check if it has been customized, or take the default one)
+    if (this.i18n[this.current_customized_locale]) this.custom_i18n = this.i18n[this.current_customized_locale]
+    else if (data.default_i18n[this.current_customized_locale]) this.custom_i18n = data.default_i18n[this.current_customized_locale]
+    else this.custom_i18n = data.default_i18n[data.default_i18n.i18n_default]
   }
 
   loadI18n(): void {

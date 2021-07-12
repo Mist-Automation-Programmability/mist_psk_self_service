@@ -61,6 +61,7 @@ router.get('/:org_id/login', getAccount,
 router.post('/:org_id/postResponse', getAccount,
     passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
     (req, res) => {
+        console.log(req.user)
         if (req.user.email) req.session.email = req.user.email;
         else if (req.user.upn) req.session.email = req.user.upn;
         else req.session.email = "unknown";
