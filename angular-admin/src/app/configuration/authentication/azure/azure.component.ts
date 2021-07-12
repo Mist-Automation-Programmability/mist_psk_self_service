@@ -12,13 +12,13 @@ import { AuthConfigService } from "../../../services/auth.service";
 export class AzureComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-
+  // data from parent
   @Input() host: string
   @Input() org_id: string
 
   constructor(private _auth_config_service: AuthConfigService) { }
 
-
+  // local vars
   azure = {
     client_id: "",
     client_secret: "",
@@ -31,7 +31,12 @@ export class AzureComponent implements OnInit {
   callback: string;
   signin: string;
 
+
+  ////////////////////////
+  // INIT
+  ////////////////////////
   ngOnInit(): void {
+    // be sure the settings are zeroised
     this.azure = {
       client_id: "",
       client_secret: "",
@@ -41,9 +46,11 @@ export class AzureComponent implements OnInit {
       allow_unlicensed_filter: false,
       user_groups: []
     }
+    // generate custom urls
     this.callback = "https://" + this.host + "/azure/callback"
     this.signin = "https://" + this.host + "/azure/" + this.org_id + "/login"
 
+    // retrieve configuration from the server
     this._auth_config_service.auth$.subscribe(config => {
       if (config) {
         if (config.hasOwnProperty("client_id")) this.azure.client_id = config["client_id"]
@@ -58,7 +65,9 @@ export class AzureComponent implements OnInit {
   }
 
 
-
+  ////////////////////////
+  // NOT USED CURRENTLY...
+  ////////////////////////
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -82,6 +91,9 @@ export class AzureComponent implements OnInit {
     }
   }
 
+  ////////////////////////
+  // VALIDATION
+  ////////////////////////
   isValid() {
     if (!this.azure.client_id || this.azure.client_id == "") return false;
     else if (!this.azure.client_secret || this.azure.client_secret == "") return false;

@@ -11,6 +11,8 @@ import { AuthConfigService } from "../../../services/auth.service";
   styleUrls: ['./../../configuration.component.css']
 })
 export class OktaComponent implements OnInit {
+  
+  // data from parent
   @Input() auth: {
     audience: string,
     client_id: string,
@@ -23,6 +25,7 @@ export class OktaComponent implements OnInit {
 
   constructor(private _auth_config_service: AuthConfigService) { }
 
+  // local vars
   okta = {
     audience: "",
     client_id: "",
@@ -31,15 +34,23 @@ export class OktaComponent implements OnInit {
   login_redirect_url: string;
   initiate_login_url: string;
   error_message = ""
+
+
+  ////////////////////////
+  // INIT
+  ////////////////////////
   ngOnInit(): void {
+    // be sure the settings are zeroised
     this.okta = {
       audience: "",
       client_id: "",
       client_secret: ""
     }
+    // generate custom urls
     this.login_redirect_url = "https://" + this.host + "/okta/callback"
     this.initiate_login_url = "https://" + this.host + "/okta/" + this.org_id + "/login"
 
+    // retrieve configuration from the server
     this._auth_config_service.auth$.subscribe(config => {
       if (config) {
         if (config.hasOwnProperty("audience")) this.okta.audience = config["audience"];

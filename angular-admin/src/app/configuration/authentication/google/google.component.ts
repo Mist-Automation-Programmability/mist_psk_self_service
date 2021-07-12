@@ -12,21 +12,30 @@ import { AuthConfigService } from "../../../services/auth.service";
   styleUrls: ['./../../configuration.component.css']
 })
 export class GoogleComponent implements OnInit {
+  // used to validate mat-chips
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-
+  
+  // data from parent
   @Input() auth: {
     domains: []
   }
   @Input() host: string
 
   constructor(private _auth_config_service: AuthConfigService) { }
-
+  
+  // local vars
   google = {
     domains: []
   }
   error_message = ""
+
+  ////////////////////////
+  // INIT
+  ////////////////////////
   ngOnInit(): void {
-    this.google.domains = []
+    // be sure the settings are zeroised
+    this.google.domains = []   
+    // retrieve configuration from the server
     this._auth_config_service.auth$.subscribe(config => {
       if (config) {
         if (config.hasOwnProperty("domains")) this.google.domains = config["domains"];
@@ -34,6 +43,9 @@ export class GoogleComponent implements OnInit {
     })
   }
 
+  ////////////////////////
+  // ADD NEW DOMAIN - check validity and if not already present
+  ////////////////////////
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
@@ -52,9 +64,11 @@ export class GoogleComponent implements OnInit {
     }
   }
 
+  ////////////////////////
+  // DELETE DOMAIN
+  ////////////////////////
   remove(domain: String): void {
     const index = this.google.domains.indexOf(domain);
-
     if (index >= 0) {
       this.google.domains.splice(index, 1);
     }

@@ -12,7 +12,8 @@ export class AdfsComponent implements OnInit {
 
 
   constructor(private _auth_config_service: AuthConfigService) { }
-
+  
+  // local vars
   adfs: {
     server: string,
     entity_id: string,
@@ -23,7 +24,11 @@ export class AdfsComponent implements OnInit {
     metadata: string
   }
 
+  ////////////////////////
+  // INIT
+  ////////////////////////
   ngOnInit(): void {
+    // be sure the settings are zeroised
     this.adfs = {
       server: "",
       entity_id: "",
@@ -33,6 +38,7 @@ export class AdfsComponent implements OnInit {
       certs: [],
       metadata: ""
     }
+    // retrieve configuration from the server
     this._auth_config_service.auth$.subscribe(config => {
       if (config) {
         if (config.hasOwnProperty("metadata")) this.adfs.metadata = config["metadata"]
@@ -46,6 +52,9 @@ export class AdfsComponent implements OnInit {
     })
   }
 
+  ////////////////////////
+  // PROCESS METADA.XML AND EXTRACT REQUIRED VALUES
+  ////////////////////////
   changeAdfsMetadata(e) {
     this.adfs.server = "";
     this.adfs.entity_id = "";
@@ -57,21 +66,25 @@ export class AdfsComponent implements OnInit {
     if (this.adfs.metadata) {
       var start, stop;
 
+      // entityID
       start = this.adfs.metadata.indexOf("entityID=") + 10;
       if (start) this.adfs.entity_id = this.adfs.metadata.substring(start, this.adfs.metadata.indexOf("\"", start));
       start = -1;
-
+      
+      // login url
       start = this.adfs.metadata.indexOf("SingleSignOnService Binding=\"urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect\"");
       if (start) start = this.adfs.metadata.indexOf("Location=", start) + 10;
       if (start) this.adfs.login_url = this.adfs.metadata.substring(start, this.adfs.metadata.indexOf("\"", start));
-
+      
       if (this.adfs.login_url) this.adfs.entry_point = this.adfs.login_url,
-
-        start = -1;
+      
+      // logout url
+      start = -1;
       start = this.adfs.metadata.indexOf("SingleLogoutService Binding=\"urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect\"");
       if (start) start = this.adfs.metadata.indexOf("Location=", start) + 10;
       if (start) this.adfs.logout_url = this.adfs.metadata.substring(start, this.adfs.metadata.indexOf("\"", start));
-
+      
+      // certificates
       start = 0;
       stop = 0;
       var i = 0;
@@ -87,11 +100,17 @@ export class AdfsComponent implements OnInit {
     }
   }
 
+  ////////////////////////
+  // generate URL from ADFS FQDN to downlaod metadata.xml
+  ////////////////////////
   adfsCert() {
     if (this.adfs.server) return "https://" + this.adfs.server + "/FederationMetadata/2007-06/FederationMetadata.xml";
     else return false;
   };
 
+  ////////////////////////
+  // VALIDATION
+  ////////////////////////
   isValid() {
     if (!this.adfs.entity_id || this.adfs.entity_id == "") return false;
     else if (!this.adfs.login_url || this.adfs.login_url == "") return false;
