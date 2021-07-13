@@ -22,9 +22,9 @@ export class LoginComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private _http: HttpClient, private _router: Router, public _dialog: MatDialog, private _platformLocation: PlatformLocation
   ) { }
 
-  github_url: string = "fds";
+  github_url: string;
   docker_url: string;
-  disclaimer: string = "fgdsgsdr";
+  disclaimer: string;
   host: string = "";
   show_github_fork_me: boolean = false;
   hostnames_to_show_github_fork_me = ["mso.mist-lab.fr"];
