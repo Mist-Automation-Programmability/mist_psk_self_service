@@ -71,6 +71,7 @@ SMTP_LOGO | string | https://cdn.mist.com/wp-content/uploads/logo.png | URL to t
 SMTP_ENABLE_QRCODE | boolean | true | Enable the QRCode function on the portal and in the emails |
 GOOGLE_CLIENTID | string | null | Google API Client_ID if Google Auth is used |
 GOOGLE_CLIENTSECRET | string | null | Google API Client_Secret if Google Auth is used |
+APP_DISCLAIMER | string | null | Disclaimer to display on the Admin login page |
 
 ### Permanent storage
 This App is storing ADFS/SAML information used for the SSO process. You can use a permanent storage to keep the same settings even if the container is restarting. I will simply show the basic procedure here to use a permanent storage:

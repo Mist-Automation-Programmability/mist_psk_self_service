@@ -1,3 +1,7 @@
+.login-card-outer {
+    background-color: #ececec;
+}
+
 .login-form-inner {
     font-weight: 600;
     border: none;
@@ -7,6 +11,9 @@
     margin: auto;
     padding: 2em;
     border-radius: 0.3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .login-form-outer {
@@ -18,7 +25,8 @@
     width: 25em;
     text-align: center;
     justify-content: space-between;
-    border-radius: 5px
+    border-radius: 5px;
+    background-color: white;
 }
 
 .loading {
@@ -36,13 +44,28 @@
     align-self: center;
 }
 
-.github-fork-me {
-    position: absolute;
-    right: 0;
-    top: 0;
-    z-index: 1000;
-}
-
 mat-card {
     height: 100%
+}
+
+.disclaimer {
+    width: 50em;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-weight: 100;
+    font-size: smaller;
+    margin: 5em auto;
+}
+
+.source {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.source img {
+    margin: 1em;
+    height: 2em;
 }

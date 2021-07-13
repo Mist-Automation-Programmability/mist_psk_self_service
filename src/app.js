@@ -60,6 +60,11 @@ try {
         google: {
             client_id: process.env.GOOGLE_CLIENTID || "",
             client_secret: process.env.GOOGLE_CLIENTSECRET || ""
+        },
+        login: {
+            disclaimer: process.env.APP_DISCLAIMER || "",
+            github_url: process.env.APP_GITHUB_URL || "",
+            docker_url: process.env.APP_DOCKER_URL || ""
         }
     }
 } finally {

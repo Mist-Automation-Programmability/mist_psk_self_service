@@ -1,4 +1,4 @@
-<mat-card class="card-outer">
+<mat-card class="login-card-outer">
 
     <div class="login-form-outer" fxLayout="column">
         <div class="login-form-inner">
@@ -38,9 +38,13 @@
             </div>
         </div>
     </div>
-
+    <div class="disclaimer">
+        <div>
+            {{disclaimer}}
+        </div>
+    </div>
+    <div class="source">
+        <a *ngIf="github_url" href={{github_url}} target="_blank"><img src="images/github.png"></a>
+        <a *ngIf="docker_url" href={{docker_url}} target="_blank"><img src="images/docker.png"></a>
+    </div>
 </mat-card>
-
-<div *ngIf="show_github_fork_me" class="github-fork-me">
-    <a class="github-fork-me" href="https://github.com/tmunzer/mist_claim_web_ui" target="_blank"><img loading="lazy" width="149" height="149" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_red_aa0000.png?resize=149%2C149" class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
-</div>

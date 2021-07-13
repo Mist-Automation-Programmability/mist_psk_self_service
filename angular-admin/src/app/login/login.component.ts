@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
   constructor(private _formBuilder: FormBuilder, private _http: HttpClient, private _router: Router, public _dialog: MatDialog, private _platformLocation: PlatformLocation
   ) { }
 
+  github_url: string = "fds";
+  docker_url: string;
+  disclaimer: string = "fgdsgsdr";
   host: string = "";
   show_github_fork_me: boolean = false;
   hostnames_to_show_github_fork_me = ["mso.mist-lab.fr"];
@@ -51,6 +54,13 @@ export class LoginComponent implements OnInit {
       username: [''],
       password: ['']
     });
+    this._http.get<any>("/api/admin/disclaimer").subscribe({
+      next: data => {
+        if (data.disclaimer) this.disclaimer = data.disclaimer;
+        if (data.github_url) this.github_url = data.github_url;
+        if (data.docker_url) this.docker_url = data.docker_url;
+      }
+    })
   }
 
   //// COMMON ////
