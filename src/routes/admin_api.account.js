@@ -20,11 +20,11 @@ function delete_account(doc_id, cb) {
 }
 
 function delete_adfs(doc_id) {
-    Adfs.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    Adfs.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 function delete_azure(doc_id) {
-    Azure.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    Azure.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 function delete_customization(doc_id) {
@@ -35,28 +35,28 @@ function delete_customization(doc_id) {
                     delete_i18n(value)
                 }
             }
-            Customization.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+            Customization.findByIdAndRemove(doc_id, (err) => { console.err(err) })
         })
 }
 
 function delete_google(doc_id) {
-    Google.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    Google.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 function delete_i18n(doc_id) {
-    I18n.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    I18n.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 function delete_okta(doc_id) {
-    Okta.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    Okta.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 function delete_psk(doc_id) {
-    Psk.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    Psk.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 function delete_token(doc_id) {
-    Token.findByIdAndRemove(doc_id, (err) => { console.log(err) })
+    Token.findByIdAndRemove(doc_id, (err) => { console.err(err) })
 }
 
 
@@ -74,7 +74,7 @@ function process_delete(org_id, cb) {
                 if (account._token) delete_token(account._token)
                 delete_account(account._id, (err) => {
                     if (err) {
-                        console.log(err)
+                        console.err(err)
                         cb({ status: 500, message: err })
                     } else cb()
                 })
@@ -87,7 +87,6 @@ function process_delete(org_id, cb) {
 
 router.delete('/', (req, res) => {
     if (req.session && req.session.mist && req.session.mist.org_id) {
-        console.log(req.session.mist.org_id)
         process_delete(req.session.mist.org_id, (err) => {
             if (err) res.status(err.status).send(err.message)
             else res.send()

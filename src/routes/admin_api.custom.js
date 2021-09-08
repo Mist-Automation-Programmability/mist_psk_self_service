@@ -40,17 +40,17 @@ function check_i18n(account_i18n, new_i18n) {
     return new Promise(resolve => {
         if (account_i18n && new_i18n) {
             I18n.findByIdAndUpdate(account_i18n, new_i18n, (err, data) => {
-                if (err) console.log(err)
+                if (err) console.err(err)
                 resolve(data._id)
             })
         } else if (account_i18n) {
             I18n.findByIdAndRemove(account_i18n, (err) => {
-                if (err) console.log(err)
+                if (err) console.err(err)
                 resolve()
             })
         } else if (new_i18n) {
             I18n(new_i18n).save((err, data) => {
-                if (err) console.log(err)
+                if (err) console.err(err)
                 resolve(data._id)
             })
         } else resolve()
@@ -107,7 +107,7 @@ router.get("/", (req, res) => {
             .populate("_customization")
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send()
                 } else if (account) {
                     if (account._customization && account._customization.i18n) delete account._customization.i18n
@@ -135,7 +135,7 @@ router.get("/i18n", (req, res) => {
             .populate({ path: "_customization", populate: { path: 'i18n._se' } })
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send()
                 } else if (account && account._customization) {
                     var data = {
@@ -162,13 +162,13 @@ router.post('/', (req, res) => {
         if (req.body) {
             if (req.body.i18n) save_i18n(req.session.mist.org_id, req.body.i18n, (err) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(err.status).send(err.message)
                 } else res.status(200).send()
             })
             else save_customization(req.session.mist.org_id, req.body, (err) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(err.status).send(err.message)
                 } else res.status(200).send()
             })

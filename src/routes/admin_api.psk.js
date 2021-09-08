@@ -27,7 +27,7 @@ function parseWlans(wlans) {
 function createConfig(account_id, psk_data, cb) {
     Psk(psk_data).save((err, saved_psk) => {
         if (err) {
-            console.log(err)
+            console.err(err)
             cb(500, err)
         } else {
             updateAccount(account_id, saved_psk._id, cb)
@@ -44,7 +44,7 @@ function updateConfig(account_id, psk_id, psk_data, cb) {
         }
         data.save((err, psk) => {
             if (err) {
-                console.log(err)
+                console.err(err)
                 cb(500, err)
             } else if (psk) cb(200)
             else createConfig(account_id, psk_data, cb)
@@ -56,7 +56,7 @@ function updateConfig(account_id, psk_id, psk_data, cb) {
 function updateAccount(account_id, psk_id, cb) {
     Account.findByIdAndUpdate(account_id, { _psk: psk_id }, (err) => {
         if (err) {
-            console.log(err)
+            console.err(err)
             cb(500, err)
         } else cb(200)
     })
@@ -110,7 +110,7 @@ router.get('/', (req, res) => {
             .populate("_psk")
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send(err)
                 } else if (account && account._psk) {
                     data.psk = account._psk
@@ -128,7 +128,7 @@ router.post("/", (req, res) => {
             Account.findOne({ org_id: req.session.mist.org_id, host: req.session.mist.host })
                 .exec((err, account) => {
                     if (err) {
-                        console.log(err)
+                        console.err(err)
                         res.status(500).send(err)
                     } else if (account && account._psk) {
                         updateConfig(account._id, account._psk, req.body, (status, mess) => res.status(status).send(mess))

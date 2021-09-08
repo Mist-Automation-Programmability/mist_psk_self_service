@@ -16,7 +16,7 @@ var mist_token = require("../bin/mist_token");
 function createAccountAndToken(new_account, new_token, cb) {
     Account(new_account).save((err, saved_account) => {
         if (err) {
-            console.log(err)
+            console.err(err)
             cb(500, err)
         } else createToken(saved_account, new_token, cb)
     })
@@ -25,13 +25,13 @@ function createAccountAndToken(new_account, new_token, cb) {
 function createToken(account, new_token, cb) {
     Token(new_token).save((err, saved_token) => {
         if (err) {
-            console.log(err)
+            console.err(err)
             cb(500, err)
         } else {
             account._token = saved_token;
             account.save((err) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     cb(500, err)
                 } else cb(200, { created_by: new_token.created_by, auto_mode: new_token.apitoken_id != "manual_token" })
             })
@@ -49,7 +49,7 @@ function updateToken(account, new_token, cb) {
         }
         data.save((err, save_token) => {
             if (err) {
-                console.log(err)
+                console.err(err)
                 cb(500, err)
             } else cb(200, { created_by: new_token.created_by, auto_mode: new_token.apitoken_id != "manual_token" })
         })
@@ -76,7 +76,7 @@ function saveNewToken(req, res, err, data) {
             .populate("_token")
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send(err)
                         // if the account already exists, create or update the token
                 } else if (account) {
@@ -113,7 +113,7 @@ router.get('/', (req, res) => {
             .populate("_token")
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send(err)
                 } else if (account && account._token) {
                     data.token.configured = true
@@ -160,7 +160,7 @@ router.delete("/", (req, res) => {
                     db_token = db_account._token
                     mist_token.delete(req.session.mist, db_token, (err, data) => {
                         if (err) {
-                            console.log(err)
+                            console.err(err)
                             res.status(err.code).send(err.error)
                         } else {
                             Token.findByIdAndRemove(db_token._id, (err) => {

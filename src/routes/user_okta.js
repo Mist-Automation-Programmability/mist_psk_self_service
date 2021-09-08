@@ -55,14 +55,12 @@ router.get('/callback', getOktaAccount,
         else req.session.email = "unknown";
         if (req.user.name) req.session.name = req.user.displayName;
         else req.session.name = ""
-        console.info("\x1b[32minfo\x1b[0m:", 'User ' + req.session.email + ' logged in');
         res.redirect('/portal/' + req.session.org_id);
     }
 );
 
 /* Handle Logout */
 router.get('/:org_id/logout', function(req, res) {
-    console.log("\x1b[32minfo\x1b[0m:", "User " + req.session.email + " is now logged out.");
     req.logout();
     req.session.destroy();
     res.redirect('/login/' + req.params.org_id);

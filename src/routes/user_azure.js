@@ -66,7 +66,7 @@ function getUserGroups(organization, oid, access_token, callback) {
 function checkUserAccount(azureAccount, oid, params, callback) {
     // retrieve the user information from Azure
     getUserDetails(azureAccount.tenant, oid, params.access_token, function(err, user) {
-        if (err) console.log(err);
+        if (err) console.err(err);
         // if the App configuration is not allowing Guest accounts and if the current user is not a Member of the domain
         else if (!azureAccount.allow_external_users && user.userType != "Member")
         // callback with the "external" error (means authentication rejected because the user is not a member of the domain)
@@ -155,13 +155,6 @@ function getAzureAdAccount(req, res, next) {
                         // currently we can't find a way to exchange access token by user info (see userProfile implementation), so
                         // you will need a jwt-package like https://github.com/auth0/node-jsonwebtoken to decode id_token and get waad profile
                         var waadProfile = jwt.decode(params.id_token);
-                        // Even if Azure validates the login/pwd, check the app parameters (external user, user groups)
-                        // checkUserAccount(account._azure, waadProfile.oid, params, function(error, email) {
-                        //     console.log(error)
-                        //     console.log(email)
-                        //     if (error) renderError(error, email, req, res);
-                        //     else done(null, waadProfile);
-                        // })
                         done(null, waadProfile);
                     }));
                     next();
@@ -186,7 +179,6 @@ router.get('/callback', getAzureAdAccount,
         else req.session.email = null;
         if (req.user.name) req.session.name = req.user.name;
         else req.session.name = ""
-        console.info("\x1b[32minfo\x1b[0m:", 'User ' + req.session.email + ' logged in');
         res.redirect('/portal/' + req.session.org_id);
     }
 );
@@ -197,7 +189,6 @@ router.get('/:org_id/logout/', function(req, res) {
     res.redirect("https://login.windows.net/" + req.session.account._azure.tenant + "/oauth2/logout?post_logout_redirect_uri=" + loginurl);
     req.logout();
     req.session.destroy();
-    console.log("\x1b[32minfo\x1b[0m:", "User " + req.session.email + " is now logged out.");
 });
 
 module.exports = router;

@@ -61,7 +61,6 @@ router.get('/:org_id/login', getAccount,
 router.post('/:org_id/postResponse', getAccount,
     passport.authenticate('saml', { failureRedirect: '/', failureFlash: true }),
     (req, res) => {
-        console.log(req.user)
         if (req.user.email) req.session.email = req.user.email;
         else if (req.user.upn) req.session.email = req.user.upn;
         else req.session.email = "unknown";
@@ -82,8 +81,6 @@ router.post('/:org_id/postResponse', getAccount,
 
 /* Handle Logout */
 router.get('/:org_id/logout', function(req, res) {
-    if (req.session.user) console.log("User " + req.session.passport.user.upn + " is now logged out.");
-    else console.log('user logged out.');
     req.logout();
     req.session.destroy();
     res.redirect('/login/' + req.params.org_id);

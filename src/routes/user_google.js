@@ -76,8 +76,6 @@ router.get('/callback', getAccount,
 
 /* Handle Logout */
 router.get('/:org_id/logout', function(req, res) {
-    if (req.session.user) console.log("User " + req.session.passport.user.upn + " is now logged out.");
-    else console.log('user logged out.');
     req.logout();
     req.session.destroy();
     res.redirect('/login/' + req.params.org_id);

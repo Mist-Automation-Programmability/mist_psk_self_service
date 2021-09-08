@@ -35,15 +35,15 @@ function genCertificate(org_id) {
                     done++;
                     if (err) error = err;
                     if (done == files.length)
-                        if (!error) console.log("SAML Ceritificates for " + global.config.appServer.vhost + "/" + org_id + " present.");
+                        if (!error) console.info("SAML Ceritificates for " + global.config.appServer.vhost + "/" + org_id + " present.");
                         else {
                             exec(cmd, {
                                 cwd: global.appPath + '/certs/'
                             }, function(error, stdout, stderr) {
                                 if (error) {
-                                    console.log(error);
+                                    console.err(error);
                                 } else {
-                                    console.log("SAML Certificates created for " + global.config.appServer.vhost + "/" + org_id);
+                                    console.info("SAML Certificates created for " + global.config.appServer.vhost + "/" + org_id);
                                     i = files.length;
                                 }
                             });
@@ -56,7 +56,7 @@ function genCertificate(org_id) {
 function save_account(res, account) {
     account.save(function(err) {
         if (err) {
-            console.log(err);
+            console.err(err);
             res.status(500).send(err);
         } else res.status(200).send();
     });
@@ -84,7 +84,7 @@ function update_adfs(req, res, account) {
     else
         Adfs(req.body.config).save(function(err, result) {
             if (err) {
-                console.log(err)
+                console.err(err)
                 res.status(500).send(err);
             } else {
                 account._adfs = result;
@@ -115,7 +115,7 @@ function update_azure(req, res, account) {
     else
         Azure(req.body.config).save(function(err, result) {
             if (err) {
-                console.log(err)
+                console.err(err)
                 res.status(500).send(err);
             } else {
                 account._azure = result;
@@ -145,7 +145,7 @@ function update_google(req, res, account) {
     else
         Google(req.body.config).save(function(err, result) {
             if (err) {
-                console.log(err)
+                console.err(err)
                 res.status(500).send(err);
             } else {
                 account._google = result;
@@ -175,7 +175,7 @@ function update_okta(req, res, account) {
     else
         Okta(req.body.config).save(function(err, result) {
             if (err) {
-                console.log(err)
+                console.err(err)
                 res.status(500).send(err);
             } else {
                 account._okta = result;
@@ -194,7 +194,7 @@ function save_auth(req, res, auth_type) {
         .populate("_" + auth_type)
         .exec((err, account) => {
             if (err) {
-                console.log(err)
+                console.err(err)
                 res.status(500).send(err);
             } else if (account) {
                 switch (auth_type) {
@@ -240,7 +240,7 @@ router.get("/:auth_method", (req, res) => {
             .populate('_' + req.params.auth_method)
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send(err)
                 } else if (account && account["_" + req.params.auth_method]) {
                     if (account["_" + account.auth_method]) {

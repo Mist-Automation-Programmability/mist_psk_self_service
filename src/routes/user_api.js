@@ -67,7 +67,7 @@ router.post("/email", function(req, res) {
     else if (req.body.psk && req.body.ssid) {
         send_mail.send(req.session.email, req.session.name, req.body.ssid, req.body.psk, (err, info) => {
             if (err) {
-                console.log(err)
+                console.err(err)
                 res.status(500).send()
             } else if (info) {
                 res.send()

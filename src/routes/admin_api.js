@@ -138,7 +138,7 @@ router.get('/config', (req, res) => {
             .populate("_psk")
             .exec((err, account) => {
                 if (err) {
-                    console.log(err)
+                    console.err(err)
                     res.status(500).send(err)
                 } else if (account) {
                     req.session.account_id = account._id
@@ -195,7 +195,6 @@ router.get("/portal_url", (req, res) => {
  ================================================================*/
 router.get('/disclaimer', (req, res) => {
     let data = {}
-    console.log(global.config)
     if (global.config.login.disclaimer) data["disclaimer"] = global.config.login.disclaimer;
     if (global.config.login.github_url) data["github_url"] = global.config.login.github_url;
     if (global.config.login.docker_url) data["docker_url"] = global.config.login.docker_url;
