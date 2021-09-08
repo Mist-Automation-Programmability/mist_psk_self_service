@@ -201,7 +201,7 @@ var admin_api_account = require('./routes/admin_api.account');
 app.use('/api/admin/account', admin_api_account);
 //Otherwise
 app.get("*", function(req, res) {
-    res.redirect("/login");
+    res.redirect("/admin");
 });
 
 // catch 404 and forward to error handler

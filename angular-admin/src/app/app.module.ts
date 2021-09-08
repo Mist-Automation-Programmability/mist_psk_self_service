@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ErrorDialog } from './common/error';
+import { LandingComponent } from './landing/landing.component'
 import { LoginComponent } from './login/login.component';
 import { TwoFactorDialog } from './login/login-2FA';
 import { OrgSelectComponent } from './org-select/org-select.component';
@@ -52,6 +53,7 @@ import { NgxColorsModule } from 'ngx-colors';
   declarations: [
     AppComponent,
     ErrorDialog,
+    LandingComponent,
     LoginComponent, TwoFactorDialog,
     AuthenticationComponent, AdfsComponent, GoogleComponent, OktaComponent, AzureComponent,
     CustomizationComponent,

@@ -1,0 +1,41 @@
+<div class="login-card-outer" style="height: auto;">
+
+    <div class="login-form-outer" fxLayout="column">
+        <div class="login-form-inner">
+
+            <div fxLayout="column" style="align-items: center;">
+                <h1>Welcome to the Mist PSK Self Service Portal</h1>
+                <div fxLayout="column" style="width: 90%;">
+                    <div fxLayout="column" class="login-form-inputs mat-elevation-z1" style="margin: 2em; justify-content: flex-start; width: 100%;">
+                        <h2 style="background-color: #005c95;margin: -10px -10px 10px;color: white; border-radius: 5px 5px 0 0;">User Access</h2>
+                        <div fxLayout="row" style="font-weight: normal; text-align: start; margin: 1em;">
+                            <div>Please ask your IT administrator to get your custom URL. This will allow you to get access to your login portal</div>
+                        </div>
+                    </div>
+                    <div fxLayout="column" class="login-form-inputs mat-elevation-z1" style="margin: 2em; justify-content: flex-start; width: 100%;">
+                        <h2 style="background-color: #005c95;margin: -10px -10px 10px;color: white; border-radius: 5px 5px 0 0">Administrator Access</h2>
+                        <div fxLayout="column" style="font-weight: normal; text-align: start; margin: 1em;">
+                            <div>Please use the <button mat-stroked-button color="primary" (click)="goToLogin()" style="padding: 0 5px;">Admin Portal</button></div>
+                            <br>
+                            <div>This portal will allow you to use your Mist credentials to: </div>
+                            <ul style="list-style: none; margin: 0">
+                                <li style="margin: 1em 0;">Create and configure a different portal for each of your Mist Organizations.</li>
+                                <li style="margin: 1em 0;">Get the Custom URL for the user access. Your users will be able to use their corporate credentials to manage their own PSK.</li>
+                                <li style="margin: 1em 0;">Customize the User view (colors, logo, text, ...).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="disclaimer">
+        <div>
+            {{disclaimer}}
+        </div>
+    </div>
+    <div class="source">
+        <a *ngIf="github_url" href={{github_url}} target="_blank"><img src="images/github.png"></a>
+        <a *ngIf="docker_url" href={{docker_url}} target="_blank"><img src="images/docker.png"></a>
+    </div>
+</div>
