@@ -22,12 +22,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 * User self-service portal with Email and QRcode features
 
 <div>
-<img src="https://github.com/tmunzer/mpss/raw/main/__readme_img/login_1.png" width="40%">
-<img src="https://github.com/tmunzer/mpss/raw/main/__readme_img/login_2.png" width="40%">
+<img src="https://github.com/tmunzer/mpss/raw/main/._readme/img/login_1.png" width="40%">
+<img src="https://github.com/tmunzer/mpss/raw/main/._readme/img/login_2.png" width="40%">
 </div>
 <div>
-<img src="https://github.com/tmunzer/mpss/raw/main/__readme_img/portal_1.png" width="40%">
-<img src="https://github.com/tmunzer/mpss/raw/main/__readme_img/portal_2.png" width="40%">
+<img src="https://github.com/tmunzer/mpss/raw/main/._readme/img/portal_1.png" width="40%">
+<img src="https://github.com/tmunzer/mpss/raw/main/._readme/img/portal_2.png" width="40%">
 </div>
 
 # Install
