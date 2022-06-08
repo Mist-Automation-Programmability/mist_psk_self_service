@@ -32,5 +32,9 @@
         "pug": "^3.0.2",
         "qrcode": "^1.4.4",
         "serve-favicon": "^2.5.0"
+    },
+    "devDependencies": {
+        "buffer-alloc": "^1.2.0",
+        "buffer-from": "^1.1.2"
     }
 }
