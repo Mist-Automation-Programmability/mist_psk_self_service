@@ -67,7 +67,7 @@ router.post("/email", function(req, res) {
     else if (req.body.psk && req.body.ssid) {
         send_mail.send(req.session.email, req.session.name, req.body.ssid, req.body.psk, (err, info) => {
             if (err) {
-                console.err(err)
+                console.error(err)
                 res.status(500).send()
             } else if (info) {
                 res.send()
@@ -82,6 +82,7 @@ I18N LANGUAGES
  ================================================================*/
 function sendLanguage(custom_i18n, req, res) {
     var languages = []
+    var lang = "en"
         // retrieve custom languages, with short/long values
     if (custom_i18n) {
         i18n.languages.forEach(entry => {
@@ -90,7 +91,6 @@ function sendLanguage(custom_i18n, req, res) {
             // retrieve default language
         if (req.session.lang) var lang = req.session.lang
         else if (req.session.mist.customization_default) var lang = req.session.mist.customization_default
-        else var lang = "en"
             // use default languages
     } else {
         i18n.languages.forEach(entry => {
@@ -98,7 +98,6 @@ function sendLanguage(custom_i18n, req, res) {
         })
 
         if (req.session.lang) var lang = req.session.lang
-        else var lang = "en"
     }
     res.set('Cache-Control', 'no-store')
     res.json({ languages: languages, default: lang })

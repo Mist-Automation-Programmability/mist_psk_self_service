@@ -66,7 +66,7 @@ function getUserGroups(organization, oid, access_token, callback) {
 function checkUserAccount(azureAccount, oid, params, callback) {
     // retrieve the user information from Azure
     getUserDetails(azureAccount.tenant, oid, params.access_token, function(err, user) {
-        if (err) console.err(err);
+        if (err) console.error(err);
         // if the App configuration is not allowing Guest accounts and if the current user is not a Member of the domain
         else if (!azureAccount.allow_external_users && user.userType != "Member")
         // callback with the "external" error (means authentication rejected because the user is not a member of the domain)

@@ -138,8 +138,8 @@ router.get('/config', (req, res) => {
             .populate("_psk")
             .exec((err, account) => {
                 if (err) {
-                    console.err(err)
-                    res.status(500).send(err)
+                    console.error(err)
+                    res.status(500).send("Unable to get account")
                 } else if (account) {
                     req.session.account_id = account._id
                     data.account_created = true

@@ -41,7 +41,7 @@ function genCertificate(org_id) {
                                 cwd: global.appPath + '/certs/'
                             }, function(error, stdout, stderr) {
                                 if (error) {
-                                    console.err(error);
+                                    console.error(error);
                                 } else {
                                     console.info("SAML Certificates created for " + global.config.appServer.vhost + "/" + org_id);
                                     i = files.length;
@@ -56,8 +56,8 @@ function genCertificate(org_id) {
 function save_account(res, account) {
     account.save(function(err) {
         if (err) {
-            console.err(err);
-            res.status(500).send(err);
+            console.error(err);
+            res.status(500).send("Unable to save account");
         } else res.status(200).send();
     });
 
@@ -73,7 +73,7 @@ function update_adfs(req, res, account) {
                 }
             }
             data.save((err, saved_data) => {
-                if (err) res.status(500).send(err);
+                if (err) res.status(500).send("Unable to save data");
                 else {
                     account._adfs = saved_data._id;
                     account.auth_method = "adfs";
@@ -84,8 +84,8 @@ function update_adfs(req, res, account) {
     else
         Adfs(req.body.config).save(function(err, result) {
             if (err) {
-                console.err(err)
-                res.status(500).send(err);
+                console.error(err)
+                res.status(500).send("Unable to save data");
             } else {
                 account._adfs = result;
                 account.auth_method = "adfs";
@@ -104,7 +104,7 @@ function update_azure(req, res, account) {
                 }
             }
             data.save((err, saved_data) => {
-                if (err) res.status(500).send(err);
+                if (err) res.status(500).send("Unable to save data");
                 else {
                     account._azure = saved_data._id;
                     account.auth_method = "azure";
@@ -115,8 +115,8 @@ function update_azure(req, res, account) {
     else
         Azure(req.body.config).save(function(err, result) {
             if (err) {
-                console.err(err)
-                res.status(500).send(err);
+                console.error(err)
+                res.status(500).send("Unable to save data");
             } else {
                 account._azure = result;
                 account.auth_method = "azure";
@@ -134,7 +134,7 @@ function update_google(req, res, account) {
                 }
             }
             data.save((err, saved_data) => {
-                if (err) res.status(500).send(err);
+                if (err) res.status(500).send("Unable to save data");
                 else {
                     account._google = saved_data._id;
                     account.auth_method = "google";
@@ -145,8 +145,8 @@ function update_google(req, res, account) {
     else
         Google(req.body.config).save(function(err, result) {
             if (err) {
-                console.err(err)
-                res.status(500).send(err);
+                console.error(err)
+                res.status(500).send("Unable to save data");
             } else {
                 account._google = result;
                 account.auth_method = "google";
@@ -164,7 +164,7 @@ function update_okta(req, res, account) {
                 }
             }
             data.save((err, saved_data) => {
-                if (err) res.status(500).send(err);
+                if (err) res.status(500).send("Unable to save data");
                 else {
                     account._okta = saved_data;
                     account.auth_method = "okta";
@@ -175,8 +175,8 @@ function update_okta(req, res, account) {
     else
         Okta(req.body.config).save(function(err, result) {
             if (err) {
-                console.err(err)
-                res.status(500).send(err);
+                console.error(err)
+                res.status(500).send("Unable to save data");
             } else {
                 account._okta = result;
                 account.auth_method = "okta";
@@ -194,8 +194,8 @@ function save_auth(req, res, auth_type) {
         .populate("_" + auth_type)
         .exec((err, account) => {
             if (err) {
-                console.err(err)
-                res.status(500).send(err);
+                console.error(err)
+                res.status(500).send("Uanable to save account");
             } else if (account) {
                 switch (auth_type) {
                     case "adfs":
@@ -240,8 +240,8 @@ router.get("/:auth_method", (req, res) => {
             .populate('_' + req.params.auth_method)
             .exec((err, account) => {
                 if (err) {
-                    console.err(err)
-                    res.status(500).send(err)
+                    console.error(err)
+                    res.status(500).send("Unable to save auth method")
                 } else if (account && account["_" + req.params.auth_method]) {
                     if (account["_" + account.auth_method]) {
                         data.configured = true

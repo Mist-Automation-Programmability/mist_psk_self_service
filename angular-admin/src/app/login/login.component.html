@@ -4,7 +4,7 @@
         <div class="login-form-inner">
 
             <div [formGroup]="frmStepLogin" fxLayout="column" class="login-form-inputs mat-elevation-z1">
-                <h1>Log In with your Mist Account to configure your portal</h1>
+                <h1>Log In with your Mist Account</h1>
                 <mat-form-field appearance="outline">
                     <mat-label>Mist Cloud</mat-label>
                     <mat-select formControlName="host">
@@ -33,7 +33,7 @@
 
             <div class="loading" fxLayout="row" *ngIf="loading">
                 <div fxLayout="column">
-                    <mat-spinner></mat-spinner>
+                    <mat-spinner strokeWidth=3></mat-spinner>
                 </div>
             </div>
         </div>

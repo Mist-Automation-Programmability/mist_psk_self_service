@@ -128,7 +128,7 @@ router.get("/:org_id", (req, res) => {
         // retrieve the account details (to have the account_id)
     else getPsk(req, (err, psk) => {
         if (err) {
-            console.err(err)
+            console.error(err)
             res.status(err.code).send(err.error)
         } else if (psk) res.json(psk)
         else res.send()
@@ -148,7 +148,7 @@ router.delete("/", (req, res) => {
         if (err) res.status(err.code).send(err.error)
             // try to delete the current key
         else if (psk) deletePsk(req, psk, (err) => {
-            console.err(err)
+            console.error(err)
             if (err) res.status(err.code).send(err.error)
             else res.send()
         });
