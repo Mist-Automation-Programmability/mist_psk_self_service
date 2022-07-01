@@ -117,7 +117,6 @@ mongoose.connect('mongodb://' + mongo_host + '/' + global.config.mongo.base + "?
  APP
  ================================================================*/
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
-app.use(express.limit('1mb'));
 app.use(express.json({ limit: '1mb' }));
 // express-session parameters:
 // save sessions into mongodb 
