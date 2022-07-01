@@ -194,7 +194,7 @@ $mat-accent: ( main: #84b135,
 lighter: #dae8c2,
 darker: #679822,
 200: #84b135, // For slide toggle,
-contrast: ( main: $dark-primary-text, lighter: $dark-primary-text, darker: $light-primary-text, ));
+contrast: ( main: $light-primary-text, lighter: $dark-primary-text, darker: $light-primary-text, ));
 $theme-accent: mat-palette($mat-accent,
 main,
 lighter,
