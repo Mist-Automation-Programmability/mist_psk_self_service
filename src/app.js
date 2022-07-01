@@ -1,13 +1,14 @@
-var express = require('express');
-var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var MongoDBStore = require('connect-mongodb-session')(session);
-var path = require('path');
+const express = require('express');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
+const path = require('path');
 
-/*================================================================
- LOAD APP SETTINGS
- ================================================================*/
+const default_mist_hosts = { "Global 01 - manage.mist.com": "api.mist.com", "Global 02 - manage.gc1.mist.com": "api.gc1.mist.com", "Global 03 - manage.ac2.mist.com": "api.ac2.mist.com", "Global 04 - manage.gc2.mist.com": "api.gc2.mist.com", "Europe 01 - manage.eu.mist.com": "api.eu.mist.com" }
+    /*================================================================
+     LOAD APP SETTINGS
+     ================================================================*/
 function stringToBool(val, def_val) {
     if (val) {
         val = val.toLowerCase()
@@ -65,9 +66,17 @@ try {
             disclaimer: process.env.APP_DISCLAIMER || "",
             github_url: process.env.APP_GITHUB_URL || "",
             docker_url: process.env.APP_DOCKER_URL || ""
-        }
+        },
+        mist_hosts: process.env.MIST_HOSTS || null
     }
 } finally {
+    if (typeof(config.mist_hosts) == 'string') {
+        try {
+            config.mist_hosts = JSON.parse(config.mist_hosts)
+        } catch {
+            config.mist_hosts = default_mist_hosts;
+        }
+    } else if (!config.mist_hosts || typeof(config.mist_hosts != "object")) config.mist_hosts = default_mist_hosts;
     global.config = config
 }
 
@@ -108,6 +117,7 @@ mongoose.connect('mongodb://' + mongo_host + '/' + global.config.mongo.base + "?
  APP
  ================================================================*/
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
+app.use(express.limit('1mb'));
 app.use(express.json({ limit: '1mb' }));
 // express-session parameters:
 // save sessions into mongodb 

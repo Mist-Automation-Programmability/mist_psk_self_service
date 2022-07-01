@@ -10,35 +10,40 @@ var mist_user = require("../bin/mist_user")
 ROUTES
 ================================================================*/
 // when the user load the unique login page
-router.get("/login/:org_id", function(req, res) {
+router.get("/login/:org_id", (req, res) => {
     // determine the authenticaiton method (Azure / SAML) and generate the corresponding login link
     if (req.params.org_id) {
         if (req.params.org_id == "preview")
             res.sendFile(global.appPath + '/views/user.html');
+
         else
             mist_user.getAccount(req.params.org_id, (err, mist) => {
                 if (err) {
                     // for some reason, when there is an issue with the DB encyption, the cb is called twice, which crashing the server
                     // using this test to avoid a lamentable server crash...
                     if (!res.headersSent) {
-                        if (err.code == 404) res.redirect("/unknown")
-                        else res.redirect("/error")
+                        if (err.code == 404)
+                            res.redirect("/unknown");
+                        else
+                            res.redirect("/error");
                     }
                 } else if (mist) {
-                    req.session.mist = mist
+                    req.session.mist = mist;
                     res.sendFile(global.appPath + '/views/user.html');
-                } else res.redirect("/unknown")
-            })
-    } else res.redirect("/unknown")
+                } else
+                    res.redirect("/unknown");
+            });
+    } else
+        res.redirect("/unknown");
 });
 
-router.get("/portal/:org_id", (req, res) => {
+router.get("/portal/:org_id", (_req, res) => {
     res.sendFile(global.appPath + "/views/user.html")
 })
-router.get("/unknown", (req, res) => {
+router.get("/unknown", (_req, res) => {
     res.sendFile(global.appPath + "/views/user.html")
 })
-router.get("/error", (req, res) => {
+router.get("/error", (_req, res) => {
     res.sendFile(global.appPath + "/views/user.html")
 })
 

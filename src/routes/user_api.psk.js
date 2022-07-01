@@ -99,11 +99,14 @@ router.post("/", (req, res) => {
         // authenticated user mode
         // retrieve the account details (to have the account_id)
     else getPsk(req, (err, psk) => {
+        // deepcode ignore ServerLeak: returning error code from Mist
         if (err) res.status(err.code).send(err.error)
         else if (psk) {
             deletePsk(req, psk, (err) => {
+                // deepcode ignore ServerLeak: returning error code from Mist
                 if (err) res.status(err.code).send(err.error)
                 else createPsk(req, (err, new_psk) => {
+                    // deepcode ignore ServerLeak: returning error code from Mist
                     if (err) res.status(err.code).send(err.error)
                     else res.json(new_psk)
                 })
@@ -111,6 +114,7 @@ router.post("/", (req, res) => {
 
         } else {
             createPsk(req, (err, new_psk) => {
+                // deepcode ignore ServerLeak: returning error code from Mist
                 if (err) res.status(err.code).send(err.error)
                 else res.json(new_psk)
             })
@@ -129,6 +133,7 @@ router.get("/:org_id", (req, res) => {
     else getPsk(req, (err, psk) => {
         if (err) {
             console.error(err)
+                // deepcode ignore ServerLeak: returning error code from Mist
             res.status(err.code).send(err.error)
         } else if (psk) res.json(psk)
         else res.send()
@@ -145,10 +150,12 @@ router.delete("/", (req, res) => {
         // authenticated user mode
         // retrieve the account details (to have the account_id)
     else getPsk(req, function(err, psk) {
+        // deepcode ignore ServerLeak: returning error code from Mist
         if (err) res.status(err.code).send(err.error)
             // try to delete the current key
         else if (psk) deletePsk(req, psk, (err) => {
             console.error(err)
+                // deepcode ignore ServerLeak: returning error code from Mist
             if (err) res.status(err.code).send(err.error)
             else res.send()
         });

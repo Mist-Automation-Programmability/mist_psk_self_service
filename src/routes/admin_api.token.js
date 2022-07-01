@@ -123,9 +123,8 @@ router.get('/', (req, res) => {
                     if (account._token.apitoken_id == "manual_token") {
                         data.token.auto_mode = false
                     }
-                    if (account._token.scope == "user" && account._token.created_by == req.session.self.email) {
-                        data.token.can_delete = true
-                    } else if (account._token.scope == "org" && req.session.mist.privilege == "admin") {
+                    if ((account._token.scope == "user" && account._token.created_by == req.session.self.email) ||
+                        (account._token.scope == "org" && req.session.mist.privilege == "admin")) {
                         data.token.can_delete = true
                     }
                     res.json(data)

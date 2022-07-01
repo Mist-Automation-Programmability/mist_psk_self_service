@@ -68,6 +68,7 @@ function updateAccount(account_id, psk_id, cb) {
 router.get("/sites", (req, res) => {
     if (req.session && req.session.mist) {
         mist_site.getSites(req.session.mist, (err, sites) => {
+            // deepcode ignore ServerLeak: returning error code from Mist
             if (err) res.status(err.code).send(err.error)
             else res.json(sites)
         })
@@ -79,6 +80,7 @@ router.get("/wlans", (req, res) => {
         if (req.query.site_id) {
             site_id = req.query.site_id
             mist_wlan.getSiteWlans(req.session.mist, req.query.site_id, (err, wlans) => {
+                // deepcode ignore ServerLeak: returning error code from Mist
                 if (err) res.status(err.code).send(err.error)
                 else {
                     data = parseWlans(wlans)
@@ -87,6 +89,7 @@ router.get("/wlans", (req, res) => {
             })
         } else {
             mist_wlan.getOrgWlans(req.session.mist, (err, wlans) => {
+                // deepcode ignore ServerLeak: returning error code from Mist
                 if (err) res.status(err.code).send(err.error)
                 else {
                     data = parseWlans(wlans)

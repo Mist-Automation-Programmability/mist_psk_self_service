@@ -6,9 +6,8 @@ ADMIN:
 var express = require('express');
 var router = express.Router();
 var Account = require('../bin/models/account');
-var Customization = require("../bin/models/customization");
-var mist_login = require("../bin/mist_login");
 
+var mist_login = require("../bin/mist_login");
 
 
 /*================================================================
@@ -27,6 +26,7 @@ router.post("/login", (req, res) => {
     req.session.mist = { host: mist.host }
     req.session.username = username
     mist_login.login(mist, username, password, two_factor_code, (err, data) => {
+        // deepcode ignore ServerLeak: returning error code from Mist
         if (err) res.status(err.code).send(err.error)
         else if (data.self.two_factor_required && !data.self.two_factor_passed) res.json({ "result": "two_factor_required" })
         else {
@@ -144,7 +144,7 @@ router.get('/config', (req, res) => {
                     req.session.account_id = account._id
                     data.account_created = true
                     data.portal_url = "https://" + global.config.appServer.vhost + "/login/" + account.org_id + "/"
-                    if (account.scope) data.scope = data.scope
+                    if (account.scope) data.scope = account.scope
                         //token
                     if (account._token) {
                         data.token.configured = true
@@ -153,9 +153,8 @@ router.get('/config', (req, res) => {
                         if (account._token.apitoken_id == "manual_token") {
                             data.token.auto_mode = false
                         }
-                        if (account._token.scope == "user" && account._token.created_by == req.session.self.email) {
-                            data.token.can_delete = true
-                        } else if (account._token.scope == "org" && req.session.mist.privilege == "admin") {
+                        if ((account._token.scope == "user" && account._token.created_by == req.session.self.email) ||
+                            (account._token.scope == "org" && req.session.mist.privilege == "admin")) {
                             data.token.can_delete = true
                         }
                     }
@@ -198,6 +197,19 @@ router.get('/disclaimer', (req, res) => {
     if (global.config.login.disclaimer) data["disclaimer"] = global.config.login.disclaimer;
     if (global.config.login.github_url) data["github_url"] = global.config.login.github_url;
     if (global.config.login.docker_url) data["docker_url"] = global.config.login.docker_url;
+    res.json(data);
+})
+
+router.get('/hosts', (req, res) => {
+    let data = []
+    for (var key in global.config.mist_hosts) {
+        data.push({ "value": global.config.mist_hosts[key], "viewValue": key })
+    }
+    data = data.sort((a, b) => {
+        if (a.viewValue.toLowerCase() < b.viewValue.toLowerCase()) return -1;
+        else if (a.viewValue.toLowerCase() > b.viewValue.toLowerCase()) return 1;
+        else return 0
+    })
     res.json(data);
 })
 

@@ -9,21 +9,21 @@ var router = express.Router();
 ROUTES
 ================================================================*/
 // when the user load the unique login page
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
     res.sendFile(global.appPath + '/views/admin.html');
 });
-router.get("/login", (req, res) => {
+router.get("/login", (_req, res) => {
     res.sendFile(global.appPath + '/views/admin.html');
 });
-router.get("/org", (req, res) => {
+router.get("/org", (_req, res) => {
     res.sendFile(global.appPath + '/views/admin.html');
 });
-router.get("/config", (req, res) => {
+router.get("/config", (_req, res) => {
     res.sendFile(global.appPath + '/views/admin.html');
 });
 
 // when user wants to see the help page
-router.get('/help/:method', function(req, res, next) {
+router.get('/help/:method', (req, res) => {
 
     if (req.params.method == "azure")
         res.render('help_azure', {
