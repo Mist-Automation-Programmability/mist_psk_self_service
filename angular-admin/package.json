@@ -28,7 +28,7 @@
         "iana-tz-data": "^2019.1.0",
         "ngx-colors": "^2.6.1",
         "rxjs": "~6.6.0",
-        "tslib": "^2.5.0",
+        "tslib": "^2.5.1",
         "zone.js": "~0.13.0"
     },
     "devDependencies": {
