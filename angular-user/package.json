@@ -28,7 +28,7 @@
         "globalize": "^1.6.0",
         "iana-tz-data": "^2019.1.0",
         "rxjs": "~6.6.0",
-        "tslib": "^2.5.3",
+        "tslib": "^2.6.0",
         "zone.js": "~0.13.1"
     },
     "devDependencies": {
