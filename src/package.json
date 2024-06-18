@@ -29,7 +29,7 @@
         "passport-okta-oauth": "^0.0.1",
         "passport-openid": "^0.4.0",
         "passport-saml": "^3.2.4",
-        "pug": "^3.0.2",
+        "pug": "^3.0.3",
         "qrcode": "^1.5.3",
         "serve-favicon": "^2.5.0"
     },
